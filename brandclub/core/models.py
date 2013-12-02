@@ -11,7 +11,7 @@ class Brand(TimeStampedModel):
     logo = models.ImageField(upload_to="brand_logo")
 
     def image_tag(self):
-        return u"<img src='%s' style='height: 50px;max-width: auto'>" %  self.logo.url
+        return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
 
     image_tag.short_description = "Logo image"
     image_tag.allow_tags = True
@@ -41,7 +41,7 @@ class Store(TimeStampedModel):
     pin_code = models.CharField(max_length=10, null=True)
     brand = models.ForeignKey(Brand, related_name='stores')
 
-#Make sure that
+    #Make sure that
 
     cluster = models.ForeignKey(Cluster, related_name='cluster', null=True)
 

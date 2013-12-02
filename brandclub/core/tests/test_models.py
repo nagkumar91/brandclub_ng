@@ -13,4 +13,4 @@ class BrandTestCase(TestCase):
 
     def test_image_tag_returns_proper_url(self):
         brand = Brand.objects.create(name="B1", description="Some desc", logo="/home/test/image.jpg")
-        self.assertEquals(u"<img src='/home/test/image.jpg'>", brand.image_tag())
+        self.assertEquals(u"<img src='/home/test/image.jpg' style='height: 50px;max-width: auto'>", brand.image_tag())
