@@ -14,6 +14,7 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 class StoreAdmin(BrandClubAdmin):
     list_display = ('name', 'city', 'state', 'brand')
+    search_fields = ('name', 'city', 'brand')
     inlines = [
         DeviceInlineAdmin
     ]
@@ -33,13 +34,16 @@ class BrandAdmin(BrandClubAdmin):
 
 class ClusterAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
+    search_fields = ('name',)
     inlines = [
         StoreInlineAdmin
     ]
 
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')
+    list_display = ('name', 'type', 'store')
+    search_fields = ('name', 'type', )
+    list_filter = ('type',)
     pass
 
 admin.site.register(Brand, BrandAdmin)
