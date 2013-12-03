@@ -19,3 +19,4 @@ build
 .idea
 
 media
+.DS_Store
