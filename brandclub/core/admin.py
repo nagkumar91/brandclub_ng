@@ -42,8 +42,8 @@ class ClusterAdmin(admin.ModelAdmin):
 
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'store')
-    search_fields = ('name', 'type', )
+    list_display = ('device_id', 'type', 'store')
+    search_fields = ('device_id', 'type', )
     list_filter = ('type',)
     pass
 

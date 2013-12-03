@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 
 # Create your models here.
@@ -40,21 +39,17 @@ class Store(TimeStampedModel):
     state = models.CharField(max_length=50, default='Karnataka')
     pin_code = models.CharField(max_length=10, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
-
-    #Make sure that
-
-    cluster = models.ForeignKey(Cluster, related_name='cluster', null=True)
+    cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
     def __unicode__(self):
         return self.name
 
 
 class Device(TimeStampedModel):
-    name = models.IntegerField(max_length=6, unique=True)
+    device_id = models.IntegerField(max_length=6, unique=True)
     type = models.CharField(max_length=100, null=True, blank=True)
     mac_address = models.CharField(max_length=20, null=True, blank=True)
-
-    store = models.ForeignKey(Store, related_name='store', null=True)
+    store = models.ForeignKey(Store, related_name='devices', null=True)
 
     def __unicode__(self):
         a = self.name
