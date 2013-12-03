@@ -52,5 +52,4 @@ class Device(TimeStampedModel):
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
     def __unicode__(self):
-        a = self.name
-        return str(a)
+        return "%d" % self.device_id
