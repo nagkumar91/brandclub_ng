@@ -195,6 +195,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     # Database migration helpers:
     'south',
+    'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
 )
@@ -248,3 +249,5 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
 
 GRAPPELLI_ADMIN_TITLE = "BrandClub"
+
+GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'

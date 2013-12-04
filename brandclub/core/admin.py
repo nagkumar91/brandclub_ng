@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib.admin import SimpleListFilter
-from .models import Brand, Store, Cluster, Device
+from .models import Brand, Store, Cluster, Device, City, State
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -59,6 +59,8 @@ class DeviceAdmin(admin.ModelAdmin):
 
 
 
+admin.site.register(City)
+admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(Cluster, ClusterAdmin)
