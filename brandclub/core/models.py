@@ -96,7 +96,7 @@ class Content(TimeStampedModel):
     no_of_people_rated = models.BigIntegerField(default=1)
     start_date = models.DateField(default=datetime.datetime.now)
     end_date = models.DateField()
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     archived = models.BooleanField(default=False)
     thumbnail = models.ImageField(upload_to='thumbnails')
     store = models.ManyToManyField(Store, related_name='contents')
