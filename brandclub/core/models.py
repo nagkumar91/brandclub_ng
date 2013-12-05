@@ -1,4 +1,6 @@
+import datetime
 from django.db import models
+from bitfield import BitField
 
 # Create your models here.
 from model_utils.models import TimeStampedModel
@@ -8,6 +10,8 @@ class Brand(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     logo = models.ImageField(upload_to="brand_logo")
+    bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
+    bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
@@ -52,5 +56,67 @@ class Device(TimeStampedModel):
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
     def __unicode__(self):
-        a = self.name
-        return str(a)
+        return u'%d' % self.device_id
+
+
+class ContentType(TimeStampedModel):
+    name = models.CharField(max_length=30, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Content(TimeStampedModel):
+    name = models.CharField(max_length=100)
+    show_on_home = models.BooleanField(default=False)
+    short_description = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    rating = models.IntegerField(default=5)
+    no_of_people_rated = models.BigIntegerField(default=1)
+    start_date = models.DateField(default=datetime.datetime.now)
+    end_date = models.DateField()
+    active = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
+    thumbnail = models.ImageField(upload_to='thumbnails')
+    store = models.ManyToManyField(Store, related_name='contents')
+    content_type = models.ForeignKey(ContentType, related_name='contents')
+
+    def image_tag(self):
+        return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url
+
+    image_tag.short_description = "Logo image"
+    image_tag.allow_tags = True
+
+    def __unicode__(self):
+        return self.name
+
+
+class Audio(Content):
+    file = models.FileField(upload_to='audio')
+
+
+class Video(Content):
+    file = models.FileField(upload_to='video')
+
+
+class Wallpaper(Content):
+    file = models.ImageField(upload_to='wallpapers')
+
+
+class Web(Content):
+    content = models.TextField()
+
+
+class Image(TimeStampedModel):
+    image = models.ImageField(upload_to='images')
+    caption = models.CharField(max_length=300, null=True, blank=True)
+    target_url = models.URLField()
+
+
+class SlideShow(Content):
+    image = models.ManyToManyField(Image, related_name='slideshow')
+    order = models.IntegerField(default=1)
+
+
+
+
