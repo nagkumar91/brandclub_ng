@@ -317,6 +317,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'SlideShow', '_ormbases': [u'core.Content']},
             u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'}),
             'image': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'slideshow'", 'symmetrical': 'False', 'to': u"orm['core.Image']"}),
+        },
         u'core.state': {
             'Meta': {'object_name': 'State'},
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
@@ -352,7 +353,7 @@ class Migration(SchemaMigration):
         u'core.web': {
             'Meta': {'object_name': 'Web', '_ormbases': [u'core.Content']},
             'content': ('django.db.models.fields.TextField', [], {}),
-            u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'})
+            u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'}),
             'state': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'stores'", 'to': u"orm['core.State']"})
         }
     }
