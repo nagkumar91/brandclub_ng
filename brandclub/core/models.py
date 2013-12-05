@@ -78,7 +78,6 @@ class Device(TimeStampedModel):
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
     def __unicode__(self):
-<<<<<<< HEAD
         return u'%d' % self.device_id
 
 
@@ -139,10 +138,3 @@ class Image(TimeStampedModel):
 class SlideShow(Content):
     image = models.ManyToManyField(Image, related_name='slideshow')
     order = models.IntegerField(default=1)
-
-
-
-
-=======
-        return "%d" % self.device_id
->>>>>>> b49c663cdf9511a5c221834136d205c38289ac1c
