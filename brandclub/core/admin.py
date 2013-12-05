@@ -1,7 +1,12 @@
 from django.contrib import admin
 
 # Register your models here.
+<<<<<<< HEAD
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, Content, ContentType
+=======
+from django.contrib.admin import SimpleListFilter
+from .models import Brand, Store, Cluster, Device, City, State
+>>>>>>> b49c663cdf9511a5c221834136d205c38289ac1c
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -13,9 +18,9 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'city', 'state', 'brand')
-    search_fields = ('name', 'city',)
-    list_filter = ('city', 'brand')
+    list_display = ('name', 'city', 'state', 'brand', 'cluster')
+    search_fields = ('name', 'city', 'brand__name')
+    list_filter = ('city', 'brand__name', 'cluster')
     inlines = [
         DeviceInlineAdmin
     ]
@@ -36,14 +41,17 @@ class BrandAdmin(BrandClubAdmin):
 class ClusterAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name',)
+
     inlines = [
         StoreInlineAdmin
     ]
 
 
+
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ('device_id', 'type', 'store')
+    list_display = ('device_id', 'type', 'store', 'brand_device')
     search_fields = ('device_id', 'type', )
+<<<<<<< HEAD
     list_filter = ('type',)
 
 
@@ -81,6 +89,22 @@ class ContentTypeAdmin(admin.ModelAdmin):
 
 
 
+=======
+    list_filter = ('store', 'store__brand__name')
+    list_select_related = True
+    change_list_filter_template = "admin/filter_listing.html"
+
+    def brand_device(self, obj):
+        return "%s" % obj.store.brand.name
+
+    brand_device.short_description = "Brand"
+
+
+
+
+admin.site.register(City)
+admin.site.register(State)
+>>>>>>> b49c663cdf9511a5c221834136d205c38289ac1c
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(Cluster, ClusterAdmin)

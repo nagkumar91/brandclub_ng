@@ -6,6 +6,28 @@ from bitfield import BitField
 from model_utils.models import TimeStampedModel
 
 
+class State(TimeStampedModel):
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+
+class City(TimeStampedModel):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Cities"
+        verbose_name = "City"
+
+    def __unicode__(self):
+        return self.name
+
+
+class Country(TimeStampedModel):
+    name = models.CharField(max_length=100)
+
+
 class Brand(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
@@ -27,8 +49,8 @@ class Cluster(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     locality = models.CharField(max_length=100)
-    city = models.CharField(max_length=100, default="Bangalore")
-    state = models.CharField(max_length=100, default="Karnataka")
+    city = models.ForeignKey(City, related_name="clusters")
+    state = models.ForeignKey(State, related_name="clusters")
 
     def __unicode__(self):
         return self.name
@@ -39,8 +61,8 @@ class Store(TimeStampedModel):
     description = models.TextField(null=True, blank=True)
     address_first_line = models.CharField(max_length=200)
     address_second_line = models.CharField(max_length=200, null=True, blank=True)
-    city = models.CharField(max_length=50, default='Bangalore')
-    state = models.CharField(max_length=50, default='Karnataka')
+    city = models.ForeignKey(City, related_name="stores")
+    state = models.ForeignKey(State, related_name="stores")
     pin_code = models.CharField(max_length=10, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
@@ -56,6 +78,7 @@ class Device(TimeStampedModel):
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
     def __unicode__(self):
+<<<<<<< HEAD
         return u'%d' % self.device_id
 
 
@@ -120,3 +143,6 @@ class SlideShow(Content):
 
 
 
+=======
+        return "%d" % self.device_id
+>>>>>>> b49c663cdf9511a5c221834136d205c38289ac1c
