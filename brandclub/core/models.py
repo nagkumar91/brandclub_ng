@@ -3,7 +3,10 @@ from django.db import models
 
 # Create your models here.
 from model_utils.models import TimeStampedModel
-from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail
+from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
+    ContentTypeRestrictedFileField
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
 class State(TimeStampedModel):
@@ -118,7 +121,11 @@ class Audio(Content):
 
 
 class Video(Content):
-    file = models.FileField(upload_to=get_content_info_path)
+    file = ContentTypeRestrictedFileField(
+        upload_to=get_content_info_path,
+        content_types=['video/mp4', 'video/3gpp'], max_length=300
+    )
+    #file = models.FileField(upload_to=get_content_info_path)
 
 
 class Wallpaper(Content):
