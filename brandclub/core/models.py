@@ -98,8 +98,9 @@ class Content(TimeStampedModel):
     start_date = models.DateField(default=datetime.datetime.now)
     end_date = models.DateField()
     active = models.BooleanField(default=True)
-    archived = models.BooleanField(default=False)
-    thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail)
+    archived = models.BooleanField(default=False, help_text='Select this if you want to delete this content')
+    thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, verbose_name='Thumbnail for content',
+                                  help_text='Ensure that the image size is 500x500')
     store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='contents')
 
@@ -118,7 +119,7 @@ class Audio(Content):
 
 
 class Video(Content):
-    file = models.FileField(upload_to=get_content_info_path)
+    file = models.FileField(upload_to=get_content_info_path, verbose_name='Video', help_text='Please upload a video file of mp4 in h.264 format only')
 
 
 class Wallpaper(Content):
@@ -130,11 +131,31 @@ class Web(Content):
 
 
 class Image(TimeStampedModel):
+    name = models.CharField(max_length=100)
     image = models.ImageField(upload_to = upload_and_rename_images)
     caption = models.CharField(max_length=300, null=True, blank=True)
-    target_url = models.URLField()
+    target_url = models.URLField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+class SlideShowImage(models.Model):
+    slideshow = models.ForeignKey('SlideShow')
+    image = models.ForeignKey(Image)
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = ("slideshow", "order")
+        ordering = ['order']
+
+    def image_tag(self):
+        return u"<img src='%s' style='height: 100px;max-width: auto'>" % self.image.image.url
+
+    image_tag.short_description = "Slide Show Image"
+    image_tag.allow_tags = True
+
 
 
 class SlideShow(Content):
-    image = models.ManyToManyField(Image, related_name='slideshow')
+    image = models.ManyToManyField(Image, related_name='slideshow', through=SlideShowImage)
     order = models.IntegerField(default=1)

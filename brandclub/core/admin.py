@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, Content, \
-    ContentType, State, City
+    ContentType, State, City, SlideShowImage
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -58,26 +58,37 @@ class DeviceAdmin(admin.ModelAdmin):
 
 class ContentAdmin(admin.ModelAdmin):
     list_display = ('name', 'show_on_home', 'content_type', 'start_date', 'end_date')
+    filter_horizontal = ("store", )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
-class AudioAdmin(admin.ModelAdmin):
+class SlideShowImageInline(admin.TabularInline):
+    model = SlideShow.image.through
+    readonly_fields = ('image_tag',)
+    extra = 1
+
+class SlideShowAdmin(ContentAdmin):
+    filter_horizontal = ("store", "image")
+    inlines = [
+        SlideShowImageInline
+    ]
+
+
+class AudioAdmin(ContentAdmin):
     pass
 
 
-class WebAdmin(admin.ModelAdmin):
+class WebAdmin(ContentAdmin):
     pass
 
 
-class WallpaperAdmin(admin.ModelAdmin):
+class WallpaperAdmin(ContentAdmin):
     pass
 
 
-class VideoAdmin(admin.ModelAdmin):
-    filter_horizontal = ("store",)
-    pass
-
-
-class SlideShowAdmin(admin.ModelAdmin):
+class VideoAdmin(ContentAdmin):
     pass
 
 
