@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 from model_utils.models import TimeStampedModel
+from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail
 
 
 class State(TimeStampedModel):
@@ -30,7 +31,7 @@ class Country(TimeStampedModel):
 class Brand(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
-    logo = models.ImageField(upload_to="brand_logo")
+    logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
     bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
 
@@ -98,8 +99,8 @@ class Content(TimeStampedModel):
     end_date = models.DateField()
     active = models.BooleanField(default=True)
     archived = models.BooleanField(default=False)
-    thumbnail = models.ImageField(upload_to='thumbnails')
-    store = models.ManyToManyField(Store, related_name='contents')
+    thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail)
+    store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='contents')
 
     def image_tag(self):
@@ -113,15 +114,15 @@ class Content(TimeStampedModel):
 
 
 class Audio(Content):
-    file = models.FileField(upload_to='audio')
+    file = models.FileField(upload_to=get_content_info_path)
 
 
 class Video(Content):
-    file = models.FileField(upload_to='video')
+    file = models.FileField(upload_to=get_content_info_path)
 
 
 class Wallpaper(Content):
-    file = models.ImageField(upload_to='wallpapers')
+    file = models.ImageField(upload_to=get_content_info_path)
 
 
 class Web(Content):
@@ -129,7 +130,7 @@ class Web(Content):
 
 
 class Image(TimeStampedModel):
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to = upload_and_rename_images)
     caption = models.CharField(max_length=300, null=True, blank=True)
     target_url = models.URLField()
 

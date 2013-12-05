@@ -73,6 +73,7 @@ class WallpaperAdmin(admin.ModelAdmin):
 
 
 class VideoAdmin(admin.ModelAdmin):
+    filter_horizontal = ("store",)
     pass
 
 
