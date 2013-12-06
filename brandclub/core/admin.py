@@ -27,7 +27,7 @@ class StoreInlineAdmin(admin.TabularInline):
 
 
 class BrandAdmin(BrandClubAdmin):
-    list_display = ('name', 'description', 'image_tag')
+    list_display = ('name', 'description', 'image_tag', 'competitors')
     readonly_fields = ('image_tag',)
     inlines = [
         StoreInlineAdmin
