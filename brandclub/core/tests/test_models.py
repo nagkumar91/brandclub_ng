@@ -16,4 +16,4 @@ class BrandTestCase(TestCase):
         self.assertEquals(u"<img src='/home/test/image.jpg' style='height: 50px;max-width: auto'>", brand.image_tag())
 
 
-class SlideShowTest(TestCase):
+#class SlideShowTest(TestCase):

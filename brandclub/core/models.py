@@ -37,6 +37,7 @@ class Brand(TimeStampedModel):
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
     bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
+    brand_competitior = models.ManyToManyField('Brand', related_name='brand_competition')
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
