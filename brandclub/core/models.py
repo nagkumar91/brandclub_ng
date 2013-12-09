@@ -6,6 +6,7 @@ from model_utils.models import TimeStampedModel
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
     ContentTypeRestrictedFileField
 from south.modelsinspector import add_introspection_rules
+
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
@@ -58,6 +59,13 @@ class Cluster(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    def get_all_home_content(self):
+        date_time_today = datetime.datetime.now()
+        all_contents = Content.objects.filter(show_on_home=True, end_date__gte=date_time_today,
+                                              start_date__lte=date_time_today, active=True, archived=False).\
+            filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
+        return all_contents
 
 
 class Store(TimeStampedModel):
@@ -140,12 +148,13 @@ class Web(Content):
 
 class Image(TimeStampedModel):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to = upload_and_rename_images)
+    image = models.ImageField(upload_to=upload_and_rename_images)
     caption = models.CharField(max_length=300, null=True, blank=True)
     target_url = models.URLField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name
+
 
 class SlideShowImage(models.Model):
     slideshow = models.ForeignKey('SlideShow')
@@ -161,7 +170,6 @@ class SlideShowImage(models.Model):
 
     image_tag.short_description = "Slide Show Image"
     image_tag.allow_tags = True
-
 
 
 class SlideShow(Content):
