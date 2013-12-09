@@ -33,6 +33,7 @@ class Country(TimeStampedModel):
 
 class Brand(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
+    slug_name = models.SlugField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
