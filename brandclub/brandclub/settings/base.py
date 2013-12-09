@@ -100,8 +100,8 @@ STATICFILES_DIRS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 )
 ########## END STATIC FILE CONFIGURATION
 
@@ -188,17 +188,21 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin panel and documentation:
-    'django.contrib.admin',
+
     # 'django.contrib.admindocs',
 )
 
 THIRD_PARTY_APPS = (
     # Database migration helpers:
     'south',
+    'grappelli.dashboard',
+    'grappelli',
+    'django.contrib.admin',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'core',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -243,3 +247,7 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
+
+GRAPPELLI_ADMIN_TITLE = "BrandClub"
+
+GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
