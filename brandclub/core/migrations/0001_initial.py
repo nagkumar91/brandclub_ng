@@ -138,7 +138,7 @@ class Migration(SchemaMigration):
         # Adding model 'Video'
         db.create_table(u'core_video', (
             (u'content_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['core.Content'], unique=True, primary_key=True)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('file', self.gf('core.helpers.ContentTypeRestrictedFileField')(max_length=100)),
         ))
         db.send_create_signal(u'core', ['Video'])
 
@@ -370,7 +370,7 @@ class Migration(SchemaMigration):
         u'core.video': {
             'Meta': {'object_name': 'Video', '_ormbases': [u'core.Content']},
             u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'}),
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'})
+            'file': ('core.helpers.ContentTypeRestrictedFileField', [], {'max_length': '100'})
         },
         u'core.wallpaper': {
             'Meta': {'object_name': 'Wallpaper', '_ormbases': [u'core.Content']},

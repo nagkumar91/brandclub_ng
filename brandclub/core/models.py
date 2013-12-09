@@ -3,7 +3,10 @@ from django.db import models
 
 # Create your models here.
 from model_utils.models import TimeStampedModel
-from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail
+from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
+    ContentTypeRestrictedFileField
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
 class State(TimeStampedModel):
@@ -34,6 +37,7 @@ class Brand(TimeStampedModel):
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
     bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
+    competitors = models.ManyToManyField('Brand', related_name='competition', symmetrical=True)
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
@@ -119,7 +123,11 @@ class Audio(Content):
 
 
 class Video(Content):
-    file = models.FileField(upload_to=get_content_info_path, verbose_name='Video', help_text='Please upload a video file of mp4 in h.264 format only')
+    file = ContentTypeRestrictedFileField(
+        upload_to=get_content_info_path,
+        content_types=['video/mp4', 'video/3gpp'],
+    )
+    #file = models.FileField(upload_to=get_content_info_path)
 
 
 class Wallpaper(Content):
