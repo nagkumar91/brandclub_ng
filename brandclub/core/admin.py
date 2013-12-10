@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
+from django.forms import ModelForm
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, Content, \
     ContentType, State, City, SlideShowImage
 
@@ -26,12 +27,24 @@ class StoreInlineAdmin(admin.TabularInline):
     model = Store
 
 
+class BrandAdminForm(ModelForm):
+    class Meta:
+        model = Brand
+
+    def __init__(self, *args, **kwargs):
+        super(BrandAdminForm, self).__init__(*args, **kwargs)
+        self.fields['competitors'].queryset = Brand.objects.exclude(
+            id__exact=self.instance.id)
+
+
 class BrandAdmin(BrandClubAdmin):
-    list_display = ('name', 'description', 'image_tag', 'competitors')
+    list_display = ('name', 'description', 'image_tag', )
     readonly_fields = ('image_tag',)
     inlines = [
         StoreInlineAdmin
     ]
+    form = BrandAdminForm
+    filter_horizontal = ('competitors', )
 
 
 class ClusterAdmin(admin.ModelAdmin):
@@ -68,6 +81,7 @@ class SlideShowImageInline(admin.TabularInline):
     model = SlideShow.image.through
     readonly_fields = ('image_tag',)
     extra = 1
+
 
 class SlideShowAdmin(ContentAdmin):
     filter_horizontal = ("store", "image")
