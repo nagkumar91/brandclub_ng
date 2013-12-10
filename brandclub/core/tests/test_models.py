@@ -20,7 +20,6 @@ class ClusterTestCase(TestCase):
             stores.append(store)
         return stores
 
-
     def _create_brands(self, count):
         brands = []
         for i in range(count):
