@@ -69,3 +69,4 @@ def upload_and_rename_images(instance, filename):
 def upload_and_rename_thumbnail(instance, filename):
     return _upload_and_rename(filename, "thumbnails")
 
+

@@ -41,6 +41,7 @@ class Migration(SchemaMigration):
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('slug_name', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=100)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('logo', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
             ('bg_image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
@@ -259,7 +260,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'slug_name': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
         },
         u'core.city': {
             'Meta': {'object_name': 'City'},
