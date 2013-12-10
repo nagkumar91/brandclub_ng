@@ -1,0 +1,48 @@
+[
+    {
+        "model": "core.city",
+        "pk" : "1",
+        "fields": {
+            "name": "Bangalore"
+        }
+    },
+    {
+        "model": "core.state",
+        "pk": "1",
+        "fields": {
+            "name": "Karnataka"
+        }
+
+    },
+    {
+        "model" : "core.contenttype",
+        "pk" : "1",
+        "fields": {
+            "name": "Video"
+        }
+    },
+    {
+        "model" : "core.contenttype",
+        "pk" : "2",
+        "fields": {
+            "name": "Slide Show"
+        }
+    },
+    {
+        "model" : "core.contenttype",
+        "pk" : "3",
+        "fields": {
+            "name": "Wallpaper"
+        }
+    },
+    {
+        "model" : "core.cluster",
+        "pk" : "1",
+        "fields": {
+            "name": "JP Nagar",
+            "description" : "This is the jp nagar cluster",
+            "state": "1",
+            "city" : "1"
+        }
+    }
+]
