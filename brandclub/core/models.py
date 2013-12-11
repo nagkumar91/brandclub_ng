@@ -79,7 +79,6 @@ class Store(TimeStampedModel):
     description = models.TextField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
-    map_image_url = models.URLField(max_length=500, null=True, blank=True, editable=False)
     address_first_line = models.CharField(max_length=200)
     address_second_line = models.CharField(max_length=200, null=True, blank=True)
     city = models.ForeignKey(City, related_name="stores")
@@ -93,25 +92,25 @@ class Store(TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        # super(Store, self).save()
-        self.map_image_url = "http://maps.google.com/maps/api/staticmap?center=" + str(self.latitude) + "," + \
-                             str(self.longitude) + "&zoom=17&markers=color:blue|label:B|" + str(self.latitude) + "," + \
-                             str(self.longitude) + "&size=600x600&sensor=false"
-        r = requests.get(self.map_image_url, stream=True)
-        print self.map_image_url
+        lat_str = str(self.latitude)
+        long_str = str(self.longitude)
+        map_image_url = "http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=17&markers=color:blue|label:B|%s,%s&size=600x600&sensor=false" % (
+
+            lat_str, long_str, lat_str, long_str)
+        r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
             name = "%s.png" % slugify(self.name)
             file_name = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
-                    # self.map_image.save(file_name, ContentFile(f))
         super(Store, self).save()
 
     def map_image_tag(self):
         name = "%s.png" % slugify(self.name)
         img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
-        return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (img_url, img_url)
+        return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
+            img_url, img_url)
 
     map_image_tag.allow_tags = True
 
