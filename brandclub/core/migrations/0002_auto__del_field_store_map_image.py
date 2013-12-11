@@ -8,19 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding M2M table for field competitors on 'Brand'
-        m2m_table_name = db.shorten_name(u'core_brand_competitors')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('from_brand', models.ForeignKey(orm[u'core.brand'], null=False)),
-            ('to_brand', models.ForeignKey(orm[u'core.brand'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['from_brand_id', 'to_brand_id'])
+        # Deleting field 'Store.map_image'
+        db.delete_column(u'core_store', 'map_image')
 
 
     def backwards(self, orm):
-        # Removing M2M table for field competitors on 'Brand'
-        db.delete_table(db.shorten_name(u'core_brand_competitors'))
+        # Adding field 'Store.map_image'
+        db.add_column(u'core_store', 'map_image',
+                      self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True),
+                      keep_default=False)
 
 
     models = {
@@ -33,13 +29,14 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Brand'},
             'bg_color': ('django.db.models.fields.CharField', [], {'max_length': '6', 'null': 'True', 'blank': 'True'}),
             'bg_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'competitors': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'competitors_reverse'", 'symmetrical': 'False', 'to': u"orm['core.Brand']"}),
+            'competitors': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'competitors_rel_+'", 'null': 'True', 'to': u"orm['core.Brand']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'slug_name': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
         },
         u'core.city': {
             'Meta': {'object_name': 'City'},
@@ -66,7 +63,7 @@ class Migration(SchemaMigration):
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'contents'", 'to': u"orm['core.ContentType']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'end_date': ('django.db.models.fields.DateField', [], {}),
+            'end_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 1, 10, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -142,6 +139,9 @@ class Migration(SchemaMigration):
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'latitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
+            'longitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
+            'map_image_url': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'pin_code': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),

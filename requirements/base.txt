@@ -6,3 +6,4 @@ logutils==0.3.3
 South==0.8.4
 pytz
 django-grappelli==2.5.0
+requests

@@ -15,7 +15,7 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'city', 'state', 'brand', 'cluster')
+    list_display = ('name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
     search_fields = ('name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
     inlines = [

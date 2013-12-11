@@ -1,8 +1,13 @@
 import datetime
+import os
+from django.conf import settings
+from django.core.files.base import ContentFile
 from django.db import models
 
 # Create your models here.
+from django.utils.text import slugify
 from model_utils.models import TimeStampedModel
+import requests
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
     ContentTypeRestrictedFileField
 from south.modelsinspector import add_introspection_rules
@@ -64,7 +69,7 @@ class Cluster(TimeStampedModel):
     def get_all_home_content(self):
         date_time_today = datetime.datetime.now()
         all_contents = Content.objects.filter(show_on_home=True, end_date__gte=date_time_today,
-                                              start_date__lte=date_time_today, active=True, archived=False).\
+                                              start_date__lte=date_time_today, active=True, archived=False). \
             filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
         return all_contents
 
@@ -72,6 +77,9 @@ class Cluster(TimeStampedModel):
 class Store(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    map_image_url = models.URLField(max_length=500, null=True, blank=True, editable=False)
     address_first_line = models.CharField(max_length=200)
     address_second_line = models.CharField(max_length=200, null=True, blank=True)
     city = models.ForeignKey(City, related_name="stores")
@@ -82,6 +90,30 @@ class Store(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # super(Store, self).save()
+        self.map_image_url = "http://maps.google.com/maps/api/staticmap?center=" + str(self.latitude) + "," + \
+                             str(self.longitude) + "&zoom=17&markers=" + str(self.latitude) + "," + \
+                             str(self.longitude) + "&size=600x600&sensor=false"
+        r = requests.get(self.map_image_url, stream=True)
+        print self.map_image_url
+        if r.status_code == 200:
+            name = "%s.png" % slugify(self.name)
+            file_name = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
+            with open(file_name, 'wb') as f:
+                for chunk in r.iter_content(1024):
+                    f.write(chunk)
+                    # self.map_image.save(file_name, ContentFile(f))
+        super(Store, self).save()
+
+    def map_image_tag(self):
+        name = "%s.png" % slugify(self.name)
+        img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
+        return u"<img src='%s' style='height: 50px;max-width: auto'>" % img_url
+
+    map_image_tag.allow_tags = True
 
 
 class Device(TimeStampedModel):
@@ -109,7 +141,7 @@ class Content(TimeStampedModel):
     rating = models.IntegerField(default=5)
     no_of_people_rated = models.BigIntegerField(default=1)
     start_date = models.DateField(default=datetime.datetime.now)
-    end_date = models.DateField()
+    end_date = models.DateField(default=lambda: datetime.datetime.now() + datetime.timedelta(days=30))
     active = models.BooleanField(default=True)
     archived = models.BooleanField(default=False, help_text='Select this if you want to delete this content')
     thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, verbose_name='Thumbnail for content',
