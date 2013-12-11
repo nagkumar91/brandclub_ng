@@ -95,7 +95,7 @@ class Store(TimeStampedModel):
              update_fields=None):
         # super(Store, self).save()
         self.map_image_url = "http://maps.google.com/maps/api/staticmap?center=" + str(self.latitude) + "," + \
-                             str(self.longitude) + "&zoom=17&markers=" + str(self.latitude) + "," + \
+                             str(self.longitude) + "&zoom=17&markers=color:blue|label:B|" + str(self.latitude) + "," + \
                              str(self.longitude) + "&size=600x600&sensor=false"
         r = requests.get(self.map_image_url, stream=True)
         print self.map_image_url
@@ -111,7 +111,7 @@ class Store(TimeStampedModel):
     def map_image_tag(self):
         name = "%s.png" % slugify(self.name)
         img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
-        return u"<img src='%s' style='height: 50px;max-width: auto'>" % img_url
+        return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (img_url, img_url)
 
     map_image_tag.allow_tags = True
 
