@@ -93,11 +93,11 @@ class Store(TimeStampedModel):
     def _save_map_image(self):
         lat_str = str(self.latitude)
         long_str = str(self.longitude)
-        map_image_url = "http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=17&markers=color:blue|label:B|" \
+        map_image_url = u"http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=17&markers=color:blue|label:B|" \
                         "%s,%s&size=600x600&sensor=false" % (lat_str, long_str, lat_str, long_str)
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
-            name = "%s.png" % slugify(self.name)
+            name = u"%s.png" % slugify(u'%s'%self.name)
             directory = os.path.join(settings.MEDIA_ROOT, 'store_maps')
             if not os.path.exists(directory):
                 os.makedirs(directory)
