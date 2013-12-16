@@ -8,13 +8,10 @@ from django.template import Context
 
 
 def slug_view(request, slug):
-    # device_id = request.device_id
     cluster_id = request.cluster_id
-    print cluster_id
     home_cluster = get_object_or_404(Cluster, id=cluster_id)
     all_contents = home_cluster.get_all_home_content()
     home_brand = get_object_or_404(Brand, slug_name=slug)
     t = get_template('cluster_home.html')
     html = t.render(Context({'contents': all_contents, 'cluster': home_cluster, 'home_brand': home_brand}))
-    print all_contents
     return HttpResponse(html)

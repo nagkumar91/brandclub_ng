@@ -1,4 +1,5 @@
 import datetime
+from model_utils.managers import InheritanceManager
 import os
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -68,8 +69,7 @@ class Cluster(TimeStampedModel):
 
     def get_all_home_content(self):
         date_time_today = datetime.datetime.now()
-        all_contents = Content.objects.filter(show_on_home=True, end_date__gte=date_time_today,
-                                              start_date__lte=date_time_today, active=True, archived=False). \
+        all_contents = Content.active_objects.filter(show_on_home=True). \
             filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
         return all_contents
 
@@ -138,6 +138,13 @@ class ContentType(TimeStampedModel):
         return self.name
 
 
+class ContentManager(InheritanceManager):
+    def get_queryset(self):
+        date_time_today = datetime.datetime.now()
+        return super(ContentManager, self).get_query_set(). \
+            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today)
+
+
 class Content(TimeStampedModel):
     name = models.CharField(max_length=100)
     show_on_home = models.BooleanField(default=False)
@@ -153,6 +160,10 @@ class Content(TimeStampedModel):
                                   help_text='Ensure that the image size is 500x500')
     store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='contents')
+
+    objects = InheritanceManager()
+    active_objects = ContentManager()
+
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url
