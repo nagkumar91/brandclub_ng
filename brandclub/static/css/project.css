@@ -17,8 +17,7 @@
 
 
 body {
-    font-family: "Lato Regular";
-    /*background-color: #fff;*/
+    font-family: "Lato Regular", "Times New Roman", Helvetica, Arial, sans-serif;
     background: url('../img/husk.png') #f2f2f2
 }
 
@@ -95,27 +94,21 @@ body {
 	opacity: 0.7;
 }
 
-.image-wrapper a.photo-up{
-	background-image:url('../img/theme/icon-glass.png');
-	background-repeat: no-repeat;
-	background-position: center center;
-}
+/*.image-wrapper a.photo-up{*/
+    /*background: url('../img/theme/icon-glass.png') no-repeat center center;*/
+/*}*/
 
 .brandclub-widget {
     padding-bottom: 15px;
 }
 
-.image-wrapper a.web-link{
-	background-image:url('../img/theme/icon-web-link.png');
-	background-repeat: no-repeat;
-	background-position: center center;
-}
+/*.image-wrapper a.web-link{*/
+    /*background: url('../img/theme/icon-web-link.png') no-repeat center center;*/
+/*}*/
 
-.image-wrapper a.go-link{
-	background-image:url('../img/theme/icon-link.png');
-	background-repeat: no-repeat;
-	background-position: center center;
-}
+/*.image-wrapper a.go-link{*/
+    /*background: url('../img/theme/icon-link.png') no-repeat center center;*/
+/*}*/
 
 .image-wrapper .mouse-effect{
 	background-color: #2e2e2e;
@@ -148,7 +141,7 @@ body {
 }
 
 .brandclub-widget .img-frame p {
-    margin: 0px 7px 6px 7px;
+    margin: 0 7px 6px 7px;
     font-family: "Lato Regular", "Times New Roman", Helvetica, Arial, sans-serif;
 }
 
@@ -171,6 +164,10 @@ h1,h2,h3,h4,h5,h6,.name{
 }
 
 img.image {
+}
+
+.navbar-header {
+    width: 100%;
 }
 
 .navbar-header .navbar-icon {
