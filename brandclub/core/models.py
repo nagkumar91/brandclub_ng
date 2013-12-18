@@ -1,6 +1,7 @@
 import datetime
 from model_utils.managers import InheritanceManager
 import os
+from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import models
@@ -193,7 +194,7 @@ class Wallpaper(Content):
 
 
 class Web(Content):
-    content = models.TextField()
+    content = RichTextField()
 
 
 class Image(TimeStampedModel):
@@ -224,4 +225,3 @@ class SlideShowImage(models.Model):
 
 class SlideShow(Content):
     image = models.ManyToManyField(Image, related_name='slideshow', through=SlideShowImage)
-    order = models.IntegerField(default=1)

@@ -200,6 +200,7 @@ THIRD_PARTY_APPS = (
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
+    'ckeditor'
 )
 
 # Apps specific for this project go here.
@@ -258,3 +259,13 @@ GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
 DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '-1'
 CREATE_STORE_MAPS = True
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+    'default': {
+        'toolbar': 'Full',
+        'height': 400,
+        'width': 750,
+    },
+}
