@@ -4,19 +4,30 @@
     | {{ brand.name }}
 {% endblock %}
 {% block content %}
-<ul class="container list-unstyled" id="home-widget-list">
-{% for content in contents %}
-<li class="row bc-widget-row">
-    <div class="col-lg-12 col-md-12 col-xs-12 brandclub-widget">
-        <a class="content-link" href="#">
-            <img class="img-responsive" src="{{ content.thumbnail.url }}" alt="{{ c.name }}"/>
-        </a>
-        <div class="info">
-            <h4>{{ content.name }}</h4>
-            <p>{{ content.short_description }}</p>
-        </div>
+    <div class="container list-unstyled" id="home-widget-list">
+{#        <div class="row" style="margin-bottom: 40px;">#}
+            {% for content in contents %}
+                <div class="col-lg-4 col-xs-12 col-md-6 brandclub-widget">
+                    <div class="img-frame">
+                        <div class="image-wrapper">
+                            <a class="content-link img-preview" href="#">
+                                <img class="img-responsive image" src="{{ content.thumbnail.url }}" alt="{{ c.name }}"/>
+                            </a>
+                        </div>
+                        <div class="row info-panel">
+                            <div class="icons col-xs-8">
+                                <h5>{{ content.name }}</h5>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-earphone"></span></a>
+                                <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-envelope"></span></a>
+                            </div>
+                        </div>
+
+                        <p>{{ content.short_description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+{#        </div>#}
     </div>
-</li>
-{% endfor %}
-</ul>
 {% endblock %}
