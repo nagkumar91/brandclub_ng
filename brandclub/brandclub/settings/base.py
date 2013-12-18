@@ -253,3 +253,8 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 GRAPPELLI_ADMIN_TITLE = "BrandClub"
 
 GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
+
+############ BRANDCLUB CONFIGURATION
+DEFAULT_DEVICE_ID = '121'
+DEFAULT_CLUSTER_ID = '-1'
+CREATE_STORE_MAPS = True

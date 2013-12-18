@@ -109,7 +109,8 @@ class Store(TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self._save_map_image()
+        if settings.CREATE_STORE_MAPS is True:
+            self._save_map_image()
         super(Store, self).save()
 
     def map_image_tag(self):
