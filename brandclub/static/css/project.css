@@ -181,6 +181,10 @@ img.image {
     color: #000;
 }
 
+.navbar-header .navbar-brand img {
+    width: 75px;
+}
+
 .info-panel .navbar-icon {
     line-height:35px;
     height:35px;
