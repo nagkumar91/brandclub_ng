@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template.loader import get_template
 from django.template import Context
 
-from .models import Brand, Cluster, Store, Content
+from .models import Brand, Cluster, Store, Content, SlideShow
 
 
 def slug_view(request, slug):
@@ -22,3 +22,7 @@ def store_home(request, store_id):
     brand = get_object_or_404(Brand, id=store.brand_id)
     contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
     return render_to_response('store_home.html', {'contents': contents, 'brand': brand, 'store': store})
+
+def slideshow(request, ssid):
+    slides = get_object_or_404(SlideShow, id=ssid)
+    return render_to_response('slide_show.html', {'content':slides})

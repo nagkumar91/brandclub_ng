@@ -20,19 +20,13 @@
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
     </div>
-    {% for content in contents %}
-        {% if content.content_type.name == 'Slide Show' %}
         <div id="links">
-                                {% for i in content.image.all %}
-
-                                        <a href="{{ i.image.url }}"></a>
-
-                                {% endfor %}
-                                </div>
-        {% endif %}
-    {% endfor %}
+            {% for i in content.image.all %}
+                    <a href="{{ i.image.url }}"></a>
+            {% endfor %}
+        </div>
 {% endblock %}
 {% block extra_js %}
     <script type="text/javascript" src="{% static  'js/blueimp-gallery.min.js'%}"></script>
-    <script type="text/javascript" src="{% static  'js/store.js'%}"></script>
+    <script type="text/javascript" src="{% static  'js/slideshow.js'%}"></script>
 {% endblock %}
