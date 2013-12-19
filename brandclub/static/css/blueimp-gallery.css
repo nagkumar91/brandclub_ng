@@ -12,7 +12,7 @@
 
 .blueimp-gallery,
 .blueimp-gallery > .slides > .slide > .slide-content {
-  position: absolute;
+  /*position: absolute;*/
   top: 0;
   right: 0;
   bottom: 0;
@@ -29,7 +29,7 @@
   opacity: 1;
 }
 .blueimp-gallery {
-  position: fixed;
+  /*position: fixed;*/
   z-index: 999999;
   overflow: hidden;
   background: #000;
