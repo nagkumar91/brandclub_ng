@@ -200,7 +200,8 @@ THIRD_PARTY_APPS = (
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
-    'ckeditor'
+    'ckeditor',
+    'pipeline'
 )
 
 # Apps specific for this project go here.
@@ -259,6 +260,8 @@ GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
 DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '-1'
 CREATE_STORE_MAPS = True
+
+CKEDITOR_UPLOAD_PATH = normpath(join(MEDIA_ROOT, 'ckeditor'))
 CKEDITOR_CONFIGS = {
     'awesome_ckeditor': {
         'toolbar': 'Basic',
@@ -269,3 +272,34 @@ CKEDITOR_CONFIGS = {
         'width': 750,
     },
 }
+
+PIPELINE_JS = {
+    'app': {
+        'source_filenames': (
+            'js/jquery-1.10.2.min.js',
+          'js/blueimp-gallery.min.js',
+          'js/bootstrap.js',
+          'js/helper.js',
+          'js/imagesloaded.pkgd.min.js',
+          'js/masonry.pkgd.min.js',
+          'js/slideshow.js',
+          'js/store.js'
+        ),
+        'output_filename': 'js/app.min.js',
+    }
+}
+
+
+PIPELINE_CSS = {
+    'brandclub': {
+        'source_filenames': (
+          'css/bootstrap.css',
+          'css/bootstrap-theme.css',
+          'css/project.css',
+          'css/blueimp-gallery.css',
+        ),
+        'output_filename': 'css/brandclub.css',
+    },
+}
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'

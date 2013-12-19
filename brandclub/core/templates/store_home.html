@@ -5,12 +5,6 @@
 {% block title %}
     | {{ brand.name }}
 {% endblock %}
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
-    <style>
-
-    </style>
-{% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
         <div class="row masonry" style="margin-top: 60px;">
@@ -21,6 +15,7 @@
                         <div class="image-wrapper">
                             {% if content.content_type.name == "Wallpaper" %}
                                 <a class="content-link img-preview"
+                                   target="_blank"
                                    href="{{ content.file.url }}">
                                 <img
                                         class="img-responsive image"
@@ -56,20 +51,12 @@
                                     <a class="prev">‹</a>
                                     <a class="next">›</a>
                                     <a class="play-pause"></a>
-{#                                    <ol class="indicator"></ol>#}
                                 </div>
                                 <div id="links">
                                     {% for i in content.image.all %}
                                             <a href="{{ i.image.url }}"></a>
                                     {% endfor %}
                                 </div>
-{#                                <a class="content-link img-preview"#}
-{#                                   href="/slideshow/{{ content.id }}">#}
-{#                                <img#}
-{#                                        class="img-responsive image"#}
-{#                                        src="{{ content.thumbnail.url }}"#}
-{#                                        alt="{{ c.name }}"/>#}
-{#                                </a>#}
                             {% endif %}
 
 
@@ -90,9 +77,4 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
-
-{% block extra_js %}
-    <script type="text/javascript" src="{% static  'js/blueimp-gallery.min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/store.js' %}"></script>
 {% endblock %}

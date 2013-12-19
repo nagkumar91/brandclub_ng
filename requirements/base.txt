@@ -8,3 +8,4 @@ pytz
 django-grappelli==2.5.0
 requests
 django-ckeditor
+django-pipeline
