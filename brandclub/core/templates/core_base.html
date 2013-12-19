@@ -15,24 +15,15 @@
 </head>
 <body>
 
-{#<div class="navbar navbar-default navbar-fixed-top" role="navigation">#}
-{#    <div class="container">#}
-{#        <div class="navbar-header">#}
-{#            <a class="navbar-brand header" href="#">{{brand.name}}</a>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-
+{% block navbar %}
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="navbar-header"><a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
       <div class="icon-container pull-right">
-        <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-map-marker"></span></a>
-        <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-earphone"></span></a>
-        <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-envelope"></span></a>
-          </div>
+
+      </div>
     </div>
 </div>
-
+{% endblock %}
 <div id="main-container">
 {% block content %}
 
