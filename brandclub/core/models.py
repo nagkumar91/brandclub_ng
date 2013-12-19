@@ -88,6 +88,14 @@ class Store(TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
+    def get_content_for_store(self):
+        all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
+        # print all_contents
+        # c = []
+        # for ac in all_contents:
+        #     c.append(ac)
+        return all_contents
+
     def __unicode__(self):
         return self.name
 

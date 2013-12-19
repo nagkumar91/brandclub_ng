@@ -786,8 +786,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-12T05:36:36.772Z",
-            "thumbnail": "/py_projects/brandclub_ng/brandclub/media/thumbnails/7a43a9fb-be28-4237-9f27-f9f39e5d78da.jpg",
-            "modified": "2013-12-12T05:36:36.987Z",
+            "thumbnail": "/py_projects/brandclub_ng/brandclub/media/thumbnails/29b11c3f-8a3e-4f33-a322-2e8f13a10d43.jpg",
+            "modified": "2013-12-19T05:47:55.036Z",
             "name": "Some slideshow 1",
             "active": true,
             "content_type": 2,
@@ -3020,6 +3020,19 @@
             "change_message": "Changed thumbnail and file.",
             "user": 1,
             "content_type": 20
+        }
+    },
+    {
+        "pk": 100,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-19T05:47:55.376Z",
+            "object_repr": "Some slideshow 1",
+            "object_id": "14",
+            "change_message": "Changed thumbnail.",
+            "user": 1,
+            "content_type": 24
         }
     }
 ]
