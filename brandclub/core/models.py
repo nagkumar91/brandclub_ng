@@ -69,7 +69,6 @@ class Cluster(TimeStampedModel):
         return self.name
 
     def get_all_home_content(self):
-        date_time_today = datetime.datetime.now()
         all_contents = Content.active_objects.filter(show_on_home=True). \
             filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
         return all_contents

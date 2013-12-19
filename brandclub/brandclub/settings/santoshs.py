@@ -53,7 +53,7 @@ INSTALLED_APPS += (
 )
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
-INTERNAL_IPS = ('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1','localhost','0.0.0.0','10.0.2.15')
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 MIDDLEWARE_CLASSES += (
@@ -69,3 +69,12 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEFAULT_CLUSTER_ID = '1'
 CREATE_STORE_MAPS = False
+
+def show_toolbar(request):
+    return True
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+}
+
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
