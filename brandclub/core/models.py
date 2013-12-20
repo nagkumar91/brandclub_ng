@@ -88,12 +88,18 @@ class Store(TimeStampedModel):
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
     def get_content_for_store(self):
+        all_brands = self.cluster.stores.all().values_list('brand', flat=True)
+        competitors = self.brand.competitors.all().values_list('id', flat=True)
+        brands = Brand.objects.filter(id__in=all_brands).exclude(id__in=competitors)
+        contents = Store.objects.filter(brand__in=brands).filter(cluster=self.cluster).values_list('contents', flat=True)
+        content= Content.objects.filter(id__in=contents)
+
         all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
         # print all_contents
         # c = []
         # for ac in all_contents:
         #     c.append(ac)
-        return all_contents
+        return content
 
     def __unicode__(self):
         return self.name
@@ -172,7 +178,6 @@ class Content(TimeStampedModel):
 
     objects = InheritanceManager()
     active_objects = ContentManager()
-
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url
