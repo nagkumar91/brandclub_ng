@@ -50,7 +50,17 @@ SERVER_EMAIL = EMAIL_HOST_USER
 ########## END EMAIL CONFIGURATION
 
 ########## DATABASE CONFIGURATION
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'brandclub',
+        'USER': 'brandclub',
+        'PASSWORD': 'brandclub',
+        'HOST': '192.168.188.122',
+        'PORT': '5432',
+    }
+
+}
 ########## END DATABASE CONFIGURATION
 
 
