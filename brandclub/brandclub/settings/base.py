@@ -282,7 +282,6 @@ PIPELINE_JS = {
           'js/helper.js',
           'js/imagesloaded.pkgd.min.js',
           'js/masonry.pkgd.min.js',
-          'js/slideshow.js',
           'js/store.js'
         ),
         'output_filename': 'js/app.min.js',

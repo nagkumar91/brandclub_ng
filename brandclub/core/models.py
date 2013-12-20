@@ -76,6 +76,7 @@ class Cluster(TimeStampedModel):
 
 class Store(TimeStampedModel):
     name = models.CharField(max_length=100)
+    slug_name = models.SlugField(max_length=100, default="-1")
     description = models.TextField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
@@ -86,6 +87,9 @@ class Store(TimeStampedModel):
     pin_code = models.CharField(max_length=10, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
+
+    def create_slug(self):
+        return slugify(self.name)
 
     def get_content_for_store(self):
         all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
