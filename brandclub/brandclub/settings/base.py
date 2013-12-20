@@ -276,12 +276,12 @@ CKEDITOR_CONFIGS = {
 PIPELINE_JS = {
     'app': {
         'source_filenames': (
-            'js/jquery-1.10.2.min.js',
-          'js/blueimp-gallery.min.js',
+          'js/jquery-1.10.2.js',
           'js/bootstrap.js',
-          'js/helper.js',
+          'js/blueimp-gallery.min.js',
           'js/imagesloaded.pkgd.min.js',
           'js/masonry.pkgd.min.js',
+          'js/helper.js',
           'js/slideshow.js',
           'js/store.js'
         ),
