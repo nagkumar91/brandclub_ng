@@ -276,6 +276,7 @@ CKEDITOR_CONFIGS = {
 PIPELINE_JS = {
     'app': {
         'source_filenames': (
+            'js/jquery-1.10.2.min.js',
           'js/blueimp-gallery.min.js',
           'js/bootstrap.js',
           'js/helper.js',
@@ -294,7 +295,8 @@ PIPELINE_CSS = {
         'source_filenames': (
           'css/bootstrap.css',
           'css/bootstrap-theme.css',
-          'css/project.css'
+          'css/project.css',
+          'css/blueimp-gallery.css',
         ),
         'output_filename': 'css/brandclub.css',
     },

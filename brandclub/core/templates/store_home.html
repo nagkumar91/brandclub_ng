@@ -5,9 +5,6 @@
 {% block title %}
     | {{ brand.name }}
 {% endblock %}
-{% block extra_css %}
-
-{% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
         <div class="row masonry" style="margin-top: 60px;">
@@ -18,6 +15,7 @@
                         <div class="image-wrapper">
                             {% if content.content_type.name == "Wallpaper" %}
                                 <a class="content-link img-preview"
+                                   target="_blank"
                                    href="{{ content.file.url }}">
                                 <img
                                         class="img-responsive image"
@@ -46,13 +44,19 @@
                                     </video>
                                 </a>
                              {% elif content.content_type.name == "Slide Show" %}
-                                <a class="content-link img-preview"
-                                   href="/slideshow/{{ content.id }}">
-                                <img
-                                        class="img-responsive image"
-                                        src="{{ content.thumbnail.url }}"
-                                        alt="{{ c.name }}"/>
-                                </a>
+                                <div id="slide-show-carousel"
+                                     class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
+                                    <div class="slides"></div>
+                                    <h3 class="title"></h3>
+                                    <a class="prev">‹</a>
+                                    <a class="next">›</a>
+                                    <a class="play-pause"></a>
+                                </div>
+                                <div id="links">
+                                    {% for i in content.image.all %}
+                                            <a href="{{ i.image.url }}"></a>
+                                    {% endfor %}
+                                </div>
                             {% endif %}
 
 
