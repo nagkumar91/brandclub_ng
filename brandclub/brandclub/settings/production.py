@@ -1,6 +1,5 @@
 """Production settings and globals."""
 
-
 from os import environ
 
 from base import *
@@ -66,7 +65,14 @@ DATABASES = {
 
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
-CACHES = {}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': [
+            'localhost:11211',
+        ]
+    }
+}
 ########## END CACHE CONFIGURATION
 
 
