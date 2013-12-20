@@ -303,3 +303,5 @@ PIPELINE_CSS = {
 }
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+DEFAULT_CLUSTER_ID = '1'
