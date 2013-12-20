@@ -150,6 +150,7 @@ TEMPLATE_LOADERS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
     normpath(join(SITE_ROOT, 'templates')),
+    normpath(join(SITE_ROOT, 'core', 'templates')),
 )
 ########## END TEMPLATE CONFIGURATION
 
@@ -163,7 +164,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.ClusterDeviceDetectionMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
@@ -199,6 +200,8 @@ THIRD_PARTY_APPS = (
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
+    'ckeditor',
+    'pipeline'
 )
 
 # Apps specific for this project go here.
@@ -252,3 +255,49 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 GRAPPELLI_ADMIN_TITLE = "BrandClub"
 
 GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
+
+############ BRANDCLUB CONFIGURATION
+DEFAULT_DEVICE_ID = '121'
+DEFAULT_CLUSTER_ID = '-1'
+CREATE_STORE_MAPS = True
+
+CKEDITOR_UPLOAD_PATH = normpath(join(MEDIA_ROOT, 'ckeditor'))
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+    'default': {
+        'toolbar': 'Full',
+        'height': 400,
+        'width': 750,
+    },
+}
+
+PIPELINE_JS = {
+    'app': {
+        'source_filenames': (
+          'js/blueimp-gallery.min.js',
+          'js/bootstrap.js',
+          'js/helper.js',
+          'js/imagesloaded.pkgd.min.js',
+          'js/masonry.pkgd.min.js',
+          'js/slideshow.js',
+          'js/store.js'
+        ),
+        'output_filename': 'js/app.min.js',
+    }
+}
+
+
+PIPELINE_CSS = {
+    'brandclub': {
+        'source_filenames': (
+          'css/bootstrap.css',
+          'css/bootstrap-theme.css',
+          'css/project.css'
+        ),
+        'output_filename': 'css/brandclub.css',
+    },
+}
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'

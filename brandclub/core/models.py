@@ -1,6 +1,7 @@
 import datetime
 from model_utils.managers import InheritanceManager
 import os
+from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import models
@@ -68,7 +69,6 @@ class Cluster(TimeStampedModel):
         return self.name
 
     def get_all_home_content(self):
-        date_time_today = datetime.datetime.now()
         all_contents = Content.active_objects.filter(show_on_home=True). \
             filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
         return all_contents
@@ -86,6 +86,14 @@ class Store(TimeStampedModel):
     pin_code = models.CharField(max_length=10, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
+
+    def get_content_for_store(self):
+        all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
+        # print all_contents
+        # c = []
+        # for ac in all_contents:
+        #     c.append(ac)
+        return all_contents
 
     def __unicode__(self):
         return self.name
@@ -109,7 +117,8 @@ class Store(TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self._save_map_image()
+        if settings.CREATE_STORE_MAPS is True:
+            self._save_map_image()
         super(Store, self).save()
 
     def map_image_tag(self):
@@ -192,7 +201,7 @@ class Wallpaper(Content):
 
 
 class Web(Content):
-    content = models.TextField()
+    content = RichTextField()
 
 
 class Image(TimeStampedModel):
@@ -223,4 +232,3 @@ class SlideShowImage(models.Model):
 
 class SlideShow(Content):
     image = models.ManyToManyField(Image, related_name='slideshow', through=SlideShowImage)
-    order = models.IntegerField(default=1)

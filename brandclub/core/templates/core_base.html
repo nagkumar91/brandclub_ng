@@ -1,0 +1,42 @@
+{% load staticfiles %}
+{% load compressed %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Brand Club {% block title %} | Home{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% compressed_css 'brandclub'  %}
+    {% block extra_css %} {% endblock %}
+
+</head>
+<body>
+
+{% block navbar %}
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header"><a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
+      <div class="icon-container pull-right">
+        <a href="#" class="navbar-icon" id="store-map" data-toggle="popover" data-store-map="/media/store_maps/{{ store.name|slugify }}.png"><span class="glyphicon glyphicon-map-marker"></span></a>
+        <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-earphone"></span></a>
+        <a href="#" class="navbar-icon"><span class="glyphicon glyphicon-envelope"></span></a>
+          </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+<div id="main-container">
+{% block content %}
+
+{% endblock %}
+</div>
+<div class="map" style="width:100%">
+
+</div>
+{% compressed_js 'app' %}
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "core_base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+{% block content %}
+    <div id="slide-show-carousel" class="blueimp-gallery blueimp-gallery-controls">
+  <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    </div>
+        <div id="links">
+            {% for i in content.image.all %}
+                    <a href="{{ i.image.url }}"></a>
+            {% endfor %}
+        </div>
+{% endblock %}
