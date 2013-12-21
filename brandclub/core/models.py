@@ -49,7 +49,7 @@ class Brand(TimeStampedModel):
     competitors = models.ManyToManyField('Brand', related_name='competition', symmetrical=True, blank=True, null=True)
 
     def image_tag(self):
-        return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
+        return u"<img src='%s%s' style='height: 50px;max-width: auto'>" % (settings.MEDIA_URL, self.logo.url)
 
     image_tag.short_description = "Logo image"
     image_tag.allow_tags = True
