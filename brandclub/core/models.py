@@ -85,6 +85,8 @@ class Store(TimeStampedModel):
     city = models.ForeignKey(City, related_name="stores")
     state = models.ForeignKey(State, related_name="stores")
     pin_code = models.CharField(max_length=10, null=True, blank=True)
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+    mail_id = models.EmailField(max_length=50, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 

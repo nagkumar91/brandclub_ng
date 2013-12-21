@@ -13,10 +13,26 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.SlugField')(default='-1', max_length=100),
                       keep_default=False)
 
+        # Adding field 'Store.contact_number'
+        db.add_column(u'core_store', 'contact_number',
+                      self.gf('django.db.models.fields.CharField')(max_length=15, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'Store.mail_id'
+        db.add_column(u'core_store', 'mail_id',
+                      self.gf('django.db.models.fields.EmailField')(max_length=50, null=True, blank=True),
+                      keep_default=False)
+
 
     def backwards(self, orm):
         # Deleting field 'Store.slug_name'
         db.delete_column(u'core_store', 'slug_name')
+
+        # Deleting field 'Store.contact_number'
+        db.delete_column(u'core_store', 'contact_number')
+
+        # Deleting field 'Store.mail_id'
+        db.delete_column(u'core_store', 'mail_id')
 
 
     models = {
@@ -135,11 +151,13 @@ class Migration(SchemaMigration):
             'brand': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'stores'", 'to': u"orm['core.Brand']"}),
             'city': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'stores'", 'to': u"orm['core.City']"}),
             'cluster': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'stores'", 'null': 'True', 'to': u"orm['core.Cluster']"}),
+            'contact_number': ('django.db.models.fields.CharField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'latitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
             'longitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
+            'mail_id': ('django.db.models.fields.EmailField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'pin_code': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),

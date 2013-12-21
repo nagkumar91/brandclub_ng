@@ -18,8 +18,14 @@
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="navbar-header"><a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
       <div class="icon-container pull-right">
-
-      </div>
+        <a href="#" id="store-map"
+           data-store-map="/media/store_maps/{{ store.name|slugify }}.png"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-map-marker"></span>
+        </a>
+        <a href="tel:{{ store.contact_number }}" class="navbar-icon"><span class="glyphicon glyphicon-earphone"></span></a>
+        <a href="mailto:{{ store.mail_id }}" class="navbar-icon"><span class="glyphicon glyphicon-envelope"></span></a>
+          </div>
     </div>
 </div>
 {% endblock %}
