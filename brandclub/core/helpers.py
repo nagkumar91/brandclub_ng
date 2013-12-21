@@ -52,7 +52,7 @@ class ContentTypeRestrictedFileField(FileField):
 def _upload_and_rename(filename, media_dir):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
-    return os.path.join(settings.MEDIA_ROOT, media_dir, filename)
+    return os.path.join(media_dir, filename)
 
 
 def get_content_info_path(instance, filename):
