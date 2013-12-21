@@ -83,3 +83,5 @@ SECRET_KEY = get_env_setting('SECRET_KEY')
 
 DEFAULT_CLUSTER_ID = "1"
 
+MEDIA_ROOT = "/var/www/brandclub/media"
+
