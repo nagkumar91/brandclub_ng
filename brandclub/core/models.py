@@ -235,8 +235,13 @@ class Content(TimeStampedModel):
     objects = InheritanceManager()
     active_objects = ContentManager()
 
+    @property
+    def thumbnail_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
+
     def image_tag(self):
-        return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url
+        return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail_url
 
     image_tag.short_description = "Logo image"
     image_tag.allow_tags = True

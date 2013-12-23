@@ -17,7 +17,7 @@
                             {% for st in content.store.all %}
                             <a class="content-link img-preview" href="/home/{{ st.slug_name }}">
                             {% endfor %}
-                                <img class="img-responsive image" src="{{ content.thumbnail.url }}" alt="{{ c.name }}"/>
+                                <img class="img-responsive image" src="{{ content.thumbnail_url |default_if_none:'#' }}" alt="{{ c.name }}"/>
                             </a>
                         </div>
                         <div class="row info-panel">

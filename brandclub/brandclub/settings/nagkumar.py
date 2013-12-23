@@ -69,4 +69,4 @@ DEBUG_TOOLBAR_CONFIG = {
 CKEDITOR_UPLOAD_PATH = "/py_projects/brandclub_ng/brandclub/media/ckeditor/uploads"
 DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '1'
-CREATE_STORE_MAPS = True
+CREATE_STORE_MAPS = False
