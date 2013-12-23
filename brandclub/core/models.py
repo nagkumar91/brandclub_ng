@@ -199,7 +199,7 @@ class Store(TimeStampedModel):
 
     def map_image_tag(self):
         name = self.map_name
-        img_url = os.path.join(settings.STORE_MAPS_DIRECTORY, name)
+        img_url = os.path.join(settings.MEDIA_URL, settings.STORE_MAPS_DIRECTORY, name)
         return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
             img_url, img_url)
 
