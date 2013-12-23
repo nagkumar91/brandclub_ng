@@ -300,4 +300,6 @@ PIPELINE_CSS = {
     },
 }
 
+STORE_MAPS_DIRECTORY = 'store_maps'
+
 # STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'

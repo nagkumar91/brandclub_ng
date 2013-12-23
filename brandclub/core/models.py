@@ -16,6 +16,8 @@ from .helpers import get_content_info_path, upload_and_rename_images, upload_and
     ContentTypeRestrictedFileField
 from south.modelsinspector import add_introspection_rules
 
+
+
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
@@ -179,11 +181,11 @@ class Store(TimeStampedModel):
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
             name = u"%s.png" % slugify(u'%s'%self.name)
-            directory = os.path.join(settings.MEDIA_ROOT, 'store_maps')
+            directory = os.path.join(settings.MEDIA_ROOT, settings.STORE_MAPS_DIRECTORY)
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            file_name = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
+            file_name = os.path.join(settings.MEDIA_ROOT, settings.STORE_MAPS_DIRECTORY, name)
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
@@ -197,7 +199,7 @@ class Store(TimeStampedModel):
 
     def map_image_tag(self):
         name = self.map_name
-        img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
+        img_url = os.path.join(settings.STORE_MAPS_DIRECTORY, name)
         return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
             img_url, img_url)
 
