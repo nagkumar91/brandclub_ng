@@ -55,7 +55,7 @@ DATABASES = {
         'NAME': 'brandclub',
         'USER': 'brandclub',
         'PASSWORD': 'brandclub',
-        'HOST': '192.168.188.122',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 
