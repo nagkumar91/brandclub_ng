@@ -1,7 +1,7 @@
 import datetime
 from django.db import IntegrityError
 from django.test import TestCase
-from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Content
+from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Content, Device
 
 
 class ClusterTestCase(TestCase):
@@ -15,7 +15,8 @@ class ClusterTestCase(TestCase):
         stores = []
         for i in range(count):
             store = Store.objects.create(name="S %s" % i, brand=brands[i], address_first_line="Some address",
-                                         city=self.city, state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9)
+                                         city=self.city, state=self.state, cluster=self.cluster, latitude=12.708,
+                                         longitude=71.9)
             store.save()
             stores.append(store)
         return stores
@@ -27,6 +28,15 @@ class ClusterTestCase(TestCase):
             temp.save()
             brands.append(temp)
         return brands
+
+    def _create_devices(self, count, stores):
+        devices = []
+        for i in range(count):
+            device = Device.objects.create(device_id=i, store=stores[i])
+            devices.append(device)
+            device.save()
+        return devices
+
 
     def _create_dummy_content(self, start_date, end_date, show_on_home_status, archived_status, active_status):
         b = Brand.objects.create(name="Temp brand", slug_name="temp_brand", logo="/home/test/image.jpg")
@@ -66,8 +76,9 @@ class ClusterTestCase(TestCase):
         self._create_initial_defaults()
 
         brands = self._create_brands(5)
-        stores = self._create_stores(5, brands)
 
+        stores = self._create_stores(5, brands)
+        devices = self._create_devices(5, stores)
         self._create_content(stores)
 
         self.some_store = stores[3]
@@ -79,7 +90,7 @@ class ClusterTestCase(TestCase):
         state = State.objects.create(name='Karnataka')
         state.save()
         cluster, created = Cluster.objects.get_or_create(name='Dummy', city=city, state=state)
-        content = cluster.get_all_home_content()
+        content = cluster.get_all_home_content(0)
         self.assertEquals(0, len(content))
 
     def test_content_fetching_according_to_cluster_is_not_null(self):
@@ -111,7 +122,7 @@ class ClusterTestCase(TestCase):
         self.assertNotEqual(len(all_contents), len(home_contents))
 
     def __get_content_for_current_cluster(self):
-        return self.cluster.get_all_home_content()
+        return self.cluster.get_all_home_content(0)
 
     def test_only_one_show_on_home_content_appears_for_each_brand_in_a_cluster(self):
         datestr = '2014-05-01'
@@ -126,11 +137,10 @@ class ClusterTestCase(TestCase):
 
 
 class BrandTestCase(TestCase):
-
     store2 = None
 
     def setUp(self):
-        store1 = Brand.objects.create(name="pnrao", description="some company",slug_name='pn-rao')
+        store1 = Brand.objects.create(name="pnrao", description="some company", slug_name='pn-rao')
         store1.save()
         store2 = Brand.objects.create(name="ccd", description="another coeffee shop", slug_name='ccd-123', )
         store2.save()
@@ -141,7 +151,7 @@ class BrandTestCase(TestCase):
     def test_check(self):
         Brand.objects.create(name="B1", description="", logo="")
         with self.assertRaises(IntegrityError):
-            Brand.objects.create(name="B1",description="", logo="")
+            Brand.objects.create(name="B1", description="", logo="")
 
     def test_image_tag_returns_proper_url(self):
         brand = Brand.objects.create(name="B1", description="Some desc", logo="/home/test/image.jpg")
@@ -163,25 +173,59 @@ class BrandTestCase(TestCase):
         self.assertEquals(store.id, competing_store.id)
         self.assertEquals(store.name, competing_store.name)
 
-    def test_competitor_brand_is_excluded(self):
-        # store1 = Brand.objects.get(name="pnrao",description="some desc")
-        # store1.save()
-        # store2 = Brand.objects.create(name="ccd",description="coeffee shop",competitors="barista")
-        # store2.save()
-        # store3 = Brand.objects.create(name="starbucks",description="competitor of ccd")
-        # store3.save()
+    def _create_initial_defaults(self):
+        self.state = State.objects.create(name="Karnataka")
+        self.state.save()
+        self.city = City.objects.create(name="Bangalore")
+        self.city.save()
+        self.cluster = Cluster.objects.create(name="Cluster", city=self.city, state=self.state)
+        self.cluster.save()
+        self.ctype_wall = ContentType.objects.create(name="Wallpaper")
 
-        store = Store.objects.all()[1]
-        cluster = store.cluster
-        all_brands = cluster.store.all().values_list('brand', flat=True)
-        brand = Brand.objects.all()[1]
-        competitors = brand.competitors.all().value_list('id', flat=True)
-        contents = Store.objects.filter(brand__in=brands).filter(cluster=self.cluster).values_list('contents', flat=True)
-        self.assertEqual(4, len(all_brands))
-        self.assertEqual(4, len(brand))
-        self.assertEqual(brand.name, Naturals)
-        self.assertEqual(22, len(competitors))
-        self.assertEqual(0, len(competitors))
+    def test_competition_brand_is_excluded_in_our_store(self):
+        self._create_initial_defaults()
+        brand_names = ['b1', 'b2', 'b3', 'b4', 'b5']
+        brands = []
+        for name in brand_names:
+            brand = Brand.objects.create(name=name, description="some company", slug_name=name)
+            brand.save()
+            brands.append(brand)
+        b2 = brands[1]
+        b2.competitors.add(brands[2])
+        b2.competitors.add(brands[3])
+        b2.save()
+        self.assertEqual(2, len(b2.competitors.all()))
+        store_names = ['s1', 's2', 's3', 's4', 's5']
+        stores = []
+        for idx, store in enumerate(store_names):
+            brand = brands[idx]
+            s = Store.objects.create(name=store, brand=brand, address_first_line="Some address", city=self.city,
+                                     state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9)
+            s.save()
+            stores.append(s)
+
+        datestr = '2014-05-01'
+        dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
+        for i in range(5):
+            w = Wallpaper.objects.create(name="name %s" % i, content_type=self.ctype_wall, end_date=dateobj,
+                                         show_on_home=True)
+            w.store.add(stores[i])
+            w.save()
+
+        device = Device(device_id=3226, store=stores[1])
+        device.save()
+        home_content = self.cluster.get_all_home_content(3226)
+        self.assertEqual(3, len(home_content))
+
+
+
+
+
+
+
+
+
+
 
 
 
