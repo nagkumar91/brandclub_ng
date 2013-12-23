@@ -1,6 +1,5 @@
 """Common settings and globals."""
 
-
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -277,28 +276,27 @@ PIPELINE_JS = {
     'app': {
         'source_filenames': (
             'js/jquery-1.10.2.min.js',
-          'js/blueimp-gallery.min.js',
-          'js/bootstrap.js',
-          'js/helper.js',
-          'js/imagesloaded.pkgd.min.js',
-          'js/masonry.pkgd.min.js',
-          'js/store.js'
+            'js/blueimp-gallery.min.js',
+            'js/bootstrap.js',
+            'js/helper.js',
+            'js/imagesloaded.pkgd.min.js',
+            'js/masonry.pkgd.min.js',
+            'js/store.js'
         ),
         'output_filename': 'js/app.min.js',
     }
 }
 
-
 PIPELINE_CSS = {
     'brandclub': {
         'source_filenames': (
-          'css/bootstrap.css',
-          'css/bootstrap-theme.css',
-          'css/project.css',
-          'css/blueimp-gallery.css',
+            'css/bootstrap.css',
+            'css/bootstrap-theme.css',
+            'css/project.css',
+            'css/blueimp-gallery.css',
         ),
         'output_filename': 'css/brandclub.css',
     },
 }
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'

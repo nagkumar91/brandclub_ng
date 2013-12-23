@@ -3,8 +3,11 @@ import os
 import uuid
 from django.db.models import FileField
 from django.forms import forms
+from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from math import cos, sin, atan2, sqrt
+from models import *
 
 
 class ContentTypeRestrictedFileField(FileField):
@@ -21,6 +24,7 @@ class ContentTypeRestrictedFileField(FileField):
             250MB - 214958080
             500MB - 429916160
     """
+
     def __init__(self, *args, **kwargs):
         self.content_types = kwargs.pop("content_types")
         self.max_length = 300
@@ -48,7 +52,6 @@ class ContentTypeRestrictedFileField(FileField):
         super(ContentTypeRestrictedFileField, self).__init__(**kwargs)
 
 
-
 def _upload_and_rename(filename, media_dir):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -68,5 +71,3 @@ def upload_and_rename_images(instance, filename):
 # noinspection PyUnusedLocal
 def upload_and_rename_thumbnail(instance, filename):
     return _upload_and_rename(filename, "thumbnails")
-
-

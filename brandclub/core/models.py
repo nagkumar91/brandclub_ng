@@ -1,11 +1,13 @@
 import datetime
+from math import cos, sin, atan2, sqrt
+import uuid
 from model_utils.managers import InheritanceManager
 import os
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import models
-
+import json
 # Create your models here.
 from django.utils.text import slugify
 from model_utils.models import TimeStampedModel
@@ -62,6 +64,7 @@ class Cluster(TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     locality = models.CharField(max_length=100)
+    map_name = models.CharField(max_length=200, blank=True, null=True, editable=False)
     city = models.ForeignKey(City, related_name="clusters")
     state = models.ForeignKey(State, related_name="clusters")
 
@@ -73,6 +76,61 @@ class Cluster(TimeStampedModel):
             filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
         return all_contents
 
+    def _find_center_of_cluster(self):
+        locations = []
+        for s in self.stores.all():
+            lat = float(s.latitude)
+            lat *= 0.0174532925
+            lon = float(s.longitude)
+            lon *= 0.0174532925
+            locations.append([lat, lon])
+        x = y = z = 0
+        for lat, lon in locations:
+            lat = float(lat)
+            lon = float(lon)
+            x += cos(lat) * cos(lon)
+            y += cos(lat) * sin(lon)
+            z += sin(lat)
+        x = float(x / len(locations))
+        y = float(y / len(locations))
+        z = float(z / len(locations))
+        lat = atan2(z, sqrt(x * x + y * y))
+        lon = atan2(y, x)
+        lat *= 57.2957795
+        lon *= 57.2957795
+        return lat, lon
+
+    def _create_map_of_all_atms(self):
+        center_lat, center_lon = self._find_center_of_cluster()
+        url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
+              'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
+              '&radius=2000&sensor=false&types=atm&' % (center_lat, center_lon)
+        r = requests.get(url, stream=True)
+        bank_lat_long = []
+        if r.status_code == 200:
+            json_result = json.loads(r.content)
+            json_result = json_result["results"]
+            for obj in json_result:
+                bank_lat_long.append([obj["geometry"]["location"]["lat"], obj["geometry"]["location"]["lng"]])
+        marker_string = "&markers="
+        for lat, lon in bank_lat_long:
+            marker_string += "%s,%s|" % (lat, lon)
+
+        map_image_url = u"http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=15&size=600x600&sensor=false" \
+                        u"&%s" % (center_lat, center_lon, marker_string)
+        r = requests.get(map_image_url, stream=True)
+        if r.status_code == 200:
+            name = u"%s.png" % uuid.uuid4()
+            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_atms')
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
+            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', name)
+            with open(file_name, 'wb') as f:
+                for chunk in r.iter_content(1024):
+                    f.write(chunk)
+            self.map_name = name
+
 
 class Store(TimeStampedModel):
     name = models.CharField(max_length=100)
@@ -82,6 +140,7 @@ class Store(TimeStampedModel):
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     address_first_line = models.CharField(max_length=200)
     address_second_line = models.CharField(max_length=200, null=True, blank=True)
+    map_name = models.CharField(max_length=200, null=True, blank=True, editable=False)
     city = models.ForeignKey(City, related_name="stores")
     state = models.ForeignKey(State, related_name="stores")
     pin_code = models.CharField(max_length=10, null=True, blank=True)
@@ -95,10 +154,6 @@ class Store(TimeStampedModel):
 
     def get_content_for_store(self):
         all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
-        # print all_contents
-        # c = []
-        # for ac in all_contents:
-        #     c.append(ac)
         return all_contents
 
     def __unicode__(self):
@@ -107,11 +162,12 @@ class Store(TimeStampedModel):
     def _save_map_image(self):
         lat_str = str(self.latitude)
         long_str = str(self.longitude)
-        map_image_url = u"http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=17&markers=color:blue|label:B|" \
+        map_image_url = u"http://maps.google.com/maps/api/staticmap?center=%s,%s&zoom=17&markers=color:blue|label" \
+                        u":B|" \
                         "%s,%s&size=600x600&sensor=false" % (lat_str, long_str, lat_str, long_str)
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
-            name = u"%s.png" % slugify(u'%s'%self.name)
+            name = u"%s.png" % uuid.uuid4()
             directory = os.path.join(settings.MEDIA_ROOT, 'store_maps')
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -120,6 +176,7 @@ class Store(TimeStampedModel):
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
+            self.map_name = name
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -128,7 +185,7 @@ class Store(TimeStampedModel):
         super(Store, self).save()
 
     def map_image_tag(self):
-        name = "%s.png" % slugify(self.name)
+        name = self.map_name
         img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
         return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
             img_url, img_url)
@@ -175,10 +232,8 @@ class Content(TimeStampedModel):
                                   help_text='Ensure that the image size is 500x500')
     store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
     content_type = models.ForeignKey(ContentType, related_name='contents')
-
     objects = InheritanceManager()
     active_objects = ContentManager()
-
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url

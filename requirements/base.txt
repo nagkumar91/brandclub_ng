@@ -12,3 +12,4 @@ django-pipeline
 Pillow
 django-bitfield
 django-annoying
+pyquery
