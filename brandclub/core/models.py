@@ -90,16 +90,6 @@ class Store(TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
-    def get_content_for_store(self):
-        competitors = self.brand.competitors;
-        all_brands = self.cluster.stores.all().values_list('brand', flat=True)
-        competitors = self.brand.competitors.all().values_list('id', flat=True)
-        brands = Brand.objects.filter(id__in=all_brands).exclude(id__in=competitors)
-        contents = Store.objects.filter(brand__in=brands).filter(cluster=self.cluster).values_list('contents',
-                                                                                                   flat=True)
-        content = Content.objects.filter(id__in=contents)
-        return content
-
     def __unicode__(self):
         return self.name
 
@@ -128,7 +118,7 @@ class Store(TimeStampedModel):
 
     def map_image_tag(self):
         name = "%s.png" % slugify(self.name)
-        img_url = os.path.join(settings.MEDIA_ROOT, 'store_maps', name)
+        img_url = os.path.join('store_maps', name)
         return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
             img_url, img_url)
 
