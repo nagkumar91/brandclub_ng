@@ -1,4 +1,6 @@
+from annoying.functions import get_object_or_None
 import datetime
+from django.conf import settings
 from django.db import IntegrityError
 from django.test import TestCase
 from django.utils.text import slugify
@@ -50,16 +52,17 @@ class ClusterTestCase(TestCase):
         self.cluster.save()
 
     def setUp(self):
-        # self.settings_manager.set(STATICFILES_STORAGE='pipeline.storage.NonPackagingPipelineStorage')
         self._create_initial_defaults()
         brands = self._create_brands(5)
         stores = self._create_stores(brands, 5)
         self.stores = stores
         self._create_content(stores)
+        settings.DEFAULT_CLUSTER_ID = self.cluster.id
 
     def test_Cluster_View(self):
         client = Client()
         response = client.get("/B-1/")
         query = PyQuery(response.content)
-        self.assertTrue(5, query("h5"))
+        h5 = query("h5")
+        self.assertTrue(5, len(h5))
         self.assertTrue("name 1", PyQuery(query("h5")[1]).html())
