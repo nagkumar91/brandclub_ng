@@ -1,6 +1,5 @@
 """Common settings and globals."""
 
-
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -289,14 +288,13 @@ PIPELINE_JS = {
     }
 }
 
-
 PIPELINE_CSS = {
     'brandclub': {
         'source_filenames': (
-          'css/bootstrap.css',
-          'css/bootstrap-theme.css',
-          'css/project.css',
-          'css/blueimp-gallery.css',
+            'css/bootstrap.css',
+            'css/bootstrap-theme.css',
+            'css/project.css',
+            'css/blueimp-gallery.css',
         ),
         'output_filename': 'css/brandclub.css',
     },

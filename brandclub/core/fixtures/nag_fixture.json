@@ -409,11 +409,12 @@
             "description": "",
             "created": "2013-12-11T09:34:05.679Z",
             "brand": 1,
-            "modified": "2013-12-11T11:15:54.597Z",
+            "modified": "2013-12-20T10:38:09.764Z",
             "longitude": "77.612211",
             "cluster": 1,
             "address_first_line": "Some first line address",
             "state": 1,
+            "slug_name": "starbucks_kormangala",
             "latitude": "12.935103",
             "address_second_line": "",
             "name": "Starbucks Kormangala"
@@ -428,11 +429,12 @@
             "description": "",
             "created": "2013-12-11T09:39:33.995Z",
             "brand": 2,
-            "modified": "2013-12-11T11:15:40.706Z",
+            "modified": "2013-12-20T10:38:01.404Z",
             "longitude": "77.611997",
             "cluster": 1,
             "address_first_line": "Some first line address",
             "state": 1,
+            "slug_name": "naturals_kormangala",
             "latitude": "12.934653",
             "address_second_line": "",
             "name": "Naturals Kormangala"
@@ -447,11 +449,12 @@
             "description": "",
             "created": "2013-12-11T09:41:17.649Z",
             "brand": 3,
-            "modified": "2013-12-11T11:15:30.194Z",
+            "modified": "2013-12-20T10:37:49.420Z",
             "longitude": "77.622653",
             "cluster": 1,
             "address_first_line": "Some first line address",
             "state": 1,
+            "slug_name": "sapna_kormangala",
             "latitude": "12.931258",
             "address_second_line": "",
             "name": "Sapna Kormangala"
@@ -466,11 +469,12 @@
             "description": "",
             "created": "2013-12-11T09:43:14.927Z",
             "brand": 4,
-            "modified": "2013-12-11T11:15:23.309Z",
+            "modified": "2013-12-20T10:37:35.163Z",
             "longitude": "77.617396",
             "cluster": 1,
             "address_first_line": "Some first line address",
             "state": 1,
+            "slug_name": "pnrao_kormangala",
             "latitude": "12.927321",
             "address_second_line": "",
             "name": "P N Rao Kormangala"
@@ -814,7 +818,7 @@
             "content_type": 3,
             "short_description": "Some description about video",
             "start_date": "2013-12-12",
-            "store": [54, 55, 56, 57],
+            "store": [57, 56, 55, 54],
             "show_on_home": false
         }
     },
@@ -822,7 +826,7 @@
         "pk": 15,
         "model": "core.video",
         "fields": {
-            "store": [54, 55, 56, 57],
+            "store": [57, 56, 55, 54],
             "file": "/py_projects/brandclub_ng/brandclub/media/video/fcb56ed5-7913-4493-8b49-61f577e792c6.mp4"
         }
     },
@@ -3033,6 +3037,58 @@
             "change_message": "Changed thumbnail.",
             "user": 1,
             "content_type": 24
+        }
+    },
+    {
+        "pk": 101,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-20T10:37:35.185Z",
+            "object_repr": "P N Rao Kormangala",
+            "object_id": "57",
+            "change_message": "Changed slug_name.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 102,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-20T10:37:49.441Z",
+            "object_repr": "Sapna Kormangala",
+            "object_id": "56",
+            "change_message": "Changed slug_name.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 103,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-20T10:38:01.428Z",
+            "object_repr": "Naturals Kormangala",
+            "object_id": "55",
+            "change_message": "Changed slug_name.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 104,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-20T10:38:09.790Z",
+            "object_repr": "Starbucks Kormangala",
+            "object_id": "54",
+            "change_message": "Changed slug_name.",
+            "user": 1,
+            "content_type": 14
         }
     }
 ]

@@ -15,6 +15,5 @@ $(function($) {
        slideClass:'slide',
         urlProperty:'href',
         fullScreen:false
-
     });
 }(jQuery));
