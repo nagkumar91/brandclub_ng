@@ -1,12 +1,10 @@
-from annoying.functions import get_object_or_None
 import datetime
 from django.conf import settings
-from django.db import IntegrityError
 from django.test import TestCase
-from django.utils.text import slugify
-from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Content
-from pyquery import PyQuery
 from django.test.client import Client
+
+from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store
+from pyquery import PyQuery
 
 
 class ClusterTestCase(TestCase):
