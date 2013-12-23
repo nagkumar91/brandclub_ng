@@ -132,7 +132,7 @@ class BrandTestCase(TestCase):
     def setUp(self):
         store1 = Brand.objects.create(name="pnrao", description="some company",slug_name='pn-rao')
         store1.save()
-        store2 = Brand.objects.create(name="ccd", description="another coeffee shop", slug_name='ccd-123')
+        store2 = Brand.objects.create(name="ccd", description="another coeffee shop", slug_name='ccd-123', )
         store2.save()
         store1.competitors.add(store2)
         store1.save()
@@ -162,6 +162,31 @@ class BrandTestCase(TestCase):
         self.assertIsNotNone(competing_store)
         self.assertEquals(store.id, competing_store.id)
         self.assertEquals(store.name, competing_store.name)
+
+    def test_competitor_brand_is_excluded(self):
+        # store1 = Brand.objects.get(name="pnrao",description="some desc")
+        # store1.save()
+        # store2 = Brand.objects.create(name="ccd",description="coeffee shop",competitors="barista")
+        # store2.save()
+        # store3 = Brand.objects.create(name="starbucks",description="competitor of ccd")
+        # store3.save()
+
+        store = Store.objects.all()[1]
+        cluster = store.cluster
+        all_brands = cluster.store.all().values_list('brand', flat=True)
+        brand = Brand.objects.all()[1]
+        competitors = brand.competitors.all().value_list('id', flat=True)
+        contents = Store.objects.filter(brand__in=brands).filter(cluster=self.cluster).values_list('contents', flat=True)
+        self.assertEqual(4, len(all_brands))
+        self.assertEqual(4, len(brand))
+        self.assertEqual(brand.name, Naturals)
+        self.assertEqual(22, len(competitors))
+        self.assertEqual(0, len(competitors))
+
+
+
+
+
 
 
 
