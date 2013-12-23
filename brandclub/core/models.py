@@ -19,6 +19,14 @@ from south.modelsinspector import add_introspection_rules
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
+def to_radians(degrees):
+        return degrees * 0.0174532925
+
+
+def to_degrees(radians):
+    return radians * 57.2957795
+
+
 class State(TimeStampedModel):
     name = models.CharField(max_length=100)
 
@@ -80,9 +88,9 @@ class Cluster(TimeStampedModel):
         locations = []
         for s in self.stores.all():
             lat = float(s.latitude)
-            lat *= 0.0174532925
+            lat = to_radians(lat)
             lon = float(s.longitude)
-            lon *= 0.0174532925
+            lon = to_radians(lon)
             locations.append([lat, lon])
         x = y = z = 0
         for lat, lon in locations:
@@ -96,8 +104,8 @@ class Cluster(TimeStampedModel):
         z = float(z / len(locations))
         lat = atan2(z, sqrt(x * x + y * y))
         lon = atan2(y, x)
-        lat *= 57.2957795
-        lon *= 57.2957795
+        lat = to_degrees(lat)
+        lon = to_degrees(lon)
         return lat, lon
 
     def _create_map_of_all_atms(self):
