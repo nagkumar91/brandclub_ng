@@ -68,9 +68,12 @@ class Cluster(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self):
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
+        device = Device.objects.select_related().get(device_id=device_id)
+        home_store = device.store
         all_contents = Content.active_objects.filter(show_on_home=True). \
-            filter(store__in=self.stores.all()).order_by('store__id').distinct('store__id')
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).order_by(
+            'store__id').distinct('store__id')
         return all_contents
 
 
@@ -88,12 +91,14 @@ class Store(TimeStampedModel):
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
     def get_content_for_store(self):
-        all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
-        # print all_contents
-        # c = []
-        # for ac in all_contents:
-        #     c.append(ac)
-        return all_contents
+        competitors = self.brand.competitors;
+        all_brands = self.cluster.stores.all().values_list('brand', flat=True)
+        competitors = self.brand.competitors.all().values_list('id', flat=True)
+        brands = Brand.objects.filter(id__in=all_brands).exclude(id__in=competitors)
+        contents = Store.objects.filter(brand__in=brands).filter(cluster=self.cluster).values_list('contents',
+                                                                                                   flat=True)
+        content = Content.objects.filter(id__in=contents)
+        return content
 
     def __unicode__(self):
         return self.name
@@ -105,7 +110,7 @@ class Store(TimeStampedModel):
                         "%s,%s&size=600x600&sensor=false" % (lat_str, long_str, lat_str, long_str)
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
-            name = u"%s.png" % slugify(u'%s'%self.name)
+            name = u"%s.png" % slugify(u'%s' % self.name)
             directory = os.path.join(settings.MEDIA_ROOT, 'store_maps')
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -172,7 +177,6 @@ class Content(TimeStampedModel):
 
     objects = InheritanceManager()
     active_objects = ContentManager()
-
 
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail.url

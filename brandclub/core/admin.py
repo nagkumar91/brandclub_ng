@@ -19,6 +19,7 @@ class StoreAdmin(BrandClubAdmin):
     search_fields = ('name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
     inlines = [
+
         DeviceInlineAdmin
     ]
 

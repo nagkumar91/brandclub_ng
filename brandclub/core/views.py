@@ -22,3 +22,7 @@ def store_home(request, store_id):
 def slideshow(request, ssid):
     slides = get_object_or_404(SlideShow, id=ssid)
     return render_to_response('slide_show.html', {'content':slides})
+
+def display_clusters(request):
+
+    return render_to_response('home.html', {})
