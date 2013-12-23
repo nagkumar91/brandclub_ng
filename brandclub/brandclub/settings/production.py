@@ -85,3 +85,11 @@ DEFAULT_CLUSTER_ID = "1"
 
 MEDIA_ROOT = "/var/www/brandclub/media"
 
+RAVEN_CONFIG = {
+    'dsn': 'http://2f038bde8bde4b778cd9cda12934b709:4b733c1d76d342079bf5d8f517c0e7dc@sentry.pointat.it/7',
+}
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'raven.contrib.django.raven_compat',
+)
+
