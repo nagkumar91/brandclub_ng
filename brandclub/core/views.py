@@ -6,7 +6,7 @@ from .models import Brand, Cluster, Store, Content, SlideShow
 def slug_view(request, slug):
     cluster_id = request.cluster_id
     home_cluster = get_object_or_404(Cluster, id=cluster_id)
-    all_contents = home_cluster.get_all_home_content()
+    all_contents = home_cluster.get_all_home_content(request.device_id)
     home_brand = get_object_or_404(Brand, slug_name=slug)
     context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
     context_instance = RequestContext(request, context)
