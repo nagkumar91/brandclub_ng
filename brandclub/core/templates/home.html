@@ -15,9 +15,10 @@
                     <div class="img-frame">
                         <div class="image-wrapper">
                             {% for st in content.store.all %}
-                            <a class="content-link img-preview" href="/home/{{ st.slug_name }}">
+                                <a class="content-link img-preview" href="/home/{{ st.slug_name }}">
                             {% endfor %}
-                                <img class="img-responsive image" src="{{ content.thumbnail_url |default_if_none:'#' }}" alt="{{ c.name }}"/>
+                            <img class="img-responsive image" src="{{ content.thumbnail_url |default_if_none:'#' }}"
+                                 alt="{{ c.name }}"/>
                             </a>
                         </div>
                         <div class="row info-panel">
@@ -39,9 +40,9 @@
 
 {% block extra_js %}
     <script>
-        $(function($) {
+        $(function ($) {
             var $container = $(".masonry");
-            $container.imagesLoaded(function(){
+            $container.imagesLoaded(function () {
                 $container.masonry({
                     itemSelector: '.brandclub-widget',
                     columnWidth: '.brandclub-widget',
