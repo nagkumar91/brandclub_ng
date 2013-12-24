@@ -6,6 +6,6 @@ $(function($) {
        slidesContainer:'div',
        slideClass:'slide',
         urlProperty:'href',
-        fullScreen:false
+        fullScreen:true
     });
 }(jQuery));
