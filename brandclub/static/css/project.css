@@ -24,7 +24,7 @@ body {
 #main-container {
     min-height: 100%;
     height: auto;
-    margin-top: 60px;
+    margin-top: 95px;
 }
 
 .footer-container {
@@ -182,7 +182,7 @@ img.image {
 }
 
 .navbar-header .navbar-brand img {
-    width: 75px;
+    max-height: 50px;
 }
 
 .info-panel .navbar-icon {
@@ -195,6 +195,25 @@ img.image {
     font-size: 14px;
     color: #000;
     /*margin: 12px 12px 6px 12px*/
+}
+
+.my-personal-modal{
+    padding:5px;
+    left: 5%;
+    width: 90%;
+    overflow: hidden;
+}
+
+.store-map-image    {
+    max-height: 70%;
+}
+
+.align-center   {
+    text-align: center;
+}
+
+.float-left {
+    float: left;
 }
 
 

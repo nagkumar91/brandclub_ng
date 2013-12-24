@@ -17,15 +17,15 @@
 {% block navbar %}
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="navbar-header"><a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
+      {% block store_details %}
       <div class="icon-container pull-right">
         <a href="#" id="store-map"
-           data-store-map="/media/store_maps/{{ store.map_name }}.png"
+           data-reveal-id="store-details"
            class="navbar-icon">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
-        <a href="tel:{{ store.contact_number }}" class="navbar-icon"><span class="glyphicon glyphicon-earphone"></span></a>
-        <a href="mailto:{{ store.mail_id }}" class="navbar-icon"><span class="glyphicon glyphicon-envelope"></span></a>
           </div>
+          {% endblock %}
     </div>
 </div>
 {% endblock %}
