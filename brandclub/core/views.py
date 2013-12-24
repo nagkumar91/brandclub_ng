@@ -1,6 +1,7 @@
 from annoying.functions import get_object_or_None
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from django.core.cache import cache
 
 from .models import Brand, Cluster, Store, Content, SlideShow
 
@@ -18,8 +19,16 @@ def slug_view(request, slug):
 
 
 def store_home(request, slug):
-    store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
-    contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
+    cache_key = "%s-%s" % (slug, request.cluster_id)
+    store = cache.get(cache_key)
+    if not store:
+        store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
+        cache.set(cache_key, store, 1800)
+    contents_key = "contents-%s" % cache_key
+    contents = cache.get(contents_key)
+    if not contents:
+        contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
+        cache.set(contents_key, contents, 1800)
     return render_to_response('store_home.html', {'contents': contents, 'store': store, 'brand': store.brand})
 
 
