@@ -18,7 +18,7 @@ def slug_view(request, slug):
 
 
 def store_home(request, slug):
-    store = get_object_or_None(Store, slug_name=slug)
+    store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
     contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
     return render_to_response('store_home.html', {'contents': contents, 'store': store, 'brand': store.brand})
 
