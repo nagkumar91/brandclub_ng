@@ -37,6 +37,7 @@ class Command(BaseCommand):
         stores = cluster.stores.all()
         for store in stores:
             files.append(store.brand.logo)
+            files.append(os.path.join(settings.STORE_MAPS_DIRECTORY, store.map_name))
         return files
 
     @staticmethod
