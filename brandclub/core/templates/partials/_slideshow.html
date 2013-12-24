@@ -1,0 +1,15 @@
+<div id="ss-container">
+    <div id="slide-show-carousel"
+         class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="play-pause"></a>
+    </div>
+    <div id="links">
+        {% for i in content.image.all %}
+            <a href="{{ i.image.url }}"></a>
+        {% endfor %}
+    </div>
+</div>
