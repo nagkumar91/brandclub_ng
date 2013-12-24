@@ -34,6 +34,9 @@ class Command(BaseCommand):
                 images = content.image.all()
                 for image in images:
                     files.append(image.image)
+        stores = cluster.stores.all()
+        for store in stores:
+            files.append(store.brand.logo)
         return files
 
     @staticmethod
@@ -60,7 +63,7 @@ class Command(BaseCommand):
         self._create_sym_links(cluster_id, files)
         static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, cluster_id, "static")
         os.makedirs(static_dir)
-        dirs = ["css","img","js","fonts"]
+        dirs = ["css", "img", "js", "fonts"]
         for dir_name in dirs:
             path = os.path.join(settings.STATIC_ROOT, dir_name)
             link_path = os.path.join(static_dir, dir_name)
