@@ -57,8 +57,15 @@ class Command(BaseCommand):
             self.error("Store slug not provided. \n" + self.usage_str)
         cluster_id = options['cluster_id']
         files = self._get_all_file_names(cluster_id)
-
         self._create_sym_links(cluster_id, files)
+        static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, cluster_id, "static")
+        os.makedirs(static_dir)
+        dirs = ["css","img","js","fonts"]
+        for dir_name in dirs:
+            path = os.path.join(settings.STATIC_ROOT, dir_name)
+            link_path = os.path.join(static_dir, dir_name)
+            os.symlink(path, link_path)
+
 
     @staticmethod
     def error(message, code=1):

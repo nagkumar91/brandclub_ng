@@ -1,9 +1,11 @@
 from annoying.functions import get_object_or_None
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
 
-from .models import Brand, Cluster, Store, Content, SlideShow
+from .models import Brand, Cluster, Store, Content, SlideShow, Device
 
 
 def slug_view(request, slug):
@@ -30,6 +32,14 @@ def store_home(request, slug):
         contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
         cache.set(contents_key, contents, 1800)
     return render_to_response('store_home.html', {'contents': contents, 'store': store, 'brand': store.brand})
+
+def contents_loc_view(request, device_id=5678):
+    device = get_object_or_None(Device, device_id=device_id)
+    if device is None:
+        return "No Device found"
+    cluster_id = device.store.cluster.id
+    result = "%s/%s" % (settings.CONTENT_CACHE_DIRECTORY, cluster_id)
+    return HttpResponse(result, content_type='text/plain')
 
 
 def slideshow(request, ssid):
