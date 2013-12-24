@@ -200,7 +200,8 @@ THIRD_PARTY_APPS = (
     'grappelli',
     'django.contrib.admin',
     'ckeditor',
-    'pipeline'
+    'pipeline',
+    'crispy_forms',
 )
 
 # Apps specific for this project go here.
@@ -302,3 +303,4 @@ PIPELINE_CSS = {
 }
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

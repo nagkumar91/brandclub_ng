@@ -13,3 +13,4 @@ Pillow
 django-bitfield
 django-annoying
 pyquery
+django-crispy-forms

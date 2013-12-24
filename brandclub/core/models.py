@@ -1,6 +1,7 @@
 import datetime
 from math import cos, sin, atan2, sqrt
 import uuid
+from django.forms import forms
 from model_utils.managers import InheritanceManager
 import os
 from ckeditor.fields import RichTextField
@@ -199,6 +200,14 @@ class Store(TimeStampedModel):
             img_url, img_url)
 
     map_image_tag.allow_tags = True
+
+
+class StoreFeedback(TimeStampedModel):
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    email_id = models.EmailField(max_length=100)
+    message = models.TextField(max_length=1000)
+    store = models.ForeignKey(Store, related_name="feedback", editable=False)
 
 
 class Device(TimeStampedModel):
