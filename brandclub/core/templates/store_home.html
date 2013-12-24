@@ -17,52 +17,7 @@
                 <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget">
                     <div class="img-frame">
                         <div class="image-wrapper">
-                            {% if content.content_type.name == "Wallpaper" %}
-                                <a class="content-link img-preview"
-                                   href="{{ content.file.url }}">
-                                <img
-                                        class="img-responsive image"
-                                        src="{{ content.thumbnail.url }}"
-                                        alt="{{ c.name }}"/>
-                                </a>
-                            {% elif content.content_type.name == "Video" %}
-                                <a class="content-link img-preview "
-                                   href="#">
-                                    <video style="width:100%;height:auto;"
-                                           poster="{{ content.thumbnail.url }}"
-                                           controls="controls" preload="none">
-                                        <source type="video/mp4"
-                                                src="{{ content.file.url }}" />
-                                        <object style="height:inherit;width:inherit"
-                                                type="application/x-shockwave-flash"
-                                                data="{% static 'js/flashmediaelement.swf' %}">
-                                            <param name="movie"
-                                                   value="{% static 'js/flashmediaelement.swf' %}" />
-                                            <param name="flashvars"
-                                                   value="controls=true&file={{ content.file.url }}" />
-                                            <img src="{{ content.thumbnail.url }}"
-                                                 style="height:inherit;width:inherit"
-                                                 title="No video playback capabilities" />
-                                        </object>
-                                    </video>
-                                </a>
-                             {% elif content.content_type.name == "Slide Show" %}
-                                <div id="slide-show-carousel"
-                                     class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
-                                    <div class="slides"></div>
-                                    <h3 class="title"></h3>
-                                    <a class="prev">‹</a>
-                                    <a class="next">›</a>
-                                    <a class="play-pause"></a>
-                                </div>
-                                <div id="links">
-                                    {% for i in content.image.all %}
-                                            <a href="{{ i.image.url }}"></a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-
-
+                            {% include content.template_file %}
                         </div>
                         <div class="row info-panel">
                             <div class="icons col-xs-8">

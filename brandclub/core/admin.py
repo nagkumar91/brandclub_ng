@@ -2,8 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.forms import ModelForm
-from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, Content, \
-    ContentType, State, City, SlideShowImage
+from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
+    State, City, WebContent
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -15,13 +15,14 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
-    search_fields = ('name', 'slug_name', 'city', 'brand__name')
-    list_filter = ('city', 'brand__name', 'cluster')
-    inlines = [
-
-        DeviceInlineAdmin
-    ]
+    # list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
+    # search_fields = ('name', 'slug_name', 'city', 'brand__name')
+    # list_filter = ('city', 'brand__name', 'cluster')
+    # inlines = [
+    #
+    #     DeviceInlineAdmin
+    # ]
+    pass
 
 
 class StoreInlineAdmin(admin.TabularInline):
@@ -73,6 +74,7 @@ class DeviceAdmin(admin.ModelAdmin):
 class ContentAdmin(admin.ModelAdmin):
     list_display = ('name', 'show_on_home', 'content_type', 'start_date', 'end_date')
     filter_horizontal = ("store", )
+    save_as = True
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -125,6 +127,7 @@ admin.site.register(Audio, AudioAdmin)
 admin.site.register(Video, VideoAdmin)
 admin.site.register(Wallpaper, WallpaperAdmin)
 admin.site.register(Web, WebAdmin)
+admin.site.register(WebContent, ContentAdmin)
 admin.site.register(SlideShow, SlideShowAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)

@@ -1,6 +1,6 @@
 from annoying.functions import get_object_or_None
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
@@ -40,6 +40,10 @@ def contents_loc_view(request, device_id=5678):
     cluster_id = device.store.cluster.id
     result = "%s/%s" % (settings.CONTENT_CACHE_DIRECTORY, cluster_id)
     return HttpResponse(result, content_type='text/plain')
+
+def redirect_to_outside(request):
+    url = request.GET.get('href', 'http://www.google.com')
+    return HttpResponseRedirect(url)
 
 
 def slideshow(request, ssid):
