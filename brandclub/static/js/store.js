@@ -7,7 +7,8 @@ $(function($) {
             return '<a target="_blank" href="'+$(this).data('store-map')+'"><img class="img-responsive" src="' + $(this).data('store-map')+'" /></a>';
         }
     });
-    var links = $("#links a");
+
+    var links = $("#links").find("a");
     blueimp.Gallery(links, {
        container: "#slide-show-carousel",
        carousel: true,
