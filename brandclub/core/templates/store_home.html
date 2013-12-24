@@ -5,6 +5,10 @@
 {% block title %}
     | {{ brand.name }}
 {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
+{% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
         <div class="row masonry" style="margin-top: 60px;">
