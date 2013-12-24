@@ -78,6 +78,45 @@
                 </div>
 
             {% endfor %}
+        <div id="store-details" class="reveal-modal my-personal-modal">
+             <h3 class="align-center">{{ store.name }}</h3>
+            <img src="/media/store_maps/{{ store.map_name }}"
+                 class="img-responsive store-map-image"/>
+            <h4 class="align-center">Store Address:</h4>
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                <h5>
+                {{ store.address_first_line }}<br/>
+                {% if store.address_second_line %}
+                    {{ store.address_second_line }}<br/>
+                {% endif %}
+                {% if store.city %}
+                    {{ store.city }}<br/>
+                {% endif %}
+                {% if store.pin_code %}
+                    {{ store.pin_code }}
+                {% endif %}
+                </h5>
+                {% if store.contact_number %}
+                <a href="tel:{{ store.contact_number }}"
+                   class="navbar-icon float-left">
+                    <span class="glyphicon glyphicon-earphone">
+                        {{ store.contact_number }}
+                    </span>
+                </a>
+                {% endif %}
+                {% if store.mail_id %}
+                    <br />
+                <a href="mailto:{{ store.mail_id }}"
+                   class="navbar-icon">
+                    <span class="glyphicon glyphicon-envelope float-left">
+                        {{ store.mail_id }}
+                    </span>
+                </a>
+                    <br/>
+                {% endif %}
+            </div>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
         </div>
     </div>
 {% endblock %}

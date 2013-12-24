@@ -293,8 +293,9 @@ PIPELINE_CSS = {
         'source_filenames': (
             'css/bootstrap.css',
             'css/bootstrap-theme.css',
-            'css/project.css',
             'css/blueimp-gallery.css',
+            'css/reveal.css',
+            'css/project.css',
         ),
         'output_filename': 'css/brandclub.css',
     },
