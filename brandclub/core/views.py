@@ -17,11 +17,10 @@ def slug_view(request, slug):
     return render_to_response('default.html', {'cluster':cluster_id})
 
 
-def store_home(request, store_id):
-    store = get_object_or_None(Store, id=store_id)
-    brand = get_object_or_None(Brand, id=store.brand_id)
+def store_home(request, slug):
+    store = get_object_or_None(Store, slug_name=slug)
     contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
-    return render_to_response('store_home.html', {'contents': contents, 'brand': brand, 'store': store})
+    return render_to_response('store_home.html', {'contents': contents, 'store': store})
 
 
 def slideshow(request, ssid):
