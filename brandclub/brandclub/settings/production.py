@@ -94,3 +94,5 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
 
+CONTENT_CACHE_DIRECTORY = '/srv/content/'
+

@@ -303,3 +303,5 @@ PIPELINE_CSS = {
 STORE_MAPS_DIRECTORY = 'store_maps'
 
 # STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+CONTENT_CACHE_DIRECTORY = '/tmp/core'
