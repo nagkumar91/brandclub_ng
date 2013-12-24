@@ -1,5 +1,6 @@
 import datetime
 from math import cos, sin, atan2, sqrt
+from urllib import urlencode
 import uuid
 from model_utils.managers import InheritanceManager
 import os
@@ -17,12 +18,11 @@ from .helpers import get_content_info_path, upload_and_rename_images, upload_and
 from south.modelsinspector import add_introspection_rules
 
 
-
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
 def to_radians(degrees):
-        return degrees * 0.0174532925
+    return degrees * 0.0174532925
 
 
 def to_degrees(radians):
@@ -180,7 +180,7 @@ class Store(TimeStampedModel):
                         "%s,%s&size=600x600&sensor=false" % (lat_str, long_str, lat_str, long_str)
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
-            name = u"%s.png" % slugify(u'%s'%self.name)
+            name = u"%s.png" % slugify(u'%s' % self.name)
             directory = os.path.join(settings.MEDIA_ROOT, settings.STORE_MAPS_DIRECTORY)
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -253,6 +253,10 @@ class Content(TimeStampedModel):
         if self.thumbnail and hasattr(self.thumbnail, 'url'):
             return self.thumbnail.url
 
+    @property
+    def template_file(self):
+        return "partials/dummy.html"
+
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.thumbnail_url
 
@@ -266,21 +270,48 @@ class Content(TimeStampedModel):
 class Audio(Content):
     file = models.FileField(upload_to=get_content_info_path)
 
+    @property
+    def template_file(self):
+        return "partials/dummy.html"
+
 
 class Video(Content):
     file = ContentTypeRestrictedFileField(
         upload_to=get_content_info_path,
         content_types=['video/mp4', 'video/3gpp'],
     )
-    #file = models.FileField(upload_to=get_content_info_path)
+
+    @property
+    def template_file(self):
+        return "partials/_video.html"
 
 
 class Wallpaper(Content):
     file = models.ImageField(upload_to=get_content_info_path)
 
+    @property
+    def template_file(self):
+        return "partials/_wallpaper.html"
+
 
 class Web(Content):
     content = RichTextField()
+
+    @property
+    def template_file(self):
+        return "partials/_web.html"
+
+
+class WebContent(Content):
+    url = models.CharField(max_length=255)
+
+    @property
+    def template_file(self):
+        return "partials/_webcontent.html"
+
+    @property
+    def redirect_url_path(self):
+        return "/redirect?url=%s" % urlencode(self.url)
 
 
 class Image(TimeStampedModel):
@@ -311,3 +342,8 @@ class SlideShowImage(models.Model):
 
 class SlideShow(Content):
     image = models.ManyToManyField(Image, related_name='slideshow', through=SlideShowImage)
+
+    @property
+    def template_file(self):
+        return "partials/_slideshow.html"
+
