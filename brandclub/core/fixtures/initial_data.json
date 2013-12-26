@@ -106,7 +106,8 @@
             "state": 1,
             "latitude": "12.935103",
             "address_second_line": "",
-            "name": "Starbucks Kormangala"
+            "name": "Starbucks Kormangala",
+            "slug_name" : "starbucks"
         }
     },
     {
@@ -125,7 +126,8 @@
             "state": 1,
             "latitude": "12.934653",
             "address_second_line": "",
-            "name": "Naturals Kormangala"
+            "name": "Naturals Kormangala",
+            "slug_name" : "naturals"
         }
     },
     {
@@ -144,7 +146,8 @@
             "state": 1,
             "latitude": "12.931258",
             "address_second_line": "",
-            "name": "Sapna Kormangala"
+            "name": "Sapna Kormangala",
+            "slug_name" : "sapna"
         }
     },
     {
@@ -163,7 +166,8 @@
             "state": 1,
             "latitude": "12.927321",
             "address_second_line": "",
-            "name": "P N Rao Kormangala"
+            "name": "P N Rao Kormangala",
+            "slug_name" : "pnrao"
         }
     },
     {
