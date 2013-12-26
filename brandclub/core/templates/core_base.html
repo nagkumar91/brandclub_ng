@@ -17,20 +17,10 @@
 
 {% block navbar %}
 <div class="navbar navbar-default navbar-fixed-top">
-  <div class="navbar-header"><a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
+  <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
       {% block store_details %}
-      <div class="icon-container pull-right">
-        <a href="#" id="store-map"
-           data-reveal-id="store-details"
-           class="navbar-icon">
-            <span class="glyphicon glyphicon-map-marker"></span>
-        </a>
-          <a href="/feedback/{{ store.slug_name }}" id="store-map"
-           class="navbar-icon">
-            <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-          </div>
-          {% endblock %}
+      {% endblock %}
     </div>
 </div>
 {% endblock %}

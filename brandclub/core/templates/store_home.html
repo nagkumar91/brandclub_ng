@@ -6,6 +6,20 @@
     | {{ brand.name }}
 {% endblock %}
 
+{% block store_details %}
+    <div class="icon-container pull-right">
+        <a href="#" id="store-map"
+           data-reveal-id="store-details"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-map-marker"></span>
+        </a>
+        <a href="/feedback/{{ store.slug_name }}" id="store-map"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    </div>
+{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/reveal.css' %}"/>
