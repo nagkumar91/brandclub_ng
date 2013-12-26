@@ -6,10 +6,10 @@ from django.template import RequestContext
 from django.core.cache import cache
 from .forms import FeedbackForm
 
-from .models import Brand, Cluster, Store, Content, SlideShow, Device
+from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
 
 
-def slug_view(request, slug):
+def home_cluster_view(request, slug):
     cluster_id = request.cluster_id
     home_cluster = get_object_or_None(Cluster, id=cluster_id)
     if home_cluster is not None:
@@ -60,5 +60,10 @@ def store_feedback(request, slug):
             form.instance.store = store
             form.save()
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    context = {'form': form, 'brand': store.brand, 'store': store}
-    return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
+    context = {'form': form,'brand': store.brand,'store': store}
+    return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
+
+
+def display_feedback(request):
+    feedback = StoreFeedback.objects.all()
+    return render_to_response("all_feedback.html", {"feedback": feedback})

@@ -284,7 +284,7 @@ class Audio(Content):
 
     @property
     def template_file(self):
-        return "partials/dummy.html"
+        return "partials/_audio.html"
 
 
 class Video(Content):

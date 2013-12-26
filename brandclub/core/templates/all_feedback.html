@@ -1,0 +1,36 @@
+{% extends "core_base.html" %}
+{% load staticfiles %}
+{% block store_details %}
+{% endblock %}
+{% block content %}
+        <div class="container">
+            <table class="table table-responsive">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Phone Number
+                    </th>
+                    <th>
+                        Email id
+                    </th>
+                    <th>
+                        Store
+                    </th>
+                    <th>
+                        Message
+                    </th>
+                </tr>
+            {% for f in feedback %}
+                <tr>
+                    <td>{{ f.name }}</td>
+                    <td>{{ f.phone_number }}</td>
+                    <td>{{ f.email_id }}</td>
+                    <td>{{ f.store.name }}</td>
+                    <td>{{ f.message }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+{% endblock %}

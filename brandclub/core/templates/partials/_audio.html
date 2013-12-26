@@ -1,0 +1,10 @@
+{% load staticfiles %}
+<a class="content-link img-preview "
+   href="#">
+    <video style="width:100%;height:auto;"
+           poster="{{ content.thumbnail.url }}"
+           controls="controls">
+        <source type="audio/mpeg"
+                src="{{ content.file.url }}"/>
+    </video>
+</a>
