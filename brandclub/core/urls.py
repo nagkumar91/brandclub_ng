@@ -5,6 +5,7 @@ urlpatterns = patterns('',
                        url(r'^contents_dir/(?P<device_id>\d+)/$', 'core.views.contents_loc_view'),
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),
                        url(r'feedback/(?P<slug>[\-\w]+)/$', 'core.views.store_feedback'),
+                       url(r'all_feedback/$', 'core.views.display_feedback'),
                        url(r'(?P<slug>[\-\w]+)/$', 'core.views.slug_view'),
 )
 

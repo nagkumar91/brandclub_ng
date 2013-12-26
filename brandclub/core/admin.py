@@ -23,6 +23,7 @@ class StoreAdmin(BrandClubAdmin):
         DeviceInlineAdmin
     ]
 
+
 class StoreInlineAdmin(admin.TabularInline):
     model = Store
 

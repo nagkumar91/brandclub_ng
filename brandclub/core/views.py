@@ -59,26 +59,6 @@ def display_clusters(request):
     return render_to_response('home.html', {})
 
 
-def submit_feedback(request):
-    if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        form.is_valid()
-        # form.clean()
-        name = request.POST["name"]
-        phone_number = request.POST["phone_number"]
-        email_id = request.POST["email_id"]
-        message = request.POST["message"]
-        store = request.POST["store"]
-        store_obj = get_object_or_404(Store, pk=store)
-        sfb = StoreFeedback(name=name, phone_number=phone_number,
-                            email_id=email_id, message=message, store=store_obj)
-        # sfb.save()
-        url = '/home/%s' % store_obj.slug_name
-        return HttpResponseRedirect(url)
-    return render_to_response("success.html")
-
-
-# @csrf_exempt
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
     form = FeedbackForm()
@@ -90,3 +70,8 @@ def store_feedback(request, slug):
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
     context = {'form': form,'brand': store.brand,'store': store}
     return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
+
+
+def display_feedback(request):
+    feedback = StoreFeedback.objects.all()
+    return render_to_response("all_feedback.html", {"feedback": feedback})
