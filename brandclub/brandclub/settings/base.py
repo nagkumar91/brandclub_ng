@@ -137,6 +137,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    'core.proc.brandclub_processor',
     'django.core.context_processors.request',
 )
 
@@ -308,3 +309,7 @@ STORE_MAPS_DIRECTORY = 'store_maps'
 
 CONTENT_CACHE_DIRECTORY = '/tmp/core'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+PIWIK_URL = 'piwik.brandclub.mobi'
+PIWIK_SITE_ID = '1'
+PIWIK_COOKIE_DOMAIN = "*.beta.brandclub.mobi"

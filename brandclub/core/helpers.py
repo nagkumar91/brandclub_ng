@@ -1,13 +1,8 @@
-from django.conf import settings
+from django.core.cache import cache
+from django.db.models import FileField
+from django.utils.translation import ugettext_lazy as _
 import os
 import uuid
-from django.db.models import FileField
-from django.forms import forms
-from django.shortcuts import get_object_or_404
-from django.template.defaultfilters import filesizeformat
-from django.utils.translation import ugettext_lazy as _
-from math import cos, sin, atan2, sqrt
-from models import *
 
 
 class ContentTypeRestrictedFileField(FileField):

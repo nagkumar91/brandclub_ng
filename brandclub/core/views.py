@@ -32,7 +32,9 @@ def store_home(request, slug):
     if not contents:
         contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
         cache.set(contents_key, contents, 1800)
-    return render_to_response('store_home.html', {'contents': contents, 'store': store, 'brand': store.brand})
+    context = {'contents': contents, 'store': store, 'brand': store.brand}
+    context_instance = RequestContext(request, context)
+    return render_to_response('store_home.html', context_instance)
 
 
 def contents_loc_view(request, device_id=5678):
@@ -48,6 +50,7 @@ def redirect_to_outside(request):
     url = request.GET.get('href', 'http://www.google.com')
     return HttpResponseRedirect(url)
 
+
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
     form = FeedbackForm()
@@ -57,5 +60,5 @@ def store_feedback(request, slug):
             form.instance.store = store
             form.save()
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    context = {'form': form,'brand': store.brand,'store': store}
-    return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
+    context = {'form': form, 'brand': store.brand, 'store': store}
+    return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
