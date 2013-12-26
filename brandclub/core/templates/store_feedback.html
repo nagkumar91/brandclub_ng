@@ -8,7 +8,8 @@
 {% endblock %}
 {% block content %}
     <div class="form-group">
-        <form action="/feedback/" class="form-horizontal" role="form" method="post">
+        <form action="/feedback/{{ store.slug_name }}/" class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
             <div class="form-group">
             {{ form | crispy }}
             </div>

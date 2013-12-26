@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.forms import ModelForm
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent
+    State, City, WebContent, StoreFeedback
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -15,15 +15,13 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    # list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
-    # search_fields = ('name', 'slug_name', 'city', 'brand__name')
-    # list_filter = ('city', 'brand__name', 'cluster')
-    # inlines = [
-    #
-    #     DeviceInlineAdmin
-    # ]
-    pass
+    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
+    search_fields = ('name', 'slug_name', 'city', 'brand__name')
+    list_filter = ('city', 'brand__name', 'cluster')
+    inlines = [
 
+        DeviceInlineAdmin
+    ]
 
 class StoreInlineAdmin(admin.TabularInline):
     model = Store
@@ -117,6 +115,16 @@ class ContentTypeAdmin(admin.ModelAdmin):
     pass
 
 
+class StoreFeedbackAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email_id', 'phone_number', 'store_name')
+    search_fields = ('name', 'store__name', )
+    list_filter = ('store', 'store__brand__name')
+    list_select_related = True
+
+    def store_name(self, obj):
+        return "%s" % obj.store.name
+
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -131,3 +139,4 @@ admin.site.register(WebContent, ContentAdmin)
 admin.site.register(SlideShow, SlideShowAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
+admin.site.register(StoreFeedback, StoreFeedbackAdmin)

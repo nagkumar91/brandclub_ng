@@ -59,7 +59,6 @@ def display_clusters(request):
     return render_to_response('home.html', {})
 
 
-@csrf_exempt
 def submit_feedback(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -79,16 +78,15 @@ def submit_feedback(request):
     return render_to_response("success.html")
 
 
-@csrf_exempt
+# @csrf_exempt
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
+    form = FeedbackForm()
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
-        return HttpResponseRedirect('.')
-    else:
-        form = FeedbackForm()
-    return render_to_response("store_feedback.html",
-                              {'form': form,
-                               'brand': store.brand,
-                               'store': store
-                              })
+        if form.is_valid():
+            form.instance.store = store
+            form.save()
+            return HttpResponseRedirect("/home/%s/" % store.slug_name)
+    context = {'form': form,'brand': store.brand,'store': store}
+    return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
