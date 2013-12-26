@@ -82,10 +82,10 @@ class Cluster(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id = settings.DEFAULT_CLUSTER_ID):
         device = Device.objects.select_related().get(device_id=device_id)
         home_store = device.store
-        all_contents = Content.active_objects.select_related('store').filter(show_on_home=True). \
+        all_contents = Content.active_objects.select_related('store').filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
             filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).order_by(
             'store__id').distinct('store__id')
         contents = list(all_contents)
@@ -93,7 +93,7 @@ class Cluster(TimeStampedModel):
             stores = content.store.all()
             if home_store in stores:
                 contents[0], contents[index] = contents[index], contents[0]
-                break;
+                break
         return contents
 
     def _find_center_of_cluster(self):

@@ -13,7 +13,7 @@ def home_cluster_view(request, slug):
     cluster_id = request.cluster_id
     home_cluster = get_object_or_None(Cluster, id=cluster_id)
     if home_cluster is not None:
-        all_contents = home_cluster.get_all_home_content(request.device_id)
+        all_contents = home_cluster.get_all_home_content(request.device_id, request.cluster_id)
         home_brand = get_object_or_None(Brand, slug_name=slug)
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
@@ -30,7 +30,8 @@ def store_home(request, slug):
     contents_key = "contents-%s" % cache_key
     contents = cache.get(contents_key)
     if not contents:
-        contents = Content.active_objects.filter(show_on_home=False, store=store).select_subclasses()
+        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False)\
+            .filter(store=store).select_subclasses()
         cache.set(contents_key, contents, 1800)
     context = {'contents': contents, 'store': store, 'brand': store.brand}
     context_instance = RequestContext(request, context)
