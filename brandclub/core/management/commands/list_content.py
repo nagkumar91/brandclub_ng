@@ -12,10 +12,9 @@ class Command(BaseCommand):
     args = '<cluster_id store_slug>'
     help = "Lists all the assets that are used for a specific cluster to enable rsync with box"
 
-    usage_str = "./manage.py list_content -c <cluster id> -s <store_slug>"
+    usage_str = "./manage.py list_content -c <cluster id>"
     option_list = BaseCommand.option_list + (
         make_option('-c', dest='cluster_id', help="The id of the cluster"),
-        make_option('-s', dest='store_slug', help="The slug of the store"),
     )
 
     @staticmethod
@@ -57,8 +56,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not options['cluster_id']:
             self.error("Cluster not provided. \n" + self.usage_str)
-        if not options['store_slug']:
-            self.error("Store slug not provided. \n" + self.usage_str)
         cluster_id = options['cluster_id']
         files = self._get_all_file_names(cluster_id)
         self._create_sym_links(cluster_id, files)
