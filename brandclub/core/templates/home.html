@@ -6,6 +6,12 @@
     | {{ brand.name }}
 {% endblock %}
 {% block store_details %}
+    <div class="icon-container pull-right">
+        <a href="/media/cluster_atms/{{ cluster.map_name }}"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-credit-card"></span>
+        </a>
+    </div>
 {% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
