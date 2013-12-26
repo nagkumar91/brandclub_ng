@@ -27,6 +27,7 @@ def store_home(request, slug):
 def submit_feedback(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
+        form.is_valid()
         # form.clean()
         name = request.POST["name"]
         phone_number = request.POST["phone_number"]
@@ -46,14 +47,10 @@ def submit_feedback(request):
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
     if request.method == 'POST':
-        print request.POST
         form = FeedbackForm(request.POST)
         return HttpResponseRedirect('.')
     else:
         form = FeedbackForm()
-        c = {}
-        c.update(csrf(request))
-    print form
     return render_to_response("store_feedback.html",
                               {'form': form,
                                'brand': store.brand,

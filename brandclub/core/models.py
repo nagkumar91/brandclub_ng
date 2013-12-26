@@ -206,7 +206,7 @@ class StoreFeedback(TimeStampedModel):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
     email_id = models.EmailField(max_length=100)
-    message = models.TextField(max_length=1000)
+    message = models.TextField(max_length=1000, blank=True)
     store = models.ForeignKey(Store, related_name="feedback", editable=False)
 
 
