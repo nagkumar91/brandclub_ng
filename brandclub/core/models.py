@@ -2,6 +2,7 @@ import datetime
 from math import cos, sin, atan2, sqrt
 from urllib import urlencode
 import uuid
+from django.forms import forms
 from model_utils.managers import InheritanceManager
 import os
 from ckeditor.fields import RichTextField
@@ -180,7 +181,7 @@ class Store(TimeStampedModel):
                         "%s,%s&size=600x600&sensor=false" % (lat_str, long_str, lat_str, long_str)
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
-            name = u"%s.png" % slugify(u'%s' % self.name)
+            name = u"%s.png" % slugify(u'%s' % uuid.uuid4())
             directory = os.path.join(settings.MEDIA_ROOT, settings.STORE_MAPS_DIRECTORY)
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -204,6 +205,17 @@ class Store(TimeStampedModel):
             img_url, img_url)
 
     map_image_tag.allow_tags = True
+
+
+class StoreFeedback(TimeStampedModel):
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    email_id = models.EmailField(max_length=100, blank=True, null=True)
+    message = models.TextField(max_length=1000,)
+    store = models.ForeignKey(Store, related_name="feedback")
+
+    def __unicode__(self):
+        return "Feedback from %s for %s " % (self.name, self.store.name)
 
 
 class Device(TimeStampedModel):

@@ -1,0 +1,22 @@
+{% extends "core_base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+{% block store_details %}
+{% endblock %}
+{% block content %}
+    <div class="form-group">
+        <form action="/feedback/{{ store.slug_name }}/" class="form-horizontal" role="form" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            {{ form | crispy }}
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="store" id="store" value="{{ store.id }}"/>
+                <input type="submit"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}
