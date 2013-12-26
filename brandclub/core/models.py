@@ -150,6 +150,7 @@ class Cluster(TimeStampedModel):
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
             self.map_name = name
+            self.save()
 
 
 class Store(TimeStampedModel):
