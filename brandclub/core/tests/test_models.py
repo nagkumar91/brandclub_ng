@@ -121,8 +121,14 @@ class ClusterTestCase(TestCase):
         all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
         self.assertNotEqual(len(all_contents), len(home_contents))
 
+    def test_all_contents_has_first_from_current_cluster(self):
+        self._create_dummy_content('2011-05-04', '2014-06-07', True, True, True)
+        home_contents = self.__get_content_for_current_cluster()
+        all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
+        self.assertNotEquals(home_contents[0].id, all_contents[0].id)
+
     def __get_content_for_current_cluster(self):
-        return self.cluster.get_all_home_content(0)
+        return self.cluster.get_all_home_content(3)
 
     def test_only_one_show_on_home_content_appears_for_each_brand_in_a_cluster(self):
         datestr = '2014-05-01'

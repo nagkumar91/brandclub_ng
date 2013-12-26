@@ -69,7 +69,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 DEFAULT_CLUSTER_ID = '1'
 DEFAULT_DEVICE_ID = '5678'
-CREATE_STORE_MAPS = True
+CREATE_STORE_MAPS = False
 
 def show_toolbar(request):
     return True
