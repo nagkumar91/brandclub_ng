@@ -16,7 +16,7 @@ class ClusterTestCase(TestCase):
         for i in range(count):
             store = Store.objects.create(name="S %s" % i, brand=brands[i], address_first_line="Some address",
                                          city=self.city, state=self.state, cluster=self.cluster, latitude=12.708,
-                                         longitude=71.9)
+                                         longitude=71.9, demo=False)
             store.save()
             stores.append(store)
         return stores
@@ -42,7 +42,7 @@ class ClusterTestCase(TestCase):
         b = Brand.objects.create(name="Temp brand", slug_name="temp_brand", logo="/home/test/image.jpg", footfall=10)
         b.save()
         s = Store.objects.create(name="Temp Store", brand=b, address_first_line="Some address", city=self.city,
-                                 state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9)
+                                 state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9, demo=False)
         s.save()
         datestr = start_date
         expired_start = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
@@ -200,7 +200,7 @@ class BrandTestCase(TestCase):
         for idx, store in enumerate(store_names):
             brand = brands[idx]
             s = Store.objects.create(name=store, brand=brand, address_first_line="Some address", city=self.city,
-                                     state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9)
+                                     state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9, demo=False)
             s.save()
             stores.append(s)
 
