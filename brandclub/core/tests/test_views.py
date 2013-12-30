@@ -66,3 +66,9 @@ class ClusterTestCase(TestCase):
         h5 = query("h5")
         self.assertTrue(5, len(h5))
         self.assertTrue("name 1", PyQuery(query("h5")[1]).html())
+
+    def test_if_unique_code_is_unique(self):
+        client = Client()
+        response1 = client.get("/create_user_id/")
+        response2 = client.get("/create_user_id/")
+        self.assertNotEqual(response1, response2, "Unique id is the same")
