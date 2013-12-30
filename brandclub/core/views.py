@@ -86,7 +86,7 @@ def display_feedback(request):
 
 
 def create_user_id(request):
-    user_id = "brandclub_"
+    user_id = "bc_"
     user_id += id_generator()
     data = {"user_id": user_id}
     data = simplejson.dumps(data)
