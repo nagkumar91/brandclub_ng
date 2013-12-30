@@ -4,18 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
-from django.views.decorators.csrf import csrf_exempt
-from .forms import FeedbackForm
-import string
-import random
-from django.core import serializers
 from django.utils import simplejson
+from .helpers import id_generator
 
+from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
-
-
-def id_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
-    return ''.join(random.choice(chars) for x in range(size))
 
 
 def slug_view(request, slug):
