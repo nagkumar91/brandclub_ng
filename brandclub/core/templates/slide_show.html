@@ -5,6 +5,8 @@
 {% block title %}
     | {{ brand.name }}
 {% endblock %}
+{% block project_css %}
+{% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
 {% endblock %}
@@ -18,11 +20,15 @@
         <a class="prev">‹</a>
         <a class="next">›</a>
         <a class="play-pause"></a>
-        <ol class="indicator"></ol>
+        <a class="close">x</a>
     </div>
         <div id="links">
             {% for i in content.image.all %}
                     <a href="{{ i.image.url }}"></a>
             {% endfor %}
         </div>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/blueimp-gallery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>
 {% endblock %}
