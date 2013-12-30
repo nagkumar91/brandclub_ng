@@ -6,7 +6,10 @@ from django.template import RequestContext
 from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 from .forms import FeedbackForm
-import string, random
+import string
+import random
+from django.core import serializers
+from django.utils import simplejson
 
 from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
 
@@ -73,8 +76,8 @@ def store_feedback(request, slug):
             form.instance.store = store
             form.save()
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    context = {'form': form,'brand': store.brand,'store': store}
-    return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
+    context = {'form': form, 'brand': store.brand, 'store': store}
+    return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
 
 def display_feedback(request):
@@ -85,4 +88,7 @@ def display_feedback(request):
 def create_user_id(request):
     user_id = "brandclub_"
     user_id += id_generator()
-    return render_to_response("user_unique_id.html", {"id": user_id})
+    data = {"user_id": user_id}
+    data = simplejson.dumps(data)
+    return HttpResponse(data, mimetype='application/json')
+    # return render_to_response("user_unique_id.html", {"id": user_id})
