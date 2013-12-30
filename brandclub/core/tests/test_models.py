@@ -216,25 +216,3 @@ class BrandTestCase(TestCase):
         device.save()
         home_content = self.cluster.get_all_home_content(3226)
         self.assertEqual(3, len(home_content))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
