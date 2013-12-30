@@ -1,22 +1,40 @@
-{% extends "core_base.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
-{% block title %}
-    | {{ brand.name }}
-{% endblock %}
-{% block store_details %}
-{% endblock %}
-{% block content %}
-    <div class="form-group">
-        <form action="/feedback/{{ store.slug_name }}/" class="form-horizontal" role="form" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-            {{ form | crispy }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" id="viewport"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no">
+        <title>{{ brand.name }}</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+        <style>
+            .navbar-brand img   {
+                max-height: 50px;
+            }
+            .form-horizontal  {
+                margin-top: 100px;
+            }
+            .container  {
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img class="img-responsive" src="{{ brand.logo.url }}" alt="{{ brand.name }}"/></a>
+
             </div>
-            <div class="form-group">
+        </div>
+        <div class="container">
+            <form action="/feedback/{{ store.slug_name }}/" class="form-horizontal" role="form" method="post">
+                {% csrf_token %}
+                    {{form | crispy}}
                 <input type="hidden" name="store" id="store" value="{{ store.id }}"/>
                 <input type="submit"/>
-            </div>
-        </form>
-    </div>
-{% endblock %}
+            </form>
+        </div>
+    </body>
+</html>
