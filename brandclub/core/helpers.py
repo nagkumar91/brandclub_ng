@@ -1,12 +1,7 @@
-from django.conf import settings
-import os
-import uuid
+import string
 from django.db.models import FileField
-from django.forms import forms
-from django.shortcuts import get_object_or_404
-from django.template.defaultfilters import filesizeformat
+from django.template.defaultfilters import random
 from django.utils.translation import ugettext_lazy as _
-from math import cos, sin, atan2, sqrt
 from models import *
 
 
@@ -71,3 +66,7 @@ def upload_and_rename_images(instance, filename):
 # noinspection PyUnusedLocal
 def upload_and_rename_thumbnail(instance, filename):
     return _upload_and_rename(filename, "thumbnails")
+
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
