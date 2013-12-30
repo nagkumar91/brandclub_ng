@@ -84,4 +84,3 @@ def create_user_id(request):
     data = {"user_id": user_id}
     data = simplejson.dumps(data)
     return HttpResponse(data, mimetype='application/json')
-    # return render_to_response("user_unique_id.html", {"id": user_id})
