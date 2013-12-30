@@ -6,8 +6,13 @@ from django.template import RequestContext
 from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 from .forms import FeedbackForm
+import string, random
 
 from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
+
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
 
 
 def slug_view(request, slug):
@@ -75,3 +80,9 @@ def store_feedback(request, slug):
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     return render_to_response("all_feedback.html", {"feedback": feedback})
+
+
+def create_user_id(request):
+    user_id = "brandclub_"
+    user_id += id_generator()
+    return render_to_response("user_unique_id.html", {"id": user_id})

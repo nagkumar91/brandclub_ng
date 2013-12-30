@@ -24,7 +24,7 @@ class ClusterTestCase(TestCase):
     def _create_brands(self, count):
         brands = []
         for i in range(count):
-            temp = Brand.objects.create(name="B %s" % i, slug_name="B-%s" % i, logo="/home/test/image.jpg")
+            temp = Brand.objects.create(name="B %s" % i, slug_name="B-%s" % i, logo="/home/test/image.jpg", footfall=10)
             temp.save()
             brands.append(temp)
         return brands
@@ -39,7 +39,7 @@ class ClusterTestCase(TestCase):
 
 
     def _create_dummy_content(self, start_date, end_date, show_on_home_status, archived_status, active_status):
-        b = Brand.objects.create(name="Temp brand", slug_name="temp_brand", logo="/home/test/image.jpg")
+        b = Brand.objects.create(name="Temp brand", slug_name="temp_brand", logo="/home/test/image.jpg", footfall=10)
         b.save()
         s = Store.objects.create(name="Temp Store", brand=b, address_first_line="Some address", city=self.city,
                                  state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9)
@@ -140,26 +140,26 @@ class BrandTestCase(TestCase):
     store2 = None
 
     def setUp(self):
-        store1 = Brand.objects.create(name="pnrao", description="some company", slug_name='pn-rao')
+        store1 = Brand.objects.create(name="pnrao", description="some company", slug_name='pn-rao', footfall=10)
         store1.save()
-        store2 = Brand.objects.create(name="ccd", description="another coeffee shop", slug_name='ccd-123', )
+        store2 = Brand.objects.create(name="ccd", description="another coeffee shop", slug_name='ccd-123', footfall=10)
         store2.save()
         store1.competitors.add(store2)
         store1.save()
         self.store2 = store2
 
     def test_check(self):
-        Brand.objects.create(name="B1", description="", logo="")
+        Brand.objects.create(name="B1", description="", logo="", footfall=10)
         with self.assertRaises(IntegrityError):
-            Brand.objects.create(name="B1", description="", logo="")
+            Brand.objects.create(name="B1", description="", logo="", footfall=10)
 
     def test_image_tag_returns_proper_url(self):
-        brand = Brand.objects.create(name="B1", description="Some desc", logo="/home/test/image.jpg")
+        brand = Brand.objects.create(name="B1", description="Some desc", logo="/home/test/image.jpg", footfall=10)
         self.assertEquals(u"<img src='/home/test/image.jpg' style='height: 50px;max-width: auto'>", brand.image_tag())
 
 
     def test_for_brand_competitors(self):
-        store, created = Brand.objects.get_or_create(name='pnrao')
+        store, created = Brand.objects.get_or_create(name='pnrao', footfall=10)
         self.assertEquals("pnrao", store.name)
         all_competitors = store.competitors.all()
         self.assertEquals(1, len(all_competitors))
@@ -167,7 +167,7 @@ class BrandTestCase(TestCase):
         self.assertEquals(all_competitors[0].name, self.store2.name)
 
     def test_brand_competition_is_symmetrical(self):
-        store = Brand.objects.get(name="pnrao")
+        store = Brand.objects.get(name="pnrao", footfall=10)
         competing_store = self.store2.competitors.all()[0]
         self.assertIsNotNone(competing_store)
         self.assertEquals(store.id, competing_store.id)
@@ -187,7 +187,7 @@ class BrandTestCase(TestCase):
         brand_names = ['b1', 'b2', 'b3', 'b4', 'b5']
         brands = []
         for name in brand_names:
-            brand = Brand.objects.create(name=name, description="some company", slug_name=name)
+            brand = Brand.objects.create(name=name, description="some company", slug_name=name, footfall=10)
             brand.save()
             brands.append(brand)
         b2 = brands[1]

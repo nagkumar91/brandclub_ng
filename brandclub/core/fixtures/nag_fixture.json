@@ -279,7 +279,8 @@
             "bg_image": "",
             "slug_name": "starbucks",
             "logo": "thumbnails/ad4a51af-db56-48dc-94e7-087322ad1e7b.jpg",
-            "name": "Starbucks"
+            "name": "Starbucks",
+            "footfall": 100
         }
     },
     {
@@ -294,7 +295,8 @@
             "bg_image": "",
             "slug_name": "naturals",
             "logo": "thumbnails/7ed3fac6-ac01-4698-88a7-f29c18385267.jpg",
-            "name": "Naturals"
+            "name": "Naturals",
+            "footfall": 100
         }
     },
     {
@@ -309,7 +311,8 @@
             "bg_image": "",
             "slug_name": "sapna",
             "logo": "thumbnails/f153b2a4-b36c-4602-b8c7-eac4b765a2be.jpg",
-            "name": "Sapna"
+            "name": "Sapna",
+            "footfall": 100
         }
     },
     {
@@ -324,7 +327,8 @@
             "bg_image": "",
             "slug_name": "pnrao",
             "logo": "thumbnails/900ec6c9-443c-4307-8706-c39259459e78.jpg",
-            "name": "P N Rao"
+            "name": "P N Rao",
+            "footfall": 100
         }
     },
     {
