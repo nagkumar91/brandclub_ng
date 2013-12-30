@@ -365,7 +365,8 @@
             "contact_number": "",
             "latitude": "12.935103",
             "address_second_line": "",
-            "name": "Starbucks Kormangala"
+            "name": "Starbucks Kormangala",
+            "demo": "False"
         }
     },
     {
@@ -388,7 +389,8 @@
             "contact_number": "",
             "latitude": "12.934653",
             "address_second_line": "",
-            "name": "Naturals Kormangala"
+            "name": "Naturals Kormangala",
+            "demo": "False"
         }
     },
     {
@@ -411,7 +413,8 @@
             "contact_number": "",
             "latitude": "12.931258",
             "address_second_line": "",
-            "name": "Sapna Kormangala"
+            "name": "Sapna Kormangala",
+            "demo": "False"
         }
     },
     {
@@ -434,7 +437,8 @@
             "contact_number": "",
             "latitude": "12.927321",
             "address_second_line": "",
-            "name": "P N Rao Kormangala"
+            "name": "P N Rao Kormangala",
+            "demo": "False"
         }
     },
     {
