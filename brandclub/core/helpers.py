@@ -1,6 +1,6 @@
 import string
+import random
 from django.db.models import FileField
-from django.template.defaultfilters import random
 from django.utils.translation import ugettext_lazy as _
 from models import *
 
