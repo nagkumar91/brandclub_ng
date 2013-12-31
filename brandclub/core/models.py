@@ -154,6 +154,7 @@ class Store(TimeStampedModel):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     demo = models.BooleanField(default=False)
+    paid = models.BooleanField(default=True)
     address_first_line = models.CharField(max_length=200)
     address_second_line = models.CharField(max_length=200, null=True, blank=True)
     map_name = models.CharField(max_length=200, null=True, blank=True, editable=False)
