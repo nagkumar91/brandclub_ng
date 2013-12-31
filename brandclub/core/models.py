@@ -116,6 +116,9 @@ class Cluster(TimeStampedModel):
         return lat, lon
 
     def _create_map_of_all_atms(self):
+        if self.map_name is not None:
+            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', self.map_name)
+            os.remove(file_name)
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
               'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
@@ -145,6 +148,7 @@ class Cluster(TimeStampedModel):
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
             self.map_name = name
+            self.save()
 
 
 class Store(TimeStampedModel):
@@ -214,7 +218,7 @@ class StoreFeedback(TimeStampedModel):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
     email_id = models.EmailField(max_length=100, blank=True, null=True)
-    message = models.TextField(max_length=1000,)
+    message = models.TextField(max_length=1000, )
     store = models.ForeignKey(Store, related_name="feedback")
 
     def __unicode__(self):
