@@ -9,6 +9,11 @@
 {% endblock %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
+    <style>
+        .blueimp-gallery, .blueimp-gallery > .slides > .slide > .slide-content  {
+            position: absolute;
+        }
+    </style>
 {% endblock %}
 
 {% block navbar %}

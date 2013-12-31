@@ -8,7 +8,7 @@ from django.utils import simplejson
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
+from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback, Wallpaper
 
 
 def slug_view(request, slug):
@@ -54,6 +54,11 @@ def redirect_to_outside(request):
 def slideshow(request, ssid):
     slides = get_object_or_None(SlideShow, id=ssid)
     return render_to_response('slide_show.html', {'content': slides})
+
+
+def wallpaper_fullscreen(request, wid):
+    wallpaper = get_object_or_404(Wallpaper, id=wid)
+    return render_to_response("wallpaper_fullscreen.html", {'content': wallpaper})
 
 
 def display_clusters(request):

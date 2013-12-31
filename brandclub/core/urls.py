@@ -8,6 +8,7 @@ urlpatterns = patterns('',
                        url(r'all_feedback/$', 'core.views.display_feedback'),
                        url(r'create_user_id/$', 'core.views.create_user_id'),
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
+                       url(r'wallpaper/(?P<wid>\d+)/$', 'core.views.wallpaper_fullscreen'),
                        url(r'(?P<slug>[\-\w]+)/$', 'core.views.slug_view'),
 )
 

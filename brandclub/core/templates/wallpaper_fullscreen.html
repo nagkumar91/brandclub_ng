@@ -1,0 +1,9 @@
+{% extends "core_base.html" %}
+
+{% load staticfiles %}
+{% block content %}
+    <div class="container">
+        <img src="{{ content.file.url }}"
+             class="img-responsive"/>
+    </div>
+{% endblock %}
