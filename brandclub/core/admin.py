@@ -61,6 +61,14 @@ class ClusterAdmin(admin.ModelAdmin):
             c._create_map_of_all_atms()
         self.message_user(request, "Successfully created the map image.")
 
+    actions = ['generate_atm_images']
+
+    def generate_atm_images(self, request, queryset):
+        for clust in queryset:
+            clust._create_map_of_all_atms()
+        self.message_user(request, "Successfully generated images.")
+
+
 
 class DeviceAdmin(admin.ModelAdmin):
     list_display = ('device_id', 'type', 'store', 'brand_device')
