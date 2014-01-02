@@ -56,16 +56,19 @@ def redirect_to_outside(request):
 
 def slideshow(request, ssid):
     slides = get_object_or_None(SlideShow, id=ssid)
-    return render_to_response('slide_show.html', {'content': slides})
+    context_instance = RequestContext(request, {'content': slides})
+    return render_to_response('slide_show.html', context_instance)
 
 
 def wallpaper_fullscreen(request, wid):
     wallpaper = get_object_or_404(Wallpaper, id=wid)
-    return render_to_response("wallpaper_fullscreen.html", {'content': wallpaper})
+    context_instance = RequestContext(request, {'content': wallpaper})
+    return render_to_response("wallpaper_fullscreen.html", context_instance)
 
 
 def display_clusters(request):
-    return render_to_response('home.html', {})
+    context_instance = RequestContext(request)
+    return render_to_response('home.html', context_instance)
 
 
 def store_feedback(request, slug):
@@ -83,7 +86,8 @@ def store_feedback(request, slug):
 
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
-    return render_to_response("all_feedback.html", {"feedback": feedback})
+    context_instance = RequestContext(request, {"feedback": feedback})
+    return render_to_response("all_feedback.html", context_instance)
 
 
 def create_user_id(request):
