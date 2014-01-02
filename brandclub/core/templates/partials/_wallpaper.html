@@ -1,7 +1,23 @@
-<a class="content-link img-preview"
-   href="{{ content.file.url }}">
-    <img
-            class="img-responsive image"
-            src="{{ content.thumbnail.url }}"
-            alt="{{ c.name }}"/>
-</a>
+<div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget">
+    <div class="img-frame">
+        <div class="image-wrapper">
+            <a class="content-link img-preview"
+               href="/wallpaper/{{ content.id }}">
+                <img
+                        class="img-responsive image"
+                        src="{{ content.thumbnail.url }}"
+                        alt="{{ c.name }}"/>
+            </a>
+        </div>
+        <div class="row info-panel">
+            <div class="icons col-xs-8">
+                <h5>{{ content.name }}</h5>
+            </div>
+            <div class="col-xs-4">
+
+            </div>
+        </div>
+
+        <p>{{ content.short_description }}</p>
+    </div>
+</div>

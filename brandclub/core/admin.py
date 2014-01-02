@@ -51,10 +51,15 @@ class BrandAdmin(BrandClubAdmin):
 class ClusterAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name',)
-
+    actions = ['create_atm_map_for_cluster']
     inlines = [
         StoreInlineAdmin
     ]
+
+    def create_atm_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_map_of_all_atms()
+        self.message_user(request, "Successfully created the map image.")
 
 
 class DeviceAdmin(admin.ModelAdmin):

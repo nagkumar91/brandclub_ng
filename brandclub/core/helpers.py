@@ -1,8 +1,11 @@
 from django.core.cache import cache
+import string
+import random
 from django.db.models import FileField
 from django.utils.translation import ugettext_lazy as _
 import os
 import uuid
+from models import *
 
 
 class ContentTypeRestrictedFileField(FileField):
@@ -66,3 +69,7 @@ def upload_and_rename_images(instance, filename):
 # noinspection PyUnusedLocal
 def upload_and_rename_thumbnail(instance, filename):
     return _upload_and_rename(filename, "thumbnails")
+
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))
