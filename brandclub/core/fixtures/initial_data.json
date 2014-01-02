@@ -29,7 +29,8 @@
             "bg_image": "",
             "slug_name": "starbucks",
             "logo": "thumbnails/4cd59228-c108-404c-ac68-9800315af849.jpg",
-            "name": "Starbucks"
+            "name": "Starbucks",
+            "footfall": 100
         }
     },
     {
@@ -44,7 +45,8 @@
             "bg_image": "",
             "slug_name": "naturals",
             "logo": "thumbnails/ebdb2abf-8442-4c8d-b48d-2f3af866c329.jpg",
-            "name": "Naturals"
+            "name": "Naturals",
+            "footfall": 100
         }
     },
     {
@@ -59,7 +61,8 @@
             "bg_image": "",
             "slug_name": "sapna",
             "logo": "thumbnails/96a1d553-c57a-499b-9f40-2c295855063c.jpg",
-            "name": "Sapna"
+            "name": "Sapna",
+            "footfall": 100
         }
     },
     {
@@ -74,7 +77,8 @@
             "bg_image": "",
             "slug_name": "pnrao",
             "logo": "thumbnails/5bd01416-8a4b-4aa5-81f8-f775104e8775.jpg",
-            "name": "P N Rao"
+            "name": "P N Rao",
+            "footfall": 100
         }
     },
     {
@@ -107,7 +111,8 @@
             "latitude": "12.935103",
             "address_second_line": "",
             "name": "Starbucks Kormangala",
-            "slug_name" : "starbucks"
+            "slug_name" : "starbucks",
+            "demo": "False"
         }
     },
     {
@@ -127,7 +132,8 @@
             "latitude": "12.934653",
             "address_second_line": "",
             "name": "Naturals Kormangala",
-            "slug_name" : "naturals"
+            "slug_name" : "naturals",
+            "demo": "False"
         }
     },
     {
@@ -147,7 +153,8 @@
             "latitude": "12.931258",
             "address_second_line": "",
             "name": "Sapna Kormangala",
-            "slug_name" : "sapna"
+            "slug_name" : "sapna",
+            "demo": "False"
         }
     },
     {
@@ -167,7 +174,8 @@
             "latitude": "12.927321",
             "address_second_line": "",
             "name": "P N Rao Kormangala",
-            "slug_name" : "pnrao"
+            "slug_name" : "pnrao",
+            "demo": "False"
         }
     },
     {

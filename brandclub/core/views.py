@@ -4,9 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
-from .forms import FeedbackForm
+import json
+from .helpers import id_generator
 
-from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback
+from .forms import FeedbackForm
+from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback, Wallpaper
 
 
 def home_cluster_view(request, slug):
@@ -30,7 +32,7 @@ def store_home(request, slug):
     contents_key = "contents-%s" % cache_key
     contents = cache.get(contents_key)
     if not contents:
-        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False)\
+        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False) \
             .filter(store=store).select_subclasses()
         cache.set(contents_key, contents, 1800)
     context = {'contents': contents, 'store': store, 'brand': store.brand}
@@ -52,6 +54,20 @@ def redirect_to_outside(request):
     return HttpResponseRedirect(url)
 
 
+def slideshow(request, ssid):
+    slides = get_object_or_None(SlideShow, id=ssid)
+    return render_to_response('slide_show.html', {'content': slides})
+
+
+def wallpaper_fullscreen(request, wid):
+    wallpaper = get_object_or_404(Wallpaper, id=wid)
+    return render_to_response("wallpaper_fullscreen.html", {'content': wallpaper})
+
+
+def display_clusters(request):
+    return render_to_response('home.html', {})
+
+
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
     form = FeedbackForm()
@@ -61,10 +77,18 @@ def store_feedback(request, slug):
             form.instance.store = store
             form.save()
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    context = {'form': form,'brand': store.brand,'store': store}
-    return render_to_response("store_feedback.html", context_instance = RequestContext(request, context))
+    context = {'form': form, 'brand': store.brand, 'store': store}
+    return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
 
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     return render_to_response("all_feedback.html", {"feedback": feedback})
+
+
+def create_user_id(request):
+    user_id = "bc_"
+    user_id += id_generator()
+    data = {"user_id": user_id}
+    data = json.dumps(data)
+    return HttpResponse(data, mimetype='application/json')

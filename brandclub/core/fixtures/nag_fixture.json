@@ -251,6 +251,42 @@
     },
     {
         "pk": 1,
+        "model": "south.migrationhistory",
+        "fields": {
+            "applied": "2013-12-30T09:47:27.434Z",
+            "app_name": "core",
+            "migration": "0001_initial"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "south.migrationhistory",
+        "fields": {
+            "applied": "2013-12-30T09:47:28.199Z",
+            "app_name": "core",
+            "migration": "0002_auto__add_webcontent__add_storefeedback__add_field_brand_footfall__add"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "south.migrationhistory",
+        "fields": {
+            "applied": "2013-12-30T10:10:25.741Z",
+            "app_name": "core",
+            "migration": "0003_auto__add_field_store_demo"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "south.migrationhistory",
+        "fields": {
+            "applied": "2013-12-31T06:11:15.333Z",
+            "app_name": "core",
+            "migration": "0004_auto__add_field_store_paid"
+        }
+    },
+    {
+        "pk": 1,
         "model": "core.state",
         "fields": {
             "modified": "2013-12-11T09:45:38.282Z",
@@ -273,13 +309,14 @@
         "fields": {
             "description": "",
             "created": "2013-12-11T06:15:22.215Z",
-            "modified": "2013-12-26T09:36:14.155Z",
+            "modified": "2013-12-31T08:51:05.555Z",
+            "name": "Starbucks",
             "bg_color": "",
             "competitors": [],
             "bg_image": "",
             "slug_name": "starbucks",
-            "logo": "thumbnails/ad4a51af-db56-48dc-94e7-087322ad1e7b.jpg",
-            "name": "Starbucks"
+            "logo": "thumbnails/2ce67c6f-0a8c-4176-805e-66638c1db638.jpg",
+            "footfall": 100
         }
     },
     {
@@ -288,13 +325,14 @@
         "fields": {
             "description": "",
             "created": "2013-12-11T09:39:29.156Z",
-            "modified": "2013-12-26T09:14:08.375Z",
+            "modified": "2013-12-31T08:50:56.876Z",
+            "name": "Naturals",
             "bg_color": "",
             "competitors": [],
             "bg_image": "",
             "slug_name": "naturals",
-            "logo": "thumbnails/7ed3fac6-ac01-4698-88a7-f29c18385267.jpg",
-            "name": "Naturals"
+            "logo": "thumbnails/aa40b2cd-380d-40f1-93da-9745782cc954.jpg",
+            "footfall": 100
         }
     },
     {
@@ -303,13 +341,14 @@
         "fields": {
             "description": "",
             "created": "2013-12-11T09:41:12.947Z",
-            "modified": "2013-12-26T09:13:44.106Z",
+            "modified": "2013-12-31T08:50:47.851Z",
+            "name": "Sapna",
             "bg_color": "",
             "competitors": [],
             "bg_image": "",
             "slug_name": "sapna",
-            "logo": "thumbnails/f153b2a4-b36c-4602-b8c7-eac4b765a2be.jpg",
-            "name": "Sapna"
+            "logo": "thumbnails/cfa5b424-158b-4041-9423-0911eaa1446e.jpg",
+            "footfall": 100
         }
     },
     {
@@ -318,13 +357,14 @@
         "fields": {
             "description": "",
             "created": "2013-12-11T09:43:10.452Z",
-            "modified": "2013-12-26T09:13:26.377Z",
+            "modified": "2013-12-31T08:50:35.284Z",
+            "name": "P N Rao",
             "bg_color": "",
             "competitors": [],
             "bg_image": "",
             "slug_name": "pnrao",
-            "logo": "thumbnails/900ec6c9-443c-4307-8706-c39259459e78.jpg",
-            "name": "P N Rao"
+            "logo": "thumbnails/f50e4927-7b80-4811-aba4-03c27636bb60.jpg",
+            "footfall": 100
         }
     },
     {
@@ -335,9 +375,9 @@
             "description": "",
             "locality": "Kormangala",
             "created": "2013-12-11T06:15:40.469Z",
-            "modified": "2013-12-11T06:15:40.638Z",
+            "modified": "2013-12-31T09:11:06.301Z",
             "state": 1,
-            "map_name": null,
+            "map_name": "69b429ed-e0f9-407d-97f1-66eca4f8e43a.png",
             "name": "Kormangala Bangalore"
         }
     },
@@ -350,14 +390,16 @@
             "cluster": 1,
             "description": "",
             "created": "2013-12-11T09:34:05.679Z",
+            "demo": false,
             "brand": 1,
-            "modified": "2013-12-26T09:32:28.512Z",
+            "modified": "2013-12-31T08:52:00.160Z",
             "longitude": "77.612211",
             "mail_id": "",
-            "map_name": "b5f3e7da-50f8-41d1-96e6-529687286dbf.png",
+            "map_name": "dd7c3a99-a5d3-4188-8f45-1049b951f27e.png",
             "address_first_line": "Some first line address",
             "state": 1,
-            "slug_name": "starbucks_kormangala",
+            "slug_name": "starbucks",
+            "paid": true,
             "contact_number": "",
             "latitude": "12.935103",
             "address_second_line": "",
@@ -373,14 +415,16 @@
             "cluster": 1,
             "description": "",
             "created": "2013-12-11T09:39:33.995Z",
+            "demo": false,
             "brand": 2,
-            "modified": "2013-12-26T09:32:23.892Z",
+            "modified": "2013-12-31T08:51:55.700Z",
             "longitude": "77.611997",
             "mail_id": "",
-            "map_name": "e4d69442-162f-46b5-83b9-8741e2e00bcf.png",
+            "map_name": "a39ed0cf-9f34-43aa-9029-14ff34559403.png",
             "address_first_line": "Some first line address",
             "state": 1,
-            "slug_name": "naturals_kormangala",
+            "slug_name": "naturals",
+            "paid": true,
             "contact_number": "",
             "latitude": "12.934653",
             "address_second_line": "",
@@ -396,14 +440,16 @@
             "cluster": 1,
             "description": "",
             "created": "2013-12-11T09:41:17.649Z",
+            "demo": false,
             "brand": 3,
-            "modified": "2013-12-26T09:32:19.466Z",
+            "modified": "2013-12-31T08:51:50.150Z",
             "longitude": "77.622653",
             "mail_id": "",
-            "map_name": "a131abf3-cf9c-4272-8b43-76e85453d7eb.png",
+            "map_name": "f4c52024-555c-49c5-b4a3-f512be269e0a.png",
             "address_first_line": "Some first line address",
             "state": 1,
-            "slug_name": "sapna_kormangala",
+            "slug_name": "sapna",
+            "paid": true,
             "contact_number": "",
             "latitude": "12.931258",
             "address_second_line": "",
@@ -419,14 +465,16 @@
             "cluster": 1,
             "description": "",
             "created": "2013-12-11T09:43:14.927Z",
+            "demo": false,
             "brand": 4,
-            "modified": "2013-12-26T09:32:11.483Z",
+            "modified": "2013-12-31T08:51:42.637Z",
             "longitude": "77.617396",
             "mail_id": "",
-            "map_name": "16ac6128-6459-48b8-815d-b51866a32734.png",
+            "map_name": "7f85f8bf-6ab0-46bb-865f-561c1c2e7fac.png",
             "address_first_line": "Some first line address",
             "state": 1,
-            "slug_name": "pnrao_kormangala",
+            "slug_name": "pnrao",
+            "paid": true,
             "contact_number": "",
             "latitude": "12.927321",
             "address_second_line": "",
@@ -517,8 +565,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:49:25.428Z",
-            "thumbnail": "thumbnails/cbcda461-b21b-4e54-997a-bdad19b6d3db.jpg",
-            "modified": "2013-12-26T09:50:27.222Z",
+            "thumbnail": "thumbnails/19260f0c-7f41-4760-bb01-bae545a2a151.jpg",
+            "modified": "2013-12-31T09:19:59.178Z",
             "name": "Starbucks wall 1",
             "active": true,
             "content_type": 1,
@@ -538,8 +586,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:50:00.981Z",
-            "thumbnail": "thumbnails/72b00be5-7b86-4d2e-b643-1fbdc29bebf9.jpg",
-            "modified": "2013-12-26T09:51:12.494Z",
+            "thumbnail": "thumbnails/c7842370-bd04-422a-b50a-2cefddd8b7d1.jpg",
+            "modified": "2013-12-31T09:19:46.915Z",
             "name": "Starbucks wall 2",
             "active": true,
             "content_type": 1,
@@ -559,8 +607,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:50:32.306Z",
-            "thumbnail": "thumbnails/46b5b976-47a1-423e-aabb-cc6e0a21e1ed.jpg",
-            "modified": "2013-12-26T09:51:28.808Z",
+            "thumbnail": "thumbnails/78552992-5525-42bd-b233-2b53c5597af1.jpg",
+            "modified": "2013-12-31T09:18:53.501Z",
             "name": "Starbucks wall 3",
             "active": true,
             "content_type": 1,
@@ -580,8 +628,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:51:08.041Z",
-            "thumbnail": "thumbnails/fe6e9893-1d62-4f1b-8293-ff24600c4fe3.jpg",
-            "modified": "2013-12-26T09:51:43.842Z",
+            "thumbnail": "thumbnails/5275baf4-9b0b-425c-adff-5e5b4a14c353.jpg",
+            "modified": "2013-12-31T09:18:31.846Z",
             "name": "Starbucks wall 4",
             "active": true,
             "content_type": 1,
@@ -601,8 +649,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:51:47.011Z",
-            "thumbnail": "thumbnails/c25ad17a-8fca-4973-87bd-b7f0611d5eff.jpg",
-            "modified": "2013-12-26T09:49:33.117Z",
+            "thumbnail": "thumbnails/33f7d04d-0a58-4c0a-8df7-8f10027f6451.jpg",
+            "modified": "2013-12-31T09:18:05.218Z",
             "name": "Naturals wall 1",
             "active": true,
             "content_type": 1,
@@ -622,8 +670,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:52:12.522Z",
-            "thumbnail": "thumbnails/3c1b83ac-ef11-4635-a014-98e07bf65e5b.jpg",
-            "modified": "2013-12-26T09:49:50.313Z",
+            "thumbnail": "thumbnails/ad7c3c90-1f12-434d-b6b3-d322fab0c885.jpg",
+            "modified": "2013-12-31T09:17:53.634Z",
             "name": "Naturals wall 2",
             "active": true,
             "content_type": 1,
@@ -643,8 +691,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:52:41.589Z",
-            "thumbnail": "thumbnails/324a68fd-d029-40ed-ab13-44df5161e2ce.jpg",
-            "modified": "2013-12-26T09:50:08.107Z",
+            "thumbnail": "thumbnails/aaee2b8d-010c-4dd6-9a7c-c247cc115ed5.jpg",
+            "modified": "2013-12-31T09:17:40.103Z",
             "name": "Naturals wall 3",
             "active": true,
             "content_type": 1,
@@ -664,8 +712,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:53:31.582Z",
-            "thumbnail": "thumbnails/346acfdd-f25d-44a2-ae5e-ed5def93eda8.jpg",
-            "modified": "2013-12-26T09:49:15.102Z",
+            "thumbnail": "thumbnails/cbc390e1-3455-4fb7-a620-2647d4cb007e.jpg",
+            "modified": "2013-12-31T09:17:24.275Z",
             "name": "Sapna wall",
             "active": true,
             "content_type": 1,
@@ -685,8 +733,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:54:05.503Z",
-            "thumbnail": "thumbnails/1ba1696c-844f-4029-813b-89bdd43cde7f.jpg",
-            "modified": "2013-12-26T09:49:03.896Z",
+            "thumbnail": "thumbnails/7285f1d2-9a7f-4f4d-bacf-448c824b5706.jpg",
+            "modified": "2013-12-31T09:17:11.039Z",
             "name": "Sapna wall 2",
             "active": true,
             "content_type": 1,
@@ -706,8 +754,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:54:37.602Z",
-            "thumbnail": "thumbnails/07122df0-5e72-4311-bad7-d0e4d1893089.jpg",
-            "modified": "2013-12-26T09:48:44.170Z",
+            "thumbnail": "thumbnails/688fa746-b2db-4e19-b77d-cdf1976b26d6.jpg",
+            "modified": "2013-12-31T09:15:49.606Z",
             "name": "Sapna wall 3",
             "active": true,
             "content_type": 1,
@@ -727,8 +775,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:55:09.083Z",
-            "thumbnail": "thumbnails/27c6b754-b776-4914-97c5-98f15ff13f62.jpg",
-            "modified": "2013-12-26T09:47:56.715Z",
+            "thumbnail": "thumbnails/abe9e3d2-9f77-4c65-9dd4-021d6ef5b9e4.jpg",
+            "modified": "2013-12-31T09:15:29.885Z",
             "name": "PN Rao wall 1",
             "active": true,
             "content_type": 1,
@@ -748,8 +796,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:55:34.702Z",
-            "thumbnail": "thumbnails/aa1ea427-d0fb-4a0d-b563-6e17b4e13465.jpg",
-            "modified": "2013-12-26T09:48:09.700Z",
+            "thumbnail": "thumbnails/c7bb1cc2-e595-41c9-872c-f1c2f7868e93.jpg",
+            "modified": "2013-12-31T09:15:17.735Z",
             "name": "PN Rao wall 2",
             "active": true,
             "content_type": 1,
@@ -769,8 +817,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-11T09:56:44.746Z",
-            "thumbnail": "thumbnails/075311a5-fbe7-41f2-8390-5278de4f22d4.jpg",
-            "modified": "2013-12-26T09:48:25.212Z",
+            "thumbnail": "thumbnails/342b6f2f-4554-4e22-8089-657983b09db2.jpg",
+            "modified": "2013-12-31T09:15:03.610Z",
             "name": "PN Rao wall 3",
             "active": true,
             "content_type": 1,
@@ -790,14 +838,14 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-12T05:36:36.772Z",
-            "thumbnail": "thumbnails/6abaee60-7f5a-4661-843c-a04370f98145.jpg",
-            "modified": "2013-12-26T09:46:06.944Z",
+            "thumbnail": "thumbnails/7d87942b-ebba-4349-ad5c-27d73b218b4d.jpg",
+            "modified": "2013-12-31T09:22:17.740Z",
             "name": "Some slideshow 1",
             "active": true,
             "content_type": 2,
             "short_description": "Some slideshow description",
             "start_date": "2013-12-11",
-            "store": [54],
+            "store": [56, 57, 54, 55],
             "show_on_home": false
         }
     },
@@ -811,14 +859,14 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-12T12:46:27.640Z",
-            "thumbnail": "thumbnails/5a747188-10c5-4380-9cb6-2828cd4b90e0.jpg",
-            "modified": "2013-12-26T09:46:52.014Z",
+            "thumbnail": "thumbnails/97f60c46-0100-43b4-8551-808bcaf6c752.jpg",
+            "modified": "2013-12-31T09:20:51.909Z",
             "name": "Some vid",
             "active": true,
             "content_type": 3,
             "short_description": "Some description about video",
             "start_date": "2013-12-12",
-            "store": [57, 56, 55, 54],
+            "store": [56, 57, 54, 55],
             "show_on_home": false
         }
     },
@@ -832,8 +880,8 @@
             "description": "",
             "no_of_people_rated": 1,
             "created": "2013-12-26T09:19:55.192Z",
-            "thumbnail": "thumbnails/2ec7cc32-ced5-40cb-8d04-e47126e9868a.jpg",
-            "modified": "2013-12-26T09:19:55.324Z",
+            "thumbnail": "thumbnails/04a30059-3d97-4a50-879e-b74975d06790.jpg",
+            "modified": "2013-12-31T09:21:43.842Z",
             "name": "My heart goes on",
             "active": true,
             "content_type": 4,
@@ -848,15 +896,15 @@
         "model": "core.audio",
         "fields": {
             "store": [56, 57, 54, 55],
-            "file": "audio/871ce908-1942-42fc-a273-4bb8c81c573c.mp3"
+            "file": "audio/687e36ac-fccc-4ff0-9b80-5c8179cbe375.mp3"
         }
     },
     {
         "pk": 15,
         "model": "core.video",
         "fields": {
-            "store": [57, 56, 55, 54],
-            "file": "video/624b59be-0152-4564-ac14-3d53f287e0e4.mp4"
+            "store": [56, 57, 54, 55],
+            "file": "video/70387269-94c8-4278-8b49-33ab9184c849.mp4"
         }
     },
     {
@@ -864,7 +912,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [54],
-            "file": "wallpaper/4ac36f7f-47c4-4e0b-a490-c4fb86e4c677.jpg"
+            "file": "wallpaper/0e237c8d-1a90-4f36-85b9-3bda4c77a85d.jpg"
         }
     },
     {
@@ -872,7 +920,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [54],
-            "file": "wallpaper/3b49ab3e-64ea-4860-860a-4b3b93327d73.jpg"
+            "file": "wallpaper/c6d18e87-fe09-4401-9f4e-06fd5df477bc.jpg"
         }
     },
     {
@@ -880,7 +928,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [54],
-            "file": "wallpaper/d03d5b1f-0a5e-430e-8bf9-13a74cb0fd6a.jpg"
+            "file": "wallpaper/143765dc-8005-4da3-9398-0907537b21e5.jpg"
         }
     },
     {
@@ -888,7 +936,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [54],
-            "file": "wallpaper/12ba1f3c-1461-44d2-aff6-3ee17eefd522.jpg"
+            "file": "wallpaper/c9d8bd48-4531-4c14-ba70-3fa81ad5e4cb.jpg"
         }
     },
     {
@@ -896,7 +944,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [55],
-            "file": "wallpaper/36fda014-80d7-4d4c-9b22-6f8a132a37d1.jpg"
+            "file": "wallpaper/53b5b3c6-273c-4149-af1a-30f394a56b6c.jpg"
         }
     },
     {
@@ -904,7 +952,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [55],
-            "file": "wallpaper/9a85cede-d7eb-4578-adfb-2476c2606489.jpg"
+            "file": "wallpaper/fc18963a-95ca-4641-b218-849003005a16.jpg"
         }
     },
     {
@@ -912,7 +960,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [55],
-            "file": "wallpaper/ffaad641-29f5-4e05-bcd8-86fb93b7744f.jpg"
+            "file": "wallpaper/d24808a4-76b7-409d-ae08-78be0ff6e2d8.jpg"
         }
     },
     {
@@ -920,7 +968,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [56],
-            "file": "wallpaper/ee7af069-08fb-4c06-9578-e4dd2db9537d.jpg"
+            "file": "wallpaper/6c5653c8-eff2-41aa-866b-d579b518d5b9.jpg"
         }
     },
     {
@@ -928,7 +976,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [56],
-            "file": "wallpaper/354b5d98-3801-4012-9c58-2ecb5879b11a.jpg"
+            "file": "wallpaper/e1cdf8e9-10e2-4fa3-8269-4fee2be4a48a.jpg"
         }
     },
     {
@@ -936,7 +984,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [56],
-            "file": "wallpaper/d6a3669f-4c16-415f-9231-859c822f8ae4.jpg"
+            "file": "wallpaper/9d31eda6-db62-4c87-abd6-2a814046c500.jpg"
         }
     },
     {
@@ -944,7 +992,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [57],
-            "file": "wallpaper/55ab31ae-d1eb-4d9e-8d94-83c11b85baea.jpg"
+            "file": "wallpaper/2fc4182f-2950-42bf-a48c-1448400a450a.jpg"
         }
     },
     {
@@ -952,7 +1000,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [57],
-            "file": "wallpaper/1fc80174-cf06-420d-86c1-12d2b7c6893c.jpg"
+            "file": "wallpaper/833e9798-40b6-4b07-b820-6e25f657f6d5.jpg"
         }
     },
     {
@@ -960,7 +1008,7 @@
         "model": "core.wallpaper",
         "fields": {
             "store": [57],
-            "file": "wallpaper/f24a0790-6ba9-4c3b-8142-a7bed2bf420d.jpg"
+            "file": "wallpaper/8b7de95b-ca7a-4c4b-ba45-4ae698a3852d.jpg"
         }
     },
     {
@@ -1072,7 +1120,7 @@
         "pk": 14,
         "model": "core.slideshow",
         "fields": {
-            "store": [54]
+            "store": [56, 57, 54, 55]
         }
     },
     {
@@ -3600,6 +3648,331 @@
             "change_message": "Changed thumbnail and file.",
             "user": 1,
             "content_type": 21
+        }
+    },
+    {
+        "pk": 140,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:50:35.473Z",
+            "object_repr": "P N Rao",
+            "object_id": "4",
+            "change_message": "Changed logo.",
+            "user": 1,
+            "content_type": 12
+        }
+    },
+    {
+        "pk": 141,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:50:47.893Z",
+            "object_repr": "Sapna",
+            "object_id": "3",
+            "change_message": "Changed logo.",
+            "user": 1,
+            "content_type": 12
+        }
+    },
+    {
+        "pk": 142,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:50:56.928Z",
+            "object_repr": "Naturals",
+            "object_id": "2",
+            "change_message": "Changed logo.",
+            "user": 1,
+            "content_type": 12
+        }
+    },
+    {
+        "pk": 143,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:51:05.598Z",
+            "object_repr": "Starbucks",
+            "object_id": "1",
+            "change_message": "Changed logo.",
+            "user": 1,
+            "content_type": 12
+        }
+    },
+    {
+        "pk": 144,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:51:42.675Z",
+            "object_repr": "P N Rao Kormangala",
+            "object_id": "57",
+            "change_message": "No fields changed.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 145,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:51:50.175Z",
+            "object_repr": "Sapna Kormangala",
+            "object_id": "56",
+            "change_message": "No fields changed.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 146,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:51:55.710Z",
+            "object_repr": "Naturals Kormangala",
+            "object_id": "55",
+            "change_message": "No fields changed.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 147,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:52:00.171Z",
+            "object_repr": "Starbucks Kormangala",
+            "object_id": "54",
+            "change_message": "No fields changed.",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 148,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T08:55:14.122Z",
+            "object_repr": "Kormangala Bangalore",
+            "object_id": "1",
+            "change_message": "No fields changed.",
+            "user": 1,
+            "content_type": 13
+        }
+    },
+    {
+        "pk": 149,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:15:03.662Z",
+            "object_repr": "PN Rao wall 3",
+            "object_id": "13",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 150,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:15:17.784Z",
+            "object_repr": "PN Rao wall 2",
+            "object_id": "12",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 151,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:15:29.933Z",
+            "object_repr": "PN Rao wall 1",
+            "object_id": "11",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 152,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:15:49.654Z",
+            "object_repr": "Sapna wall 3",
+            "object_id": "10",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 153,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:17:11.090Z",
+            "object_repr": "Sapna wall 2",
+            "object_id": "9",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 154,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:17:24.326Z",
+            "object_repr": "Sapna wall",
+            "object_id": "8",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 155,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:17:40.187Z",
+            "object_repr": "Naturals wall 3",
+            "object_id": "7",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 156,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:17:53.683Z",
+            "object_repr": "Naturals wall 2",
+            "object_id": "6",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 157,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:18:05.268Z",
+            "object_repr": "Naturals wall 1",
+            "object_id": "5",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 158,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:18:32.188Z",
+            "object_repr": "Starbucks wall 4",
+            "object_id": "4",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 159,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:18:53.560Z",
+            "object_repr": "Starbucks wall 3",
+            "object_id": "3",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 160,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:19:46.964Z",
+            "object_repr": "Starbucks wall 2",
+            "object_id": "2",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 161,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:19:59.231Z",
+            "object_repr": "Starbucks wall 1",
+            "object_id": "1",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 21
+        }
+    },
+    {
+        "pk": 162,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:20:52.008Z",
+            "object_repr": "Some vid",
+            "object_id": "15",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 20
+        }
+    },
+    {
+        "pk": 163,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:21:43.900Z",
+            "object_repr": "My heart goes on",
+            "object_id": "16",
+            "change_message": "Changed thumbnail and file.",
+            "user": 1,
+            "content_type": 19
+        }
+    },
+    {
+        "pk": 164,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2013-12-31T09:22:17.842Z",
+            "object_repr": "Some slideshow 1",
+            "object_id": "14",
+            "change_message": "Changed thumbnail and store.",
+            "user": 1,
+            "content_type": 26
         }
     }
 ]

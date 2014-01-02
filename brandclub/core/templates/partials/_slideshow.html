@@ -1,15 +1,32 @@
-<div id="ss-container">
-    <div id="slide-show-carousel"
-         class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
-        <div class="slides"></div>
-        <h3 class="title"></h3>
-        <a class="prev">‹</a>
-        <a class="next">›</a>
-        <a class="play-pause"></a>
-    </div>
-    <div id="links">
-        {% for i in content.image.all %}
-            <a href="{{ i.image.url }}"></a>
-        {% endfor %}
+<div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget">
+    <div class="img-frame">
+        <div class="image-wrapper">
+            <div id="ss-container">
+                <div id="slide-show-carousel"
+                     class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
+                    <div class="slides"></div>
+                    <h3 class="title"></h3>
+                    <a class="prev">‹</a>
+                    <a class="next">›</a>
+                    <a class="play-pause"></a>
+                </div>
+                <div id="links">
+                    {% for i in content.image.all %}
+                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row info-panel">
+            <div class="icons col-xs-8">
+                <h5>{{ content.name }}</h5>
+            </div>
+            <div class="icons pull-right col-xs-2">
+                <a class="glyphicon glyphicon-fullscreen"
+                   href="/slideshow/{{ content.id }}"></a>
+            </div>
+        </div>
+
+        <p>{{ content.short_description }}</p>
     </div>
 </div>
