@@ -12,7 +12,7 @@
                 </div>
                 <div id="links">
                     {% for i in content.image.all %}
-                        <a href="{{ i.image.url }}"></a>
+                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
                     {% endfor %}
                 </div>
             </div>

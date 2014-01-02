@@ -29,11 +29,11 @@
     </div>
         <div id="links">
             {% for i in content.image.all %}
-                    <a href="{{ i.image.url }}"></a>
+                    <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
             {% endfor %}
         </div>
 {% endblock %}
 {% block extra_js %}
-    <script type="text/javascript" src="{% static 'js/blueimp-gallery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/blueimp-gallery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>
 {% endblock %}
