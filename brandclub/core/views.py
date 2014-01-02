@@ -4,12 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
-from django.utils import simplejson
+import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback, Wallpaper
-
 
 
 def home_cluster_view(request, slug):
@@ -33,7 +32,7 @@ def store_home(request, slug):
     contents_key = "contents-%s" % cache_key
     contents = cache.get(contents_key)
     if not contents:
-        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False)\
+        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False) \
             .filter(store=store).select_subclasses()
         cache.set(contents_key, contents, 1800)
     context = {'contents': contents, 'store': store, 'brand': store.brand}
@@ -91,5 +90,5 @@ def create_user_id(request):
     user_id = "bc_"
     user_id += id_generator()
     data = {"user_id": user_id}
-    data = simplejson.dumps(data)
+    data = json.dumps(data)
     return HttpResponse(data, mimetype='application/json')

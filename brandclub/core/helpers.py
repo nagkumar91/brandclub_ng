@@ -1,10 +1,7 @@
-from django.core.cache import cache
 import string
 import random
 from django.db.models import FileField
 from django.utils.translation import ugettext_lazy as _
-import os
-import uuid
 from models import *
 
 
