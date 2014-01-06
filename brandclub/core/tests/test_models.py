@@ -10,6 +10,7 @@ class ClusterTestCase(TestCase):
     some_store = None
     city = None
     state = None
+    devices = None
 
     def _create_stores(self, count, brands):
         stores = []
@@ -32,11 +33,10 @@ class ClusterTestCase(TestCase):
     def _create_devices(self, count, stores):
         devices = []
         for i in range(count):
-            device = Device.objects.create(device_id=i, store=stores[i])
+            device = Device.objects.create(device_id=i, type="Simple", store=stores[i])
             devices.append(device)
             device.save()
         return devices
-
 
     def _create_dummy_content(self, start_date, end_date, show_on_home_status, archived_status, active_status):
         b = Brand.objects.create(name="Temp brand", slug_name="temp_brand", logo="/home/test/image.jpg", footfall=10)
@@ -75,15 +75,12 @@ class ClusterTestCase(TestCase):
 
     def setUp(self):
         self._create_initial_defaults()
-
         brands = self._create_brands(5)
-
         stores = self._create_stores(5, brands)
         devices = self._create_devices(5, stores)
+        self.devices = devices
         self._create_content(stores)
-
         self.some_store = stores[3]
-
 
     def test_is_data_empty_if_cluster_has_no_stores_available(self):
         city = City.objects.create(name='Bangalore')
@@ -91,7 +88,15 @@ class ClusterTestCase(TestCase):
         state = State.objects.create(name='Karnataka')
         state.save()
         cluster, created = Cluster.objects.get_or_create(name='Dummy', city=city, state=state)
-        content = cluster.get_all_home_content(0)
+        b = Brand.objects.create(name="Dummy", slug_name="dummy", logo="/home/test/image.jpg", footfall=10)
+        b.save()
+        s = Store.objects.create(name="dummy store", brand=b, address_first_line="Some address", city=self.city,
+                                 state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9,
+                                 demo=False, paid=True)
+        s.save()
+        dev = Device.objects.create(device_id=1234, type="Simple", store=s)
+        dev.save()
+        content = cluster.get_all_home_content(cluster_id=cluster.id, device_id=1234)
         self.assertEquals(0, len(content))
 
     def test_content_fetching_according_to_cluster_is_not_null(self):
@@ -123,13 +128,14 @@ class ClusterTestCase(TestCase):
         self.assertNotEqual(len(all_contents), len(home_contents))
 
     def test_all_contents_has_first_from_current_cluster(self):
-        self._create_dummy_content('2011-05-04', '2014-06-07', True, True, True)
+        self._create_dummy_content('2011-05-04', '2014-06-07', True, False, True)
         home_contents = self.__get_content_for_current_cluster()
         all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
         self.assertNotEquals(home_contents[0].id, all_contents[0].id)
 
     def __get_content_for_current_cluster(self):
-        return self.cluster.get_all_home_content(3)
+        cluster_id = self.cluster.id
+        return self.cluster.get_all_home_content(4, cluster_id)
 
     def test_only_one_show_on_home_content_appears_for_each_brand_in_a_cluster(self):
         datestr = '2014-05-01'
@@ -140,6 +146,23 @@ class ClusterTestCase(TestCase):
         temp_wall_obj.save()
         home_contents = self.__get_content_for_current_cluster()
         all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
+        self.assertNotEqual(len(all_contents), len(home_contents))
+
+    def test_content_from_active_stores_are_displayed(self):
+        b = Brand.objects.create(name="Dummy", slug_name="dummy", logo="/home/test/image.jpg", footfall=10)
+        b.save()
+        s = Store.objects.create(name="dummy store", brand=b, address_first_line="Some address", city=self.city,
+                                 state=self.state, cluster=self.cluster, latitude=12.708, longitude=71.9,
+                                 demo=False, paid=True, active=False)
+        s.save()
+        dev = Device.objects.create(device_id=1234, type="Simple", store=s)
+        dev.save()
+        temp_wall_obj = Wallpaper.objects.create(name="un important wallpaper", content_type=self.ctype_wall,
+                                                 show_on_home=True)
+        temp_wall_obj.store.add(s)
+        temp_wall_obj.save()
+        all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
+        home_contents = self.__get_content_for_current_cluster()
         self.assertNotEqual(len(all_contents), len(home_contents))
 
 
@@ -163,7 +186,6 @@ class BrandTestCase(TestCase):
     def test_image_tag_returns_proper_url(self):
         brand = Brand.objects.create(name="B1", description="Some desc", logo="/home/test/image.jpg", footfall=10)
         self.assertEquals(u"<img src='/home/test/image.jpg' style='height: 50px;max-width: auto'>", brand.image_tag())
-
 
     def test_for_brand_competitors(self):
         store, created = Brand.objects.get_or_create(name='pnrao', footfall=10)
@@ -222,5 +244,6 @@ class BrandTestCase(TestCase):
 
         device = Device(device_id=3226, store=stores[1])
         device.save()
-        home_content = self.cluster.get_all_home_content(3226)
+        cluster_id = self.cluster.id
+        home_content = self.cluster.get_all_home_content(3226, cluster_id)
         self.assertEqual(3, len(home_content))
