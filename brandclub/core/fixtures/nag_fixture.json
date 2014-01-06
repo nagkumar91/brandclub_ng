@@ -242,6 +242,22 @@
         }
     },
     {
+        "pk": "83pjgudx07r1ykw6staa7dksvnz1bnfq",
+        "model": "sessions.session",
+        "fields": {
+            "expire_date": "2014-01-16T13:12:20.328Z",
+            "session_data": "OWJjNzBmZWFlNTQyMzk1ZWM1Y2Q5YWFiMTEyYmRmMjZmMDgyZTQ0NDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
+        }
+    },
+    {
+        "pk": "c1splzetgznt73cy7nsiebqycrkzigml",
+        "model": "sessions.session",
+        "fields": {
+            "expire_date": "2014-01-14T09:42:04.523Z",
+            "session_data": "YjFmNjVkNDlhNzQyNGE3ZWNkY2MwY2M4ZjBkNGJjNDZhN2FjNTY1ODp7fQ=="
+        }
+    },
+    {
         "pk": 1,
         "model": "sites.site",
         "fields": {
@@ -265,24 +281,6 @@
             "applied": "2013-12-30T09:47:28.199Z",
             "app_name": "core",
             "migration": "0002_auto__add_webcontent__add_storefeedback__add_field_brand_footfall__add"
-        }
-    },
-    {
-        "pk": 3,
-        "model": "south.migrationhistory",
-        "fields": {
-            "applied": "2013-12-30T10:10:25.741Z",
-            "app_name": "core",
-            "migration": "0003_auto__add_field_store_demo"
-        }
-    },
-    {
-        "pk": 4,
-        "model": "south.migrationhistory",
-        "fields": {
-            "applied": "2013-12-31T06:11:15.333Z",
-            "app_name": "core",
-            "migration": "0004_auto__add_field_store_paid"
         }
     },
     {
@@ -368,6 +366,22 @@
         }
     },
     {
+        "pk": 5,
+        "model": "core.brand",
+        "fields": {
+            "description": "",
+            "created": "2014-01-02T13:17:51.995Z",
+            "modified": "2014-01-02T13:17:52.210Z",
+            "name": "Tst 2",
+            "bg_color": "",
+            "competitors": [],
+            "bg_image": "",
+            "slug_name": "test_b",
+            "logo": "thumbnails/d242b222-e4ee-481a-9d29-ba35abff96c5.jpg",
+            "footfall": 500
+        }
+    },
+    {
         "pk": 1,
         "model": "core.cluster",
         "fields": {
@@ -379,6 +393,20 @@
             "state": 1,
             "map_name": "69b429ed-e0f9-407d-97f1-66eca4f8e43a.png",
             "name": "Kormangala Bangalore"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "core.cluster",
+        "fields": {
+            "city": 1,
+            "description": "",
+            "locality": "Basavanagudi",
+            "created": "2014-01-02T13:16:26.660Z",
+            "modified": "2014-01-02T13:16:26.889Z",
+            "state": 1,
+            "map_name": null,
+            "name": "Cluster 2"
         }
     },
     {
@@ -482,6 +510,56 @@
         }
     },
     {
+        "pk": 58,
+        "model": "core.store",
+        "fields": {
+            "city": 1,
+            "pin_code": "",
+            "cluster": 2,
+            "description": "",
+            "created": "2014-01-02T13:17:57.402Z",
+            "demo": true,
+            "brand": 5,
+            "modified": "2014-01-02T13:17:58.080Z",
+            "longitude": "122.445657",
+            "mail_id": "",
+            "map_name": "39196270-68a2-42a2-874c-7726a5dd89e4.png",
+            "address_first_line": "Some first line address",
+            "state": 1,
+            "slug_name": "st1",
+            "paid": false,
+            "contact_number": "",
+            "latitude": "66.666666",
+            "address_second_line": "",
+            "name": "St 1"
+        }
+    },
+    {
+        "pk": 59,
+        "model": "core.store",
+        "fields": {
+            "city": 1,
+            "pin_code": "",
+            "cluster": 2,
+            "description": "",
+            "created": "2014-01-02T13:18:37.057Z",
+            "demo": true,
+            "brand": 4,
+            "modified": "2014-01-02T13:18:37.298Z",
+            "longitude": "122.333333",
+            "mail_id": "",
+            "map_name": "07eb8b43-76f9-4829-b3e8-01523a25e50b.png",
+            "address_first_line": "Some first line address",
+            "state": 1,
+            "slug_name": "st2",
+            "paid": false,
+            "contact_number": "",
+            "latitude": "66.777770",
+            "address_second_line": "",
+            "name": "St 2"
+        }
+    },
+    {
         "pk": 1,
         "model": "core.storefeedback",
         "fields": {
@@ -508,6 +586,19 @@
         }
     },
     {
+        "pk": 3,
+        "model": "core.storefeedback",
+        "fields": {
+            "phone_number": "9916069437",
+            "name": "Nagkumar ",
+            "created": "2013-12-31T09:46:37.343Z",
+            "email_id": "",
+            "modified": "2013-12-31T09:46:37.345Z",
+            "message": "Test feedback",
+            "store": 54
+        }
+    },
+    {
         "pk": 1,
         "model": "core.device",
         "fields": {
@@ -517,6 +608,18 @@
             "type": "Simple",
             "store": 57,
             "device_id": 121
+        }
+    },
+    {
+        "pk": 2,
+        "model": "core.device",
+        "fields": {
+            "created": "2014-01-02T13:17:57.491Z",
+            "modified": "2014-01-02T13:17:58.139Z",
+            "mac_address": "",
+            "type": "",
+            "store": 58,
+            "device_id": 6001
         }
     },
     {
@@ -1015,11 +1118,11 @@
         "pk": 1,
         "model": "core.image",
         "fields": {
-            "target_url": "",
+            "target_url": "http://en.wikipedia.org/wiki/Eden_Hazard",
             "name": "Hazard",
             "created": "2013-12-12T05:33:48.550Z",
             "image": "images/0aca6bdf-0d48-4e0a-b16a-d7a9e92bcb88.jpg",
-            "modified": "2013-12-26T09:45:35.159Z",
+            "modified": "2014-01-02T09:12:01.690Z",
             "caption": "Hazard the magician"
         }
     },
@@ -1031,7 +1134,7 @@
             "name": "Mata",
             "created": "2013-12-12T05:34:30.060Z",
             "image": "images/646d1030-8955-4368-ab2d-68db15b03342.jpg",
-            "modified": "2013-12-26T09:45:19.611Z",
+            "modified": "2014-01-02T09:54:30.869Z",
             "caption": "Best CAM in the world"
         }
     },
@@ -1039,11 +1142,11 @@
         "pk": 3,
         "model": "core.image",
         "fields": {
-            "target_url": "",
+            "target_url": "http://en.wikipedia.org/wiki/Fernando_Torres",
             "name": "Torres",
             "created": "2013-12-12T05:35:38.548Z",
             "image": "images/04d95e44-385f-4bd2-a452-d1e12ce13340.jpg",
-            "modified": "2013-12-26T09:44:46.244Z",
+            "modified": "2014-01-02T09:11:16.838Z",
             "caption": "Torres the good old striker"
         }
     },
@@ -1051,11 +1154,11 @@
         "pk": 4,
         "model": "core.image",
         "fields": {
-            "target_url": "",
+            "target_url": "http://en.wikipedia.org/wiki/Oscar_(footballer_born_1991)",
             "name": "Oscar",
             "created": "2013-12-12T05:36:02.701Z",
             "image": "images/e9602a3b-af67-480b-8f7b-7c46b85a06fc.jpg",
-            "modified": "2013-12-26T09:44:38.706Z",
+            "modified": "2014-01-02T09:10:44.590Z",
             "caption": "Young Brazilian"
         }
     },
@@ -1063,11 +1166,11 @@
         "pk": 5,
         "model": "core.image",
         "fields": {
-            "target_url": "",
+            "target_url": "http://chelseafc.com/",
             "name": "Team Celebration",
             "created": "2013-12-12T05:36:30.937Z",
             "image": "images/b00e3096-c6b6-4493-b28c-0e00574bba9b.jpg",
-            "modified": "2013-12-26T09:44:31.523Z",
+            "modified": "2014-01-02T09:05:36.681Z",
             "caption": "Chelsea team celebrating"
         }
     },
@@ -1835,7 +1938,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2013-12-26T09:12:24.406Z",
+            "last_login": "2014-01-02T13:12:20.274Z",
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$12000$r0ed8fODVf23$n+TqGqkyWkZuCw6Xk5ej7VDQBuA5ZJe7MZ7KPiNUMiQ=",
@@ -3973,6 +4076,136 @@
             "change_message": "Changed thumbnail and store.",
             "user": 1,
             "content_type": 26
+        }
+    },
+    {
+        "pk": 165,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:05:37.033Z",
+            "object_repr": "Team Celebration",
+            "object_id": "5",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 166,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:10:44.600Z",
+            "object_repr": "Oscar",
+            "object_id": "4",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 167,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:11:16.849Z",
+            "object_repr": "Torres",
+            "object_id": "3",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 168,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:11:37.663Z",
+            "object_repr": "Mata",
+            "object_id": "2",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 169,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:12:01.700Z",
+            "object_repr": "Hazard",
+            "object_id": "1",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 170,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 2,
+            "action_time": "2014-01-02T09:54:31.070Z",
+            "object_repr": "Mata",
+            "object_id": "2",
+            "change_message": "Changed target_url.",
+            "user": 1,
+            "content_type": 24
+        }
+    },
+    {
+        "pk": 171,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2014-01-02T13:16:26.941Z",
+            "object_repr": "Cluster 2",
+            "object_id": "2",
+            "change_message": "",
+            "user": 1,
+            "content_type": 13
+        }
+    },
+    {
+        "pk": 172,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2014-01-02T13:17:52.411Z",
+            "object_repr": "Tst 2",
+            "object_id": "5",
+            "change_message": "",
+            "user": 1,
+            "content_type": 12
+        }
+    },
+    {
+        "pk": 173,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2014-01-02T13:17:58.187Z",
+            "object_repr": "St 1",
+            "object_id": "58",
+            "change_message": "",
+            "user": 1,
+            "content_type": 14
+        }
+    },
+    {
+        "pk": 174,
+        "model": "admin.logentry",
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2014-01-02T13:18:37.320Z",
+            "object_repr": "St 2",
+            "object_id": "59",
+            "change_message": "",
+            "user": 1,
+            "content_type": 14
         }
     }
 ]
