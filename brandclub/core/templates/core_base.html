@@ -14,6 +14,19 @@
     <link rel="stylesheet" href="{% static 'css/project.css' %}"/>
     {% endblock %}
     {% block extra_css %} {% endblock %}
+    {% block brand_background %}
+        <style>
+            {% if brand.bg_color %}
+                body   {
+                    background: {{ brand.bg_color }} !important;
+                }
+            {% elif brand.bg_image %}
+                body   {
+                    background: url("{{ brand.bg_image.url }}") !important;
+                }
+            {% endif %}
+        </style>
+    {% endblock %}
 
 </head>
 <body>
