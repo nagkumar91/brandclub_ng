@@ -313,6 +313,7 @@
             "competitors": [],
             "bg_image": "",
             "slug_name": "starbucks",
+            "active": true,
             "logo": "thumbnails/2ce67c6f-0a8c-4176-805e-66638c1db638.jpg",
             "footfall": 100
         }
@@ -329,6 +330,7 @@
             "competitors": [],
             "bg_image": "",
             "slug_name": "naturals",
+            "active": true,
             "logo": "thumbnails/aa40b2cd-380d-40f1-93da-9745782cc954.jpg",
             "footfall": 100
         }
@@ -345,6 +347,7 @@
             "competitors": [],
             "bg_image": "",
             "slug_name": "sapna",
+            "active": true,
             "logo": "thumbnails/cfa5b424-158b-4041-9423-0911eaa1446e.jpg",
             "footfall": 100
         }
@@ -361,6 +364,7 @@
             "competitors": [],
             "bg_image": "",
             "slug_name": "pnrao",
+            "active": true,
             "logo": "thumbnails/f50e4927-7b80-4811-aba4-03c27636bb60.jpg",
             "footfall": 100
         }
@@ -377,6 +381,7 @@
             "competitors": [],
             "bg_image": "",
             "slug_name": "test_b",
+            "active": true,
             "logo": "thumbnails/d242b222-e4ee-481a-9d29-ba35abff96c5.jpg",
             "footfall": 500
         }
@@ -423,7 +428,7 @@
             "modified": "2013-12-31T08:52:00.160Z",
             "longitude": "77.612211",
             "mail_id": "",
-            "map_name": "dd7c3a99-a5d3-4188-8f45-1049b951f27e.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "starbucks",
@@ -431,6 +436,7 @@
             "contact_number": "",
             "latitude": "12.935103",
             "address_second_line": "",
+            "map_name": "dd7c3a99-a5d3-4188-8f45-1049b951f27e.png",
             "name": "Starbucks Kormangala"
         }
     },
@@ -448,7 +454,7 @@
             "modified": "2013-12-31T08:51:55.700Z",
             "longitude": "77.611997",
             "mail_id": "",
-            "map_name": "a39ed0cf-9f34-43aa-9029-14ff34559403.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "naturals",
@@ -456,6 +462,7 @@
             "contact_number": "",
             "latitude": "12.934653",
             "address_second_line": "",
+            "map_name": "a39ed0cf-9f34-43aa-9029-14ff34559403.png",
             "name": "Naturals Kormangala"
         }
     },
@@ -473,7 +480,7 @@
             "modified": "2013-12-31T08:51:50.150Z",
             "longitude": "77.622653",
             "mail_id": "",
-            "map_name": "f4c52024-555c-49c5-b4a3-f512be269e0a.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "sapna",
@@ -481,6 +488,7 @@
             "contact_number": "",
             "latitude": "12.931258",
             "address_second_line": "",
+            "map_name": "f4c52024-555c-49c5-b4a3-f512be269e0a.png",
             "name": "Sapna Kormangala"
         }
     },
@@ -498,7 +506,7 @@
             "modified": "2013-12-31T08:51:42.637Z",
             "longitude": "77.617396",
             "mail_id": "",
-            "map_name": "7f85f8bf-6ab0-46bb-865f-561c1c2e7fac.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "pnrao",
@@ -506,6 +514,7 @@
             "contact_number": "",
             "latitude": "12.927321",
             "address_second_line": "",
+            "map_name": "7f85f8bf-6ab0-46bb-865f-561c1c2e7fac.png",
             "name": "P N Rao Kormangala"
         }
     },
@@ -518,19 +527,20 @@
             "cluster": 2,
             "description": "",
             "created": "2014-01-02T13:17:57.402Z",
-            "demo": true,
+            "demo": false,
             "brand": 5,
             "modified": "2014-01-02T13:17:58.080Z",
             "longitude": "122.445657",
             "mail_id": "",
-            "map_name": "39196270-68a2-42a2-874c-7726a5dd89e4.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "st1",
-            "paid": false,
+            "paid": true,
             "contact_number": "",
             "latitude": "66.666666",
             "address_second_line": "",
+            "map_name": "39196270-68a2-42a2-874c-7726a5dd89e4.png",
             "name": "St 1"
         }
     },
@@ -543,19 +553,20 @@
             "cluster": 2,
             "description": "",
             "created": "2014-01-02T13:18:37.057Z",
-            "demo": true,
+            "demo": false,
             "brand": 4,
             "modified": "2014-01-02T13:18:37.298Z",
             "longitude": "122.333333",
             "mail_id": "",
-            "map_name": "07eb8b43-76f9-4829-b3e8-01523a25e50b.png",
+            "active": true,
             "address_first_line": "Some first line address",
             "state": 1,
             "slug_name": "st2",
-            "paid": false,
+            "paid": true,
             "contact_number": "",
             "latitude": "66.777770",
             "address_second_line": "",
+            "map_name": "07eb8b43-76f9-4829-b3e8-01523a25e50b.png",
             "name": "St 2"
         }
     },
@@ -948,7 +959,7 @@
             "content_type": 2,
             "short_description": "Some slideshow description",
             "start_date": "2013-12-11",
-            "store": [56, 57, 54, 55],
+            "store": [54, 55, 56, 57],
             "show_on_home": false
         }
     },
@@ -969,7 +980,7 @@
             "content_type": 3,
             "short_description": "Some description about video",
             "start_date": "2013-12-12",
-            "store": [56, 57, 54, 55],
+            "store": [54, 55, 56, 57],
             "show_on_home": false
         }
     },
@@ -990,7 +1001,7 @@
             "content_type": 4,
             "short_description": "Titanic's song by Celine Dion",
             "start_date": "2013-12-26",
-            "store": [56, 57, 54, 55],
+            "store": [54, 55, 56, 57],
             "show_on_home": false
         }
     },
@@ -998,7 +1009,7 @@
         "pk": 16,
         "model": "core.audio",
         "fields": {
-            "store": [56, 57, 54, 55],
+            "store": [54, 55, 56, 57],
             "file": "audio/687e36ac-fccc-4ff0-9b80-5c8179cbe375.mp3"
         }
     },
@@ -1006,7 +1017,7 @@
         "pk": 15,
         "model": "core.video",
         "fields": {
-            "store": [56, 57, 54, 55],
+            "store": [54, 55, 56, 57],
             "file": "video/70387269-94c8-4278-8b49-33ab9184c849.mp4"
         }
     },
@@ -1223,7 +1234,7 @@
         "pk": 14,
         "model": "core.slideshow",
         "fields": {
-            "store": [56, 57, 54, 55]
+            "store": [54, 55, 56, 57]
         }
     },
     {
