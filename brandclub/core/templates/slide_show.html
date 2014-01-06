@@ -29,7 +29,8 @@
     </div>
         <div id="links">
             {% for i in content.image.all %}
-                    <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
+                    <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
+                       title="{{ i.caption }}"></a>
             {% endfor %}
         </div>
 {% endblock %}
