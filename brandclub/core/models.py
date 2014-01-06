@@ -185,7 +185,7 @@ class Store(TimeStampedModel):
 
     def get_content_for_store(self):
         if self.active is True:
-            all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
+            all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
         else:
             all_contents = []
         return all_contents

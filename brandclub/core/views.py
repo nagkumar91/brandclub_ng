@@ -32,8 +32,7 @@ def store_home(request, slug):
     contents_key = "contents-%s" % cache_key
     contents = cache.get(contents_key)
     if not contents:
-        contents = Content.active_objects.filter(store__cluster__id=request.cluster_id).filter(show_on_home=False) \
-            .filter(store=store).select_subclasses()
+        contents = store.get_content_for_store()
         cache.set(contents_key, contents, 1800)
     context = {'contents': contents, 'store': store, 'brand': store.brand}
     context_instance = RequestContext(request, context)
