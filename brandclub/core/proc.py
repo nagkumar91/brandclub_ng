@@ -6,6 +6,7 @@ from .models import Device, Cluster
 def brandclub_processor(request):
     cluster_id = request.cluster_id
     device_id = request.device_id
+    mac_id = request.mac_id
     device = cache.get("Device-%s" % device_id)
     if not device:
         device = Device.objects.select_related('store').get(device_id=device_id)
@@ -19,6 +20,7 @@ def brandclub_processor(request):
         "home_cluster" : cluster,
         'home_brand' : device.store.brand,
         'home_store' : device.store,
+        "mac_id" : mac_id,
         "piwik_site_token" : settings.PIWIK_SITE_TOKEN,
         "piwik_site_id" : settings.PIWIK_SITE_ID
     }

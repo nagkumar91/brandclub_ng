@@ -21,7 +21,7 @@ function impressionLog(content_id, content_type, content_name, content_owner)   
     _paq.push(["setCookieDomain", window.log_info.cookie_domain]);
     _paq.push(["setDomains", [window.log_info.cookie_domain]]);
     _paq.push(['setCustomVariable', 1, "store_name", window.log_info.home_store_name, "visit"]);
-    _paq.push(['setCustomVariable', 2, "store_id", window.log_info.home_store_id, "visit"]);
+    _paq.push(['setCustomVariable', 2, "mac_address", window.log_info.mac_address, "visit"]);
     _paq.push(['setCustomVariable', 3, "device_id", window.log_info.home_device_id, "visit"]);
     _paq.push(['setCustomVariable', 4, "store_brand", window.log_info.home_brand_name, "visit"]);
     _paq.push(['setCustomVariable', 5, "cluster_name", window.log_info.home_cluster_name, "visit"]);
