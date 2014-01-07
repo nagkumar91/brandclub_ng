@@ -4,11 +4,6 @@ function logAndRedirect(tag, redirect_url)   {
     var content_type = $this.data("log-content-type");
     var content_owner = $this.data("log-brand-name");
     var content_id = $this.data("log-content-id");
-//    console.log(tag);
-//    console.log(content_name);
-//    console.log(content_type);
-//    console.log(content_owner);
-//    console.log(content_id);
     var _paq = _paq || [];
     _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
     _paq.push(["setCookieDomain", window.log_info.cookie_domain]);
@@ -27,13 +22,5 @@ function logAndRedirect(tag, redirect_url)   {
     _paq.push(["appendToTrackingUrl", 'country=in']);
     _paq.push(["trackPageView"]);
     _paq.push(["enableLinkTracking"]);
-
-    (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://"+window.log_info.url+"/";
-        _paq.push(["setTrackerUrl", u+"piwik.php"]);
-        _paq.push(["setSiteId", "2"]);
-        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
-        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
-    })();
     window.location.href = redirect_url;
 }
