@@ -95,7 +95,7 @@ class Cluster(TimeStampedModel):
         contents = list(all_contents)
         for index, content in enumerate(contents):
             stores = content.store.all()
-            setattr(content,'own_store',stores[0])
+            setattr(content, 'own_store', stores[0])
             if home_store in stores:
                 contents[0], contents[index] = contents[index], contents[0]
         return contents
@@ -188,6 +188,9 @@ class Store(TimeStampedModel):
             all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
         else:
             all_contents = []
+        for index, content in enumerate(all_contents):
+            stores = content.store.all()
+            setattr(content, 'own_store', stores[0])
         return all_contents
 
     def __unicode__(self):
