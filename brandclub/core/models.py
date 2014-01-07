@@ -1,13 +1,12 @@
+from caching.base import CachingMixin, CachingManager
 import datetime
 from math import cos, sin, atan2, sqrt
 from urllib import urlencode
 import uuid
-from django.forms import forms
 from model_utils.managers import InheritanceManager
 import os
 from ckeditor.fields import RichTextField
 from django.conf import settings
-from django.core.files.base import ContentFile
 from django.db import models
 import json
 # Create your models here.
@@ -23,23 +22,24 @@ add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
 
 
 def to_radians(degrees):
-    return degrees * 0.0174532925
+    return float(degrees) * 0.0174532925
 
 
 def to_degrees(radians):
     return radians * 57.2957795
 
 
-class State(TimeStampedModel):
+class State(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
+    objects = CachingManager()
 
     def __unicode__(self):
         return self.name
 
 
-class City(TimeStampedModel):
+class City(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
-
+    objects = CachingManager()
     class Meta:
         verbose_name_plural = "Cities"
         verbose_name = "City"
@@ -52,7 +52,7 @@ class Country(TimeStampedModel):
     name = models.CharField(max_length=100)
 
 
-class Brand(TimeStampedModel):
+class Brand(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     slug_name = models.SlugField(max_length=100, unique=True)
     footfall = models.IntegerField(null=True, default=0)
@@ -63,6 +63,7 @@ class Brand(TimeStampedModel):
     bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
     competitors = models.ManyToManyField('Brand', related_name='competition', symmetrical=True, blank=True, null=True)
 
+    objects = CachingManager()
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
 
@@ -73,7 +74,7 @@ class Brand(TimeStampedModel):
         return self.name
 
 
-class Cluster(TimeStampedModel):
+class Cluster(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     locality = models.CharField(max_length=100)
@@ -81,6 +82,7 @@ class Cluster(TimeStampedModel):
     city = models.ForeignKey(City, related_name="clusters")
     state = models.ForeignKey(State, related_name="clusters")
 
+    objects = CachingManager()
     def __unicode__(self):
         return self.name
 
@@ -103,10 +105,8 @@ class Cluster(TimeStampedModel):
     def _find_center_of_cluster(self):
         locations = []
         for s in self.stores.all():
-            lat = float(s.latitude)
-            lat = to_radians(lat)
-            lon = float(s.longitude)
-            lon = to_radians(lon)
+            lat = to_radians(s.latitude)
+            lon = to_radians(s.longitude)
             locations.append([lat, lon])
         x = y = z = 0
         for lat, lon in locations:
@@ -160,7 +160,7 @@ class Cluster(TimeStampedModel):
             self.save()
 
 
-class Store(TimeStampedModel):
+class Store(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     slug_name = models.SlugField(max_length=100, default="")
     description = models.TextField(null=True, blank=True)
@@ -180,14 +180,14 @@ class Store(TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
+    objects = CachingManager()
     def create_slug(self):
         return slugify(self.name)
 
     def get_content_for_store(self):
+        all_contents = []
         if self.active is True:
             all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
-        else:
-            all_contents = []
         for index, content in enumerate(all_contents):
             stores = content.store.all()
             setattr(content, 'own_store', stores[0])
@@ -243,18 +243,20 @@ class StoreFeedback(TimeStampedModel):
         return "Feedback from %s for %s " % (self.name, self.store.name)
 
 
-class Device(TimeStampedModel):
+class Device(CachingMixin, TimeStampedModel):
     device_id = models.IntegerField(max_length=6, unique=True)
     type = models.CharField(max_length=100, null=True, blank=True)
     mac_address = models.CharField(max_length=20, null=True, blank=True)
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
+    objects = CachingManager()
     def __unicode__(self):
         return u'%d' % self.device_id
 
 
-class ContentType(TimeStampedModel):
+class ContentType(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=30, unique=True)
+    objects = CachingManager()
 
     def __unicode__(self):
         return self.name
@@ -267,7 +269,7 @@ class ContentManager(InheritanceManager):
             filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today)
 
 
-class Content(TimeStampedModel):
+class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     show_on_home = models.BooleanField(default=False)
     short_description = models.CharField(max_length=200)
@@ -351,11 +353,13 @@ class WebContent(Content):
         return "/redirect?url=%s" % urlencode(self.url)
 
 
-class Image(TimeStampedModel):
+class Image(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to=upload_and_rename_images)
     caption = models.CharField(max_length=300, null=True, blank=True)
     target_url = models.URLField(null=True, blank=True)
+
+    objects = CachingManager()
 
     def __unicode__(self):
         return self.name

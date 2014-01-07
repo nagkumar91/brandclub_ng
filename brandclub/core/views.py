@@ -3,12 +3,11 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.core.cache import cache
 import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, Content, SlideShow, Device, StoreFeedback, Wallpaper
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper
 
 
 def home_cluster_view(request, slug):
@@ -24,16 +23,8 @@ def home_cluster_view(request, slug):
 
 
 def store_home(request, slug):
-    cache_key = "%s-%s" % (slug, request.cluster_id)
-    store = cache.get(cache_key)
-    if not store:
-        store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
-        cache.set(cache_key, store, 1800)
-    contents_key = "contents-%s" % cache_key
-    contents = cache.get(contents_key)
-    if not contents:
-        contents = store.get_content_for_store()
-        cache.set(contents_key, contents, 1800)
+    store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
+    contents = store.get_content_for_store()
     context = {'contents': contents, 'store': store, 'brand': store.brand}
     context_instance = RequestContext(request, context)
     return render_to_response('store_home.html', context_instance)
