@@ -9,17 +9,11 @@ import shutil
 
 
 class Command(BaseCommand):
-    args = '<cluster_id store_slug>'
     help = "Lists all the assets that are used for a specific cluster to enable rsync with box"
 
-    usage_str = "./manage.py list_content -c <cluster id>"
-    option_list = BaseCommand.option_list + (
-        make_option('-c', dest='cluster_id', help="The id of the cluster"),
-    )
-
     @staticmethod
-    def _get_all_file_names(cluster_id):
-        cluster = get_object_or_None(Cluster, pk=cluster_id)
+    def _get_all_file_names(cluster):
+        # cluster = get_object_or_None(Cluster, pk=cluster_id)
         print "Fetching all files for cluster - %s" % cluster.name
         contents = Content.active_objects.filter(store__in=cluster.stores.all()).all().select_subclasses()
         files = []
@@ -36,7 +30,8 @@ class Command(BaseCommand):
         stores = cluster.stores.all()
         for store in stores:
             files.append(store.brand.logo)
-            files.append(os.path.join(settings.STORE_MAPS_DIRECTORY, store.map_name))
+            if store.map_name is not None:
+                files.append(os.path.join(settings.STORE_MAPS_DIRECTORY, store.map_name))
         return files
 
     @staticmethod
@@ -54,18 +49,18 @@ class Command(BaseCommand):
             os.symlink(file_loc, new_path)
 
     def handle(self, *args, **options):
-        if not options['cluster_id']:
-            self.error("Cluster not provided. \n" + self.usage_str)
-        cluster_id = options['cluster_id']
-        files = self._get_all_file_names(cluster_id)
-        self._create_sym_links(cluster_id, files)
-        static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, cluster_id, "static")
-        os.makedirs(static_dir)
-        dirs = ["css", "img", "js", "fonts", "updates"]
-        for dir_name in dirs:
-            path = os.path.join(settings.STATIC_ROOT, dir_name)
-            link_path = os.path.join(static_dir, dir_name)
-            os.symlink(path, link_path)
+        clusters = Cluster.objects.all()
+        for cluster in clusters:
+            cluster_id = "%s" % cluster.id
+            files = self._get_all_file_names(cluster)
+            self._create_sym_links(cluster_id, files)
+            static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, cluster_id, "static")
+            os.makedirs(static_dir)
+            dirs = ["css", "img", "js", "fonts", "updates"]
+            for dir_name in dirs:
+                path = os.path.join(settings.STATIC_ROOT, dir_name)
+                link_path = os.path.join(static_dir, dir_name)
+                os.symlink(path, link_path)
 
 
     @staticmethod
