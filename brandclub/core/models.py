@@ -57,6 +57,7 @@ class Brand(TimeStampedModel):
     slug_name = models.SlugField(max_length=100, unique=True)
     footfall = models.IntegerField(null=True, default=0)
     description = models.TextField(null=True, blank=True)
+    active = models.BooleanField(default=True)
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
     bg_color = models.CharField(max_length=6, blank=True, null=True, help_text='Please enter the hex code')
@@ -83,18 +84,20 @@ class Cluster(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id = settings.DEFAULT_CLUSTER_ID):
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
         device = Device.objects.select_related().get(device_id=device_id)
         home_store = device.store
-        all_contents = Content.active_objects.select_related('store').filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
-            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).order_by(
-            'store__id').distinct('store__id')
+        all_contents = Content.active_objects.select_related('store').\
+            filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
+            filter(store__in=(self.stores.exclude(active=False))).\
+            order_by('store__id').distinct('store__id')
         contents = list(all_contents)
         for index, content in enumerate(contents):
             stores = content.store.all()
+            setattr(content, 'own_store', stores[0])
             if home_store in stores:
                 contents[0], contents[index] = contents[index], contents[0]
-                break
         return contents
 
     def _find_center_of_cluster(self):
@@ -163,6 +166,7 @@ class Store(TimeStampedModel):
     description = models.TextField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    active = models.BooleanField(default=True)
     demo = models.BooleanField(default=False)
     paid = models.BooleanField(default=True)
     address_first_line = models.CharField(max_length=200)
@@ -180,7 +184,13 @@ class Store(TimeStampedModel):
         return slugify(self.name)
 
     def get_content_for_store(self):
-        all_contents = Content.active_objects.filter(show_on_home=False, store=self.id)
+        if self.active is True:
+            all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
+        else:
+            all_contents = []
+        for index, content in enumerate(all_contents):
+            stores = content.store.all()
+            setattr(content, 'own_store', stores[0])
         return all_contents
 
     def __unicode__(self):
@@ -209,6 +219,8 @@ class Store(TimeStampedModel):
              update_fields=None):
         if settings.CREATE_STORE_MAPS is True:
             self._save_map_image()
+        if self.brand.active is False:
+            self.active = False
         super(Store, self).save()
 
     def map_image_tag(self):

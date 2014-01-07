@@ -14,6 +14,19 @@
     <link rel="stylesheet" href="{% static 'css/project.css' %}"/>
     {% endblock %}
     {% block extra_css %} {% endblock %}
+    {% block brand_background %}
+        <style>
+            {% if brand.bg_color %}
+                body   {
+                    background: {{ brand.bg_color }} !important;
+                }
+            {% elif brand.bg_image %}
+                body   {
+                    background: url("{{ brand.bg_image.url }}") !important;
+                }
+            {% endif %}
+        </style>
+    {% endblock %}
 
 </head>
 <body>
@@ -39,6 +52,9 @@
 
 
     <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/click.log.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/user_id_cookie.js' %}"></script>
 {% tracking_code %}
