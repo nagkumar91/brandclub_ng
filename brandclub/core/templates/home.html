@@ -17,7 +17,11 @@
     <div class="container list-unstyled" id="home-widget-list">
         <div class="row masonry" style="margin-bottom: 40px;">
             {% for content in contents %}
-                <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget">
+                <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget"
+                        data-log-brand-name="{{ content.own_store.brand.name }}"
+                        data-log-content-name="{{ content.name }}"
+                        data-log-content-type="{{ content.content_type }}"
+                        data-log-content-id="{{ content.id }}">
                     <div class="img-frame">
                         <div class="image-wrapper">
                             {% for st in content.store.all %}

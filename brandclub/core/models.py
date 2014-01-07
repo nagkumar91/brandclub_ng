@@ -95,9 +95,9 @@ class Cluster(TimeStampedModel):
         contents = list(all_contents)
         for index, content in enumerate(contents):
             stores = content.store.all()
+            setattr(content,'own_store',stores[0])
             if home_store in stores:
                 contents[0], contents[index] = contents[index], contents[0]
-                break
         return contents
 
     def _find_center_of_cluster(self):
