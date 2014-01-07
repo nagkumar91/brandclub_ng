@@ -307,6 +307,7 @@ STORE_MAPS_DIRECTORY = 'store_maps'
 
 # STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
+CACHE_TIME_OUT = 300
 CONTENT_CACHE_DIRECTORY = '/tmp/core'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

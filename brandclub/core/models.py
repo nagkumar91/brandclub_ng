@@ -1,5 +1,6 @@
 from caching.base import CachingMixin, CachingManager
 import datetime
+from django.core.cache import cache
 from math import cos, sin, atan2, sqrt
 from urllib import urlencode
 import uuid
@@ -83,23 +84,28 @@ class Cluster(CachingMixin, TimeStampedModel):
     state = models.ForeignKey(State, related_name="clusters")
 
     objects = CachingManager()
+
     def __unicode__(self):
         return self.name
 
     def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
-        device = Device.objects.select_related().get(device_id=device_id)
+        device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
-        all_contents = Content.active_objects.select_related('store').\
-            filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
-            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
-            filter(store__in=(self.stores.exclude(active=False))).\
-            order_by('store__id').distinct('store__id')
-        contents = list(all_contents)
-        for index, content in enumerate(contents):
-            stores = content.store.all()
-            setattr(content, 'own_store', stores[0])
-            if home_store in stores:
-                contents[0], contents[index] = contents[index], contents[0]
+        cache_key = "Cluster-Home-%s-%s" % (cluster_id, device_id)
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = Content.active_objects.select_related('store').\
+                filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
+                filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
+                filter(store__in=(self.stores.exclude(active=False))).\
+                order_by('store__id').distinct('store__id')
+            contents = list(all_contents)
+            for index, content in enumerate(contents):
+                stores = content.store.all()
+                setattr(content, 'own_store', stores[0])
+                if home_store in stores:
+                    contents[0], contents[index] = contents[index], contents[0]
+            cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
 
     def _find_center_of_cluster(self):
@@ -185,13 +191,18 @@ class Store(CachingMixin, TimeStampedModel):
         return slugify(self.name)
 
     def get_content_for_store(self):
-        all_contents = []
-        if self.active is True:
-            all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
-        for index, content in enumerate(all_contents):
-            stores = content.store.all()
-            setattr(content, 'own_store', stores[0])
-        return all_contents
+        cache_key = "Store-Home-%s" % self.id
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = []
+            if self.active:
+                all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
+            for index, content in enumerate(all_contents):
+                stores = content.store.all()
+                setattr(content, 'own_store', stores[0])
+            contents = all_contents
+            cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        return contents
 
     def __unicode__(self):
         return self.name
