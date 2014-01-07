@@ -24,4 +24,8 @@ def tracking_code(context):
 
     store = context['home_store']
     cluster = context['home_cluster']
-    return {'id': piwik_id, 'url': url, 'cookie_domain' : cookie_domain, 'store': store, 'cluster': cluster}
+    device = context['home_device']
+    brand = context['home_brand']
+    return {'id': piwik_id, 'url': url, 'cookie_domain': cookie_domain,
+            'home_store': store, 'home_cluster': cluster, 'home_device': device,
+            'home_brand': brand}

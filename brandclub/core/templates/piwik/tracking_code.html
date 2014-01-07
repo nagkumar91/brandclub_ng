@@ -4,24 +4,24 @@
   _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
   _paq.push(["setCookieDomain", "{{ cookie_domain }}"]);
   _paq.push(["setDomains", ["{{ cookie_domain }}"]]);
-  var hid = {{ home_store.devices.all }};
 
   {% if content_name %}
   {% endif %}
   _paq.push(['setCustomVariable', 1, "store_name", "{{ home_store.name }}", "visit"]);
-  _paq.push(['setCustomVariable', 2, "device_id", hid[0].device_id, "visit"]);
-  _paq.push(['setCustomVariable', 3, "store_brand", "{{ home_brand.name }}", "visit"]);
-  _paq.push(['setCustomVariable', 4, "cluster_name", "{{ home_cluster.name }}", "visit"]);
-  _paq.push(['setCustomVariable', 5, "city", "{{ home_cluster.city.name }}", "visit"]);
-  _paq.push(['setCustomVariable', 1, "content_brand", "{{ content_brand.name }}", "page"]);
-  _paq.push(["appendToTrackingUrl", 'region={{ cluster.city.name }}']);
+  _paq.push(['setCustomVariable', 2, "store_id", "{{ home_store.id }}", "visit"]);
+  _paq.push(['setCustomVariable', 3, "device_id", {{  home_device.device_id }}, "visit"]);
+  _paq.push(['setCustomVariable', 4, "store_brand", "{{ home_brand.name }}", "visit"]);
+  _paq.push(['setCustomVariable', 5, "cluster_name", "{{ home_cluster.name }}", "visit"]);
+{#  _paq.push(['setCustomVariable', 1, "content_brand", "{{ content_brand.name }}", "page"]);#}
+  _paq.push(["appendToTrackingUrl", 'city={{ home_cluster.city.name }}']);
+  _paq.push(["appendToTrackingUrl", 'country=in']);
   _paq.push(["trackPageView"]);
   _paq.push(["enableLinkTracking"]);
 
   (function() {
     var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ url }}/";
     _paq.push(["setTrackerUrl", u+"piwik.php"]);
-    _paq.push(["setSiteId", "{{ id }}"]);
+    _paq.push(["setSiteId", "2"]);
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
   })();
