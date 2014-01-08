@@ -17,7 +17,6 @@ build
 # Logs:
 *.log
 .idea
-
-media
 .DS_Store
 assets
+media

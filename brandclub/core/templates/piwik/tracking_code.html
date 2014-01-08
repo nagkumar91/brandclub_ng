@@ -2,7 +2,7 @@
 <script type="text/javascript">
     window.log_info = {
         "home_store_name": "{{ home_store.name }}",
-        "home_store_id": "{{ home_store.id }}",
+        "mac_id": "{{ mac_id }}",
         "home_device_id": "{{  home_device.device_id }}",
         "home_brand_name": "{{ home_brand.name }}",
         "home_cluster_name": "{{ home_cluster.name }}",
@@ -15,7 +15,7 @@
     _paq.push(["setCookieDomain", "{{ cookie_domain }}"]);
     _paq.push(["setDomains", ["{{ cookie_domain }}"]]);
     _paq.push(['setCustomVariable', 1, "store_name", "{{ home_store.name }}", "visit"]);
-    _paq.push(['setCustomVariable', 2, "store_id", "{{ home_store.id }}", "visit"]);
+    _paq.push(['setCustomVariable', 2, "mac_address", "{{ mac_id }}", "visit"]);
     _paq.push(['setCustomVariable', 3, "device_id", {{  home_device.device_id }}, "visit"]);
     _paq.push(['setCustomVariable', 4, "store_brand", "{{ home_brand.name }}", "visit"]);
     _paq.push(['setCustomVariable', 5, "cluster_name", "{{ home_cluster.name }}", "visit"]);
@@ -23,11 +23,14 @@
     _paq.push(["appendToTrackingUrl", 'country=in']);
     _paq.push(["trackPageView"]);
     _paq.push(["enableLinkTracking"]);
-
+    var psid = 1;
+    {% if piwik_site_id  %}
+        psid = {{ piwik_site_id }};
+    {% endif %}
     (function() {
         var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ url }}/";
         _paq.push(["setTrackerUrl", u+"piwik.php"]);
-        _paq.push(["setSiteId", "1"]);
+        _paq.push(["setSiteId", psid]);
         var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
         g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
     })();
