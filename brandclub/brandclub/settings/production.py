@@ -87,7 +87,7 @@ DEFAULT_DEVICE_ID = "5678"
 MEDIA_ROOT = "/var/www/brandclub/media"
 
 RAVEN_CONFIG = {
-    'dsn': 'http://2f038bde8bde4b778cd9cda12934b709:4b733c1d76d342079bf5d8f517c0e7dc@sentry.pointat.it/7',
+    'dsn': 'http://a22409594d29468da9248c1835612f7f:ff337ab4ff9a4031b484833781003101@monitor.brandclub.mobi/2',
 }
 
 INSTALLED_APPS = INSTALLED_APPS + (
