@@ -841,7 +841,7 @@
                 this.preventDefault(event);
                 var i = this.index;
                 var href = $(this.list[i]).data("target-url");
-                if(typeof href !== 'undefined') {
+                if(typeof href !== 'undefined' && href !== '') {
                     window.location.href = href;
                 }
                 this.toggleControls();
