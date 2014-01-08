@@ -108,6 +108,19 @@ class Cluster(CachingMixin, TimeStampedModel):
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
 
+    def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
+        device = Device.objects.select_related("store").get(device_id=device_id)
+        home_store = device.store
+        offer_ctype = ContentType.objects.get_or_create(name="Offer")
+        contents = Content.active_objects.select_related('store').\
+            filter(store__cluster__id=cluster_id).\
+            filter(content_type=offer_ctype[0].id).\
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
+            filter(store__in=(self.stores.exclude(active=False))).\
+            order_by('store__id').distinct('store__id').\
+            select_subclasses()
+        return contents
+
     def _find_center_of_cluster(self):
         locations = []
         for s in self.stores.all():
@@ -362,6 +375,14 @@ class WebContent(Content):
     @property
     def redirect_url_path(self):
         return "/redirect?url=%s" % urlencode(self.url)
+
+
+class Offer(Content):
+    file = models.ImageField(upload_to=get_content_info_path)
+
+    @property
+    def template_file(self):
+        return "partials/_wallpaper.html"
 
 
 class Image(CachingMixin, TimeStampedModel):

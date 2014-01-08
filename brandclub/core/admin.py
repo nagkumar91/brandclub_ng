@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.forms import ModelForm
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback
+    State, City, WebContent, StoreFeedback, Offer
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -139,6 +139,9 @@ class StoreFeedbackAdmin(admin.ModelAdmin):
         return "%s" % obj.store.name
 
 
+class OfferAdmin(ContentAdmin):
+    pass
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -154,3 +157,4 @@ admin.site.register(SlideShow, SlideShowAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
+admin.site.register(Offer, OfferAdmin)
