@@ -32,6 +32,6 @@ function impressionLog(content_id, content_type, content_name, content_owner)   
     _paq.push(['setCustomVariable', 5, "log_type", "impression", "page"]);
     _paq.push(["appendToTrackingUrl", 'city='+window.log_info.home_city_name]);
     _paq.push(["appendToTrackingUrl", 'country=in']);
-    _paq.push(["trackPageView"]);
+    _paq.push(["trackPageView", content_owner]);
     _paq.push(["enableLinkTracking"]);
 }
