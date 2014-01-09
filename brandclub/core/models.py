@@ -277,7 +277,18 @@ class ContentManager(InheritanceManager):
     def get_queryset(self):
         date_time_today = datetime.datetime.now()
         return super(ContentManager, self).get_query_set(). \
-            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today)
+            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today).order_by('store_contents__order')
+
+
+class OrderedStoreContent(models.Model):
+    store = models.ForeignKey('Store')
+    content = models.ForeignKey('Content', related_name="store_contents")
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = ("store", "order")
+        ordering = ['order']
+
 
 
 class Content(CachingMixin, TimeStampedModel):
@@ -293,7 +304,7 @@ class Content(CachingMixin, TimeStampedModel):
     archived = models.BooleanField(default=False, help_text='Select this if you want to delete this content')
     thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, verbose_name='Thumbnail for content',
                                   help_text='Ensure that the image size is 500x500')
-    store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
+    store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True, through=OrderedStoreContent)
     content_type = models.ForeignKey(ContentType, related_name='contents')
     objects = InheritanceManager()
     active_objects = ContentManager()

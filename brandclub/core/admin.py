@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.forms import ModelForm
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback
+    State, City, WebContent, StoreFeedback, Content
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -14,12 +14,17 @@ class DeviceInlineAdmin(admin.TabularInline):
     model = Device
 
 
+class OrderContentStoreInline(admin.TabularInline):
+    model = Content.store.through
+
+
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
+    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
+    save_as = True
     inlines = [
-
+        OrderContentStoreInline,
         DeviceInlineAdmin
     ]
 
