@@ -75,7 +75,6 @@ class ClusterAdmin(admin.ModelAdmin):
         self.message_user(request, "Successfully generated images.")
 
 
-
 class DeviceAdmin(admin.ModelAdmin):
     list_display = ('device_id', 'type', 'store', 'brand_device')
     search_fields = ('device_id', 'type', )

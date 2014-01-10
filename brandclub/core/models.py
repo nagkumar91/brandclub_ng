@@ -154,10 +154,23 @@ class Cluster(CachingMixin, TimeStampedModel):
         lon = to_degrees(lon)
         return lat, lon
 
+    def create_atm_for_cluster(self, image_file):
+        wallpaper_ctype, flag = ContentType.objects.get_or_create(name="Wallpaper")
+        widget_name = "ATMs in %s" % self.name
+        atm_wall = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
+                                            thumbnail=image_file, content_type=wallpaper_ctype, file=image_file)
+        atm_wall.save()
+        self.content.add(atm_wall)
+        self.save()
+
     def _create_map_of_all_atms(self):
         if self.map_name is not None:
             file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', self.map_name)
-            os.remove(file_name)
+            if file_name is not None:
+                os.remove(file_name)
+            widget_name = "ATMs in %s" % self.name
+            obj = Wallpaper.objects.all().filter(name=widget_name).delete()
+
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
               'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
@@ -188,6 +201,7 @@ class Cluster(CachingMixin, TimeStampedModel):
                     f.write(chunk)
             self.map_name = name
             self.save()
+            self.create_atm_for_cluster(file_name)
 
 
 class Store(CachingMixin, TimeStampedModel):
