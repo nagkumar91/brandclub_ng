@@ -13,23 +13,26 @@ from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wal
 def home_cluster_view(request, slug):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
-    home_cluster = device.store.cluster #check for no store assigned to the
-    cluster_id = home_cluster.id
-    if home_cluster is not None:
-        all_contents = home_cluster.get_all_home_content(request.device_id)
-        home_brand = get_object_or_None(Brand, slug_name=slug)
-        context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
-        context_instance = RequestContext(request, context)
-        return render_to_response('home.html', context_instance)
-    return render_to_response('default.html', {'cluster': cluster_id})
+    if device.store is not None:
+        if device.store.cluster is not None:
+            home_cluster = device.store.cluster
+            all_contents = home_cluster.get_all_home_content(request.device_id)
+            home_brand = get_object_or_None(Brand, slug_name=slug)
+            context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
+            context_instance = RequestContext(request, context)
+            return render_to_response('home.html', context_instance)
+        return "No cluster assigned to the store"
+    return render_to_response('default.html', {'device': device})
 
 
 def store_home(request, slug):
     store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
-    contents = store.get_content_for_store()
-    context = {'contents': contents, 'store': store, 'brand': store.brand}
-    context_instance = RequestContext(request, context)
-    return render_to_response('store_home.html', context_instance)
+    if store is not None:
+        contents = store.get_content_for_store()
+        context = {'contents': contents, 'store': store, 'brand': store.brand}
+        context_instance = RequestContext(request, context)
+        return render_to_response('store_home.html', context_instance)
+    return "Store not found"
 
 
 def contents_loc_view(request, device_id=settings.DEFAULT_DEVICE_ID):
@@ -93,11 +96,15 @@ def create_user_id(request):
 def cluster_info(request):
     device_id = request.device_id
     device = get_object_or_404(Device, device_id=device_id)
-    cluster = device.store.cluster
-    contents = cluster.get_cluster_info()
-    brand = device.store.brand
-    context_instance = RequestContext(request, {"contents": contents, "brand": brand})
-    return render_to_response("info.html", context_instance)
+    if device.store is not None:
+        if device.store.cluster is not None:
+            cluster = device.store.cluster
+            contents = cluster.get_cluster_info()
+            brand = device.store.brand
+            context_instance = RequestContext(request, {"contents": contents, "brand": brand})
+            return render_to_response("info.html", context_instance)
+        return "No cluster assigned for the store"
+    return "No Store assigned to device"
 
 
 def store_info(request, slug):
