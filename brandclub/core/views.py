@@ -68,11 +68,16 @@ def wallpaper_fullscreen(request, wid):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
     if device.store is not None:
-        redirect = "/%s" % device.store.brand.slug_name
-        to = "cluster"
-        wallpaper = get_object_or_404(Wallpaper, id=wid)
-        context_instance = RequestContext(request, {'content': wallpaper, "redirect": redirect, "to": to})
-        return render_to_response("wallpaper_fullscreen.html", context_instance)
+        if device.store.brand is not None:
+            brand = device.store.brand
+            redirect = "/%s" % device.store.brand.slug_name
+            to = "cluster"
+            wallpaper = get_object_or_404(Wallpaper, id=wid)
+            context_instance = RequestContext(request,
+                                              {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand}
+                                              )
+            return render_to_response("wallpaper_fullscreen.html", context_instance)
+        return "No brand for store"
     return "No store assigned to device"
 
 
