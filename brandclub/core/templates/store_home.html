@@ -8,17 +8,16 @@
 
 {% block store_details %}
     <div class="icon-container pull-right">
-        <a href="#" id="store-map"
-{#           data-reveal-id="store-info"#}
+        <a href="/si/{{ store.slug_name }}" id="store-map"
            class="navbar-icon">
             <span class="glyphicon glyphicon-info-sign"></span>
         </a>
-        <a href="#" id="store-map"
+        <a href="#" id="store-details-anchor"
            data-reveal-id="store-details"
            class="navbar-icon">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
-        <a href="/feedback/{{ store.slug_name }}" id="store-map"
+        <a href="/feedback/{{ store.slug_name }}" id="store-feedback-anchor"
            class="navbar-icon">
             <span class="glyphicon glyphicon-pencil"></span>
         </a>
@@ -87,6 +86,7 @@
         </div>
     </div>
 {% endblock %}
+
 
 {% block extra_js %}
     <script type="text/javascript" src="{% static 'js/blueimp-gallery.js' %}"></script>
