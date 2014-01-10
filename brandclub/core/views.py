@@ -107,6 +107,17 @@ def display_feedback(request):
     return render_to_response("all_feedback.html", context_instance)
 
 
+def display_offers(request):
+    device_id = request.device_id
+    cluster_id = request.cluster_id
+    device = Device.objects.select_related("store").get(device_id=device_id)
+    home_store = device.store
+    home_cluster = get_object_or_None(Cluster, id=cluster_id)
+    offers_in_cluster = home_cluster.get_all_offers(device_id, cluster_id)
+    context_instance = RequestContext(request, {"offers": offers_in_cluster, "brand": home_store.brand})
+    return render_to_response("offers.html", context_instance)
+
+
 def create_user_id(request):
     user_id = "bc_"
     user_id += id_generator()
