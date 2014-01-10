@@ -50,7 +50,20 @@
 </div>
 <div class="map" style="width:100%"></div>
 
-
+{% block navbar_bottom %}
+    {% block navbar_redirect_to_cluster %}
+        <div class="navbar navbar-fixed-bottom">
+            <a href="{{ redirect }}"
+                    style="text-align: center;">
+                {% if to == "store" %}
+                    <h4>Back to the store!</h4>
+                {% else %}
+                    <h4>More stores around you!</h4>
+                {% endif %}
+            </a>
+        </div>
+    {% endblock %}
+{% endblock %}
     <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>

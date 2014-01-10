@@ -26,13 +26,22 @@ def home_cluster_view(request, slug):
 
 
 def store_home(request, slug):
-    store = get_object_or_None(Store, slug_name=slug, cluster__id=request.cluster_id)
-    if store is not None:
-        contents = store.get_content_for_store()
-        context = {'contents': contents, 'store': store, 'brand': store.brand}
-        context_instance = RequestContext(request, context)
-        return render_to_response('store_home.html', context_instance)
-    return "Store not found"
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    if device.store is not None:
+        redirect = "/%s" % device.store.brand.slug_name
+        to = "cluster"
+        if device.store.cluster is not None:
+            cluster = device.store.cluster
+            store = get_object_or_None(Store, slug_name=slug, cluster__id=cluster.id)
+            if store is not None:
+                contents = store.get_content_for_store()
+                context = {'contents': contents, 'store': store, 'brand': store.brand, "redirect": redirect, "to": to}
+                context_instance = RequestContext(request, context)
+                return render_to_response('store_home.html', context_instance)
+            return "Store not found"
+        return "No cluster assigned to store"
+    return "No store assigned to device"
 
 
 def contents_loc_view(request, device_id=settings.DEFAULT_DEVICE_ID):
@@ -56,9 +65,15 @@ def slideshow(request, ssid):
 
 
 def wallpaper_fullscreen(request, wid):
-    wallpaper = get_object_or_404(Wallpaper, id=wid)
-    context_instance = RequestContext(request, {'content': wallpaper})
-    return render_to_response("wallpaper_fullscreen.html", context_instance)
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    if device.store is not None:
+        redirect = "/%s" % device.store.brand.slug_name
+        to = "cluster"
+        wallpaper = get_object_or_404(Wallpaper, id=wid)
+        context_instance = RequestContext(request, {'content': wallpaper, "redirect": redirect, "to": to})
+        return render_to_response("wallpaper_fullscreen.html", context_instance)
+    return "No store assigned to device"
 
 
 def display_clusters(request):
@@ -68,6 +83,8 @@ def display_clusters(request):
 
 def store_feedback(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
+    redirect = "/home/%s" % slug
+    to = "store"
     form = FeedbackForm()
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -75,7 +92,7 @@ def store_feedback(request, slug):
             form.instance.store = store
             form.save()
             return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    context = {'form': form, 'brand': store.brand, 'store': store}
+    context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to}
     return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
 
@@ -101,7 +118,11 @@ def cluster_info(request):
             cluster = device.store.cluster
             contents = cluster.get_cluster_info()
             brand = device.store.brand
-            context_instance = RequestContext(request, {"contents": contents, "brand": brand})
+            redirect = "/%s" % device.store.brand.slug_name
+            to = "cluster"
+            context_instance = RequestContext(request,
+                                              {"contents": contents, "brand": brand, "redirect": redirect, "to": to}
+                                              )
             return render_to_response("info.html", context_instance)
         return "No cluster assigned for the store"
     return "No Store assigned to device"
@@ -111,5 +132,7 @@ def store_info(request, slug):
     store = get_object_or_404(Store, slug_name=slug)
     contents = store.get_store_info()
     brand = store.brand
-    context_instance = RequestContext(request, {"contents": contents, "brand": brand})
+    redirect = "/home/%s" % slug
+    to = "store"
+    context_instance = RequestContext(request, {"contents": contents, "brand": brand, "redirect": redirect, "to": to})
     return render_to_response("info.html", context_instance)
