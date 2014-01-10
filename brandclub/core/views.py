@@ -89,8 +89,19 @@ def create_user_id(request):
 
 
 def cluster_info(request):
-    cluster_id = request.cluster_id
-    cluster = get_object_or_404(Cluster, pk=cluster_id)
+    device_id = request.device_id
+    device = get_object_or_404(Device, device_id=device_id)
+    cluster = device.store.cluster
     contents = cluster.get_cluster_info()
-    context_instance = RequestContext(request, {"contents": contents})
-    return render_to_response("cluster_info.html", context_instance)
+    brand = device.store.brand
+    context_instance = RequestContext(request, {"contents": contents, "brand": brand})
+    return render_to_response("info.html", context_instance)
+
+
+def store_info(request):
+    device_id = request.device_id
+    device = get_object_or_404(Device, device_id=device_id)
+    contents = device.store.get_store_info()
+    brand = device.store.brand
+    context_instance = RequestContext(request, {"contents": contents, "brand": brand})
+    return render_to_response("info.html", context_instance)

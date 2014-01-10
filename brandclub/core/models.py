@@ -197,6 +197,7 @@ class Store(CachingMixin, TimeStampedModel):
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
     objects = CachingManager()
+
     def create_slug(self):
         return slugify(self.name)
 
@@ -210,6 +211,17 @@ class Store(CachingMixin, TimeStampedModel):
             for index, content in enumerate(all_contents):
                 stores = content.store.all()
                 setattr(content, 'own_store', stores[0])
+            contents = all_contents
+            cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        return contents
+
+    def get_store_info(self):
+        cache_key = "Store-Info-%s" % self.id
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = []
+            if self.active:
+                all_contents = Content.active_objects.filter(content_location="4", store=self.id).select_subclasses()
             contents = all_contents
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
@@ -304,7 +316,12 @@ class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     show_on_home = models.BooleanField(default=False)
     content_location = models.CharField(max_length=100,
-                                        choices=[("1", "Store Home"), ("2", "Cluster Home"), ("3", "Cluster Info")],
+                                        choices=[
+                                            ("1", "Store Home"),
+                                            ("2", "Cluster Home"),
+                                            ("3", "Cluster Info"),
+                                            ("4", "Store Info")
+                                        ],
                                         default="1"
                                         )
     short_description = models.CharField(max_length=200)
