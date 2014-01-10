@@ -13,7 +13,7 @@ from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wal
 def home_cluster_view(request, slug):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
-    home_cluster = device.store.cluster
+    home_cluster = device.store.cluster #check for no store assigned to the
     cluster_id = home_cluster.id
     if home_cluster is not None:
         all_contents = home_cluster.get_all_home_content(request.device_id)
@@ -32,7 +32,7 @@ def store_home(request, slug):
     return render_to_response('store_home.html', context_instance)
 
 
-def contents_loc_view(request, device_id=5678):
+def contents_loc_view(request, device_id=settings.DEFAULT_DEVICE_ID):
     device = get_object_or_None(Device, device_id=device_id)
     if device is None:
         return "No Device found"
@@ -42,7 +42,7 @@ def contents_loc_view(request, device_id=5678):
 
 
 def redirect_to_outside(request):
-    url = request.GET.get('href', 'http://www.google.com')
+    url = request.GET.get('href', 'http://www.brandclub.mobi')
     return HttpResponseRedirect(url)
 
 
