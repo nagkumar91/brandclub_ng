@@ -41,12 +41,22 @@ class Migration(SchemaMigration):
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
             ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('slug_name', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=100)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('logo', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
             ('bg_image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
             ('bg_color', self.gf('django.db.models.fields.CharField')(max_length=6, null=True, blank=True)),
         ))
         db.send_create_signal(u'core', ['Brand'])
+
+        # Adding M2M table for field competitors on 'Brand'
+        m2m_table_name = db.shorten_name(u'core_brand_competitors')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('from_brand', models.ForeignKey(orm[u'core.brand'], null=False)),
+            ('to_brand', models.ForeignKey(orm[u'core.brand'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['from_brand_id', 'to_brand_id'])
 
         # Adding model 'Cluster'
         db.create_table(u'core_cluster', (
@@ -68,6 +78,8 @@ class Migration(SchemaMigration):
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('latitude', self.gf('django.db.models.fields.DecimalField')(max_digits=9, decimal_places=6)),
+            ('longitude', self.gf('django.db.models.fields.DecimalField')(max_digits=9, decimal_places=6)),
             ('address_first_line', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('address_second_line', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('city', self.gf('django.db.models.fields.related.ForeignKey')(related_name='stores', to=orm['core.City'])),
@@ -111,7 +123,7 @@ class Migration(SchemaMigration):
             ('rating', self.gf('django.db.models.fields.IntegerField')(default=5)),
             ('no_of_people_rated', self.gf('django.db.models.fields.BigIntegerField')(default=1)),
             ('start_date', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now)),
-            ('end_date', self.gf('django.db.models.fields.DateField')()),
+            ('end_date', self.gf('django.db.models.fields.DateField')(default=datetime.datetime(2014, 1, 18, 0, 0))),
             ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('archived', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('thumbnail', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
@@ -152,7 +164,7 @@ class Migration(SchemaMigration):
         # Adding model 'Web'
         db.create_table(u'core_web', (
             (u'content_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['core.Content'], unique=True, primary_key=True)),
-            ('content', self.gf('django.db.models.fields.TextField')()),
+            ('content', self.gf('ckeditor.fields.RichTextField')()),
         ))
         db.send_create_signal(u'core', ['Web'])
 
@@ -183,7 +195,6 @@ class Migration(SchemaMigration):
         # Adding model 'SlideShow'
         db.create_table(u'core_slideshow', (
             (u'content_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['core.Content'], unique=True, primary_key=True)),
-            ('order', self.gf('django.db.models.fields.IntegerField')(default=1)),
         ))
         db.send_create_signal(u'core', ['SlideShow'])
 
@@ -203,6 +214,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Brand'
         db.delete_table(u'core_brand')
+
+        # Removing M2M table for field competitors on 'Brand'
+        db.delete_table(db.shorten_name(u'core_brand_competitors'))
 
         # Deleting model 'Cluster'
         db.delete_table(u'core_cluster')
@@ -254,12 +268,14 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Brand'},
             'bg_color': ('django.db.models.fields.CharField', [], {'max_length': '6', 'null': 'True', 'blank': 'True'}),
             'bg_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'competitors': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'competitors_rel_+'", 'null': 'True', 'to': u"orm['core.Brand']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'slug_name': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
         },
         u'core.city': {
             'Meta': {'object_name': 'City'},
@@ -286,7 +302,7 @@ class Migration(SchemaMigration):
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'contents'", 'to': u"orm['core.ContentType']"}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'end_date': ('django.db.models.fields.DateField', [], {}),
+            'end_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 1, 18, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -335,8 +351,7 @@ class Migration(SchemaMigration):
         u'core.slideshow': {
             'Meta': {'object_name': 'SlideShow', '_ormbases': [u'core.Content']},
             u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'}),
-            'image': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'slideshow'", 'symmetrical': 'False', 'through': u"orm['core.SlideShowImage']", 'to': u"orm['core.Image']"}),
-            'order': ('django.db.models.fields.IntegerField', [], {'default': '1'})
+            'image': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'slideshow'", 'symmetrical': 'False', 'through': u"orm['core.SlideShowImage']", 'to': u"orm['core.Image']"})
         },
         u'core.slideshowimage': {
             'Meta': {'ordering': "['order']", 'unique_together': "(('slideshow', 'order'),)", 'object_name': 'SlideShowImage'},
@@ -362,6 +377,8 @@ class Migration(SchemaMigration):
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'latitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
+            'longitude': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '6'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'pin_code': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
@@ -379,7 +396,7 @@ class Migration(SchemaMigration):
         },
         u'core.web': {
             'Meta': {'object_name': 'Web', '_ormbases': [u'core.Content']},
-            'content': ('django.db.models.fields.TextField', [], {}),
+            'content': ('ckeditor.fields.RichTextField', [], {}),
             u'content_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Content']", 'unique': 'True', 'primary_key': 'True'})
         }
     }

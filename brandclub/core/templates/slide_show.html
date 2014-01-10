@@ -1,0 +1,40 @@
+{% extends "core_base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+{% block project_css %}
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
+    <style>
+        .blueimp-gallery, .blueimp-gallery > .slides > .slide > .slide-content  {
+            position: absolute;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+{% block content %}
+    <div id="slide-show-carousel" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="play-pause"></a>
+        <a class="close">x</a>
+    </div>
+        <div id="links">
+            {% for i in content.image.all %}
+                    <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
+                       title="{{ i.caption }}"></a>
+            {% endfor %}
+        </div>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/blueimp-gallery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>
+{% endblock %}

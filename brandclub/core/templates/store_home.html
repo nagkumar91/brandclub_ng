@@ -1,0 +1,95 @@
+{% extends "core_base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+
+{% block store_details %}
+    <div class="icon-container pull-right">
+        <a href="#" id="store-map"
+{#           data-reveal-id="store-info"#}
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </a>
+        <a href="#" id="store-map"
+           data-reveal-id="store-details"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-map-marker"></span>
+        </a>
+        <a href="/feedback/{{ store.slug_name }}" id="store-map"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/reveal.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="container list-unstyled" id="home-widget-list">
+        <div class="row masonry">
+            {% for content in contents %}
+                {% include content.template_file %}
+            {% endfor %}
+            <div id="store-details" class="reveal-modal my-personal-modal">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-6 col-md-6 col-sm-6">
+                            <h3 class="align-center">{{ store.name }}</h3>
+                            <img src="/media/store_maps/{{ store.map_name }}"
+                                 class="img-responsive store-map-image"/>
+                            <h4 class="align-center">Store Address:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                            <h5>
+                                {{ store.address_first_line }}<br/>
+                                {% if store.address_second_line %}
+                                    {{ store.address_second_line }}<br/>
+                                {% endif %}
+                                {% if store.city %}
+                                    {{ store.city }}<br/>
+                                {% endif %}
+                                {% if store.pin_code %}
+                                    {{ store.pin_code }}
+                                {% endif %}
+                            </h5>
+                            {% if store.contact_number %}
+                                <a href="tel:{{ store.contact_number }}"
+                                   class="navbar-icon float-left">
+                    <span class="glyphicon glyphicon-earphone">
+                        {{ store.contact_number }}
+                    </span>
+                                </a>
+                            {% endif %}
+                            {% if store.mail_id %}
+                                <br/>
+                                <a href="mailto:{{ store.mail_id }}"
+                                   class="navbar-icon">
+                                    <span class="glyphicon glyphicon-envelope float-left">{{ store.mail_id }}</span>
+                                </a>
+                                <br/>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <a class="close-reveal-modal">&#215;</a>
+            </div>
+            <div class="reveal-modal my-personal-modal" id="store-info">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/blueimp-gallery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/store.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.reveal.js' %}"></script>
+{% endblock %}

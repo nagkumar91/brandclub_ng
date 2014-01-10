@@ -1,10 +1,8 @@
-from django.conf import settings
-import os
-import uuid
+import string
+import random
 from django.db.models import FileField
-from django.forms import forms
-from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from models import *
 
 
 class ContentTypeRestrictedFileField(FileField):
@@ -21,6 +19,7 @@ class ContentTypeRestrictedFileField(FileField):
             250MB - 214958080
             500MB - 429916160
     """
+
     def __init__(self, *args, **kwargs):
         self.content_types = kwargs.pop("content_types")
         self.max_length = 300
@@ -48,11 +47,10 @@ class ContentTypeRestrictedFileField(FileField):
         super(ContentTypeRestrictedFileField, self).__init__(**kwargs)
 
 
-
 def _upload_and_rename(filename, media_dir):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
-    return os.path.join(settings.MEDIA_ROOT, media_dir, filename)
+    return os.path.join(media_dir, filename)
 
 
 def get_content_info_path(instance, filename):
@@ -69,3 +67,6 @@ def upload_and_rename_images(instance, filename):
 def upload_and_rename_thumbnail(instance, filename):
     return _upload_and_rename(filename, "thumbnails")
 
+
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    return ''.join(random.choice(chars) for x in range(size))

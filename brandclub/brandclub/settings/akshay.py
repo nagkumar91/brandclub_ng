@@ -25,10 +25,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, 'default.db')),
-        'USER': '',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'brandclub',
+        'USER': 'akshay',
+        'PASSWORD': 'teli123',
         'HOST': '',
         'PORT': '',
     }
@@ -48,9 +48,9 @@ CACHES = {
 
 ########## TOOLBAR CONFIGURATION
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
-#INSTALLED_APPS += (
-#    'debug_toolbar',
-#)
+INSTALLED_APPS += (
+   'debug_toolbar',
+)
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 INTERNAL_IPS = ('127.0.0.1',)
@@ -66,3 +66,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 ########## END TOOLBAR CONFIGURATION
+CKEDITOR_UPLOAD_PATH = MEDIA_ROOT + "/ckeditor/uploads"
+DEFAULT_CLUSTER_ID = '1'
+CREATE_STORE_MAPS = False

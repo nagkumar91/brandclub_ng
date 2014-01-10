@@ -1,0 +1,19 @@
+{% extends "core_base.html" %}
+{% block store_details %}
+{% endblock %}
+{% block extra_css %}
+    <style>
+        .center-img     {
+            margin: 0 auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+{% block brand_background %}{% endblock %}
+{% load staticfiles %}
+{% block content %}
+    <div class="center-img">
+        <img src="{{ content.file.url }}"
+             class="img-responsive"/>
+    </div>
+{% endblock %}

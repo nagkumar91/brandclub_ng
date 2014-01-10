@@ -1,0 +1,40 @@
+<!-- Piwik -->
+<script type="text/javascript">
+    window.log_info = {
+        "home_store_name": "{{ home_store.name }}",
+        "mac_id": "a4:b1:97:ff:fe:97:cd:9e",
+        "home_device_id": "{{  home_device.device_id }}",
+        "home_brand_name": "{{ home_brand.name }}",
+        "home_cluster_name": "{{ home_cluster.name }}",
+        "home_city_name": "{{ home_cluster.city.name }}",
+        "cookie_domain": "{{ cookie_domain }}",
+        "url": "{{ url }}"
+    };
+    var _paq = _paq || [];
+    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+    _paq.push(["setCookieDomain", "{{ cookie_domain }}"]);
+    _paq.push(["setDomains", ["{{ cookie_domain }}"]]);
+    _paq.push(['setCustomVariable', 1, "store_name", "{{ home_store.name }}", "visit"]);
+    _paq.push(['setCustomVariable', 2, "mac_address", "a4:b1:97:ff:fe:97:cd:9e", "visit"]);
+    _paq.push(['setCustomVariable', 3, "device_id", {{  home_device.device_id }}, "visit"]);
+    _paq.push(['setCustomVariable', 4, "store_brand", "{{ home_brand.name }}", "visit"]);
+    _paq.push(['setCustomVariable', 5, "cluster_name", "{{ home_cluster.name }}", "visit"]);
+    _paq.push(["appendToTrackingUrl", 'city={{ home_cluster.city.name }}']);
+    _paq.push(["appendToTrackingUrl", 'country=in']);
+    _paq.push(["trackPageView"]);
+    _paq.push(["enableLinkTracking"]);
+    var psid = 1;
+    {% if piwik_site_id  %}
+        psid = {{ piwik_site_id }};
+    {% endif %}
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ url }}/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", psid]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+    })();
+
+
+</script>
+<!-- End Piwik Code -->

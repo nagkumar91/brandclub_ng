@@ -1,6 +1,5 @@
 """Common settings and globals."""
 
-
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -138,6 +137,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    'core.proc.brandclub_processor',
     'django.core.context_processors.request',
 )
 
@@ -150,6 +150,7 @@ TEMPLATE_LOADERS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
     normpath(join(SITE_ROOT, 'templates')),
+    normpath(join(SITE_ROOT, 'core', 'templates')),
 )
 ########## END TEMPLATE CONFIGURATION
 
@@ -164,6 +165,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.ClusterDeviceDetectionMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -198,6 +200,9 @@ THIRD_PARTY_APPS = (
     'grappelli.dashboard',
     'grappelli',
     'django.contrib.admin',
+    'ckeditor',
+    'pipeline',
+    'crispy_forms',
 )
 
 # Apps specific for this project go here.
@@ -251,3 +256,63 @@ WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 GRAPPELLI_ADMIN_TITLE = "BrandClub"
 
 GRAPPELLI_INDEX_DASHBOARD = 'brandclub.dashboard.CustomIndexDashboard'
+
+############ BRANDCLUB CONFIGURATION
+DEFAULT_DEVICE_ID = '121'
+DEFAULT_CLUSTER_ID = '-1'
+CREATE_STORE_MAPS = True
+
+CKEDITOR_UPLOAD_PATH = normpath(join(MEDIA_ROOT, 'ckeditor'))
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+    'default': {
+        'toolbar': 'Full',
+        'height': 400,
+        'width': 750,
+    },
+}
+
+PIPELINE_JS = {
+    'app': {
+        'source_filenames': (
+          'js/jquery-1.10.2.js',
+          'js/bootstrap.js',
+          'js/blueimp-gallery.min.js',
+          'js/imagesloaded.pkgd.min.js',
+          'js/masonry.pkgd.min.js',
+          'js/helper.js',
+          'js/slideshow.js',
+          'js/store.js'
+        ),
+        'output_filename': 'js/app.min.js',
+    }
+}
+
+PIPELINE_CSS = {
+    'brandclub': {
+        'source_filenames': (
+            'css/bootstrap.css',
+            'css/bootstrap-theme.css',
+            'css/blueimp-gallery.css',
+            'css/reveal.css',
+            'css/project.css',
+        ),
+        'output_filename': 'css/brandclub.css',
+    },
+}
+
+STORE_MAPS_DIRECTORY = 'store_maps'
+
+# STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+CACHE_TIME_OUT = 300
+CONTENT_CACHE_DIRECTORY = '/tmp/core'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+PIWIK_URL = 'piwik.brandclub.mobi'
+PIWIK_SITE_ID = '1'
+PIWIK_COOKIE_DOMAIN = "*.beta.brandclub.mobi"
+PIWIK_SITE_TOKEN = '663969d8ed74ece3ba288c38b74b0609'
+DEFAULT_MAC_ID = "0:0:0:0:0:0:0"

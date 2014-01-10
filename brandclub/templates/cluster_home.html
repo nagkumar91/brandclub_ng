@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ cluster.name }}
+{% endblock title %}
+{% block page_title %}
+    {{ home_brand.name }}
+{% endblock page_title %}
+{% block content %}
+    {% for c in contents %}
+        <div href="{{ home_brand.slug_name }}/home" class="card col-xs-12 col-sm-12" data-content_type="{{ c.content_type }}">
+            <img src="{{ c.thumbnail.url }}" class="img-responsive" alt=""/>
+    {#    {{ c.name }}#}
+        <p class="text-muted desc-text">{{ c.short_description }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}

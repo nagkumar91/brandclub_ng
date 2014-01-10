@@ -1,1 +1,225 @@
-/*! project specific CSS goes here. */
+@font-face {
+    font-family: "Lato Regular";
+    src: url("../fonts/Lato-Reg.ttf");
+}
+
+@font-face {
+    font-family: "Lato Bold";
+    src: url("../fonts/Lato-Bla.ttf");
+}
+
+* {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+}
+
+
+body {
+    font-family: "Lato Regular", "Times New Roman", Helvetica, Arial, sans-serif;
+    background: url('../img/husk.png') #f2f2f2
+}
+
+#main-container {
+    min-height: 100%;
+    height: auto;
+    margin-top: 95px;
+}
+
+.footer-container {
+    width: auto;
+    padding: 0 15px;
+}
+
+.footer-container .text{
+    margin: 20px 0;
+}
+
+.img-frame{
+	background-color: #fff;
+	padding:2px;
+	display: block;
+	/*position: relative;*/
+	max-width: 100%;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	height:auto;
+	overflow: hidden;
+	box-shadow: 0 1px 1px #999999;
+	-moz-box-shadow: 0 1px 1px #999999;
+	-webkit-box-shadow: 0 1px 1px #999999;
+}
+
+
+.img-frame p{
+	font-size: 12px;
+	color:#666666;
+	margin: 0;
+	padding: 3px 5px 7px 5px;
+}
+
+
+.image-wrapper{
+	position: relative;
+	display:block;
+	overflow: hidden;
+	text-align: center;
+	cursor: pointer;
+}
+
+.image-wrapper .extra-links{
+	position: absolute;
+	z-index: 1;
+	top:-50%;
+	margin-top: -19px;
+	line-height: 0;
+	padding: 0;
+	text-align: center;
+	left: 0;
+	width: 100%;
+	display: block;
+}
+.image-wrapper a{line-height: 0;padding:0;margin:0;display: block;}
+.image-wrapper a.photo-up, .image-wrapper a.go-link,.image-wrapper a.web-link{
+	background-color: #000;
+	display: inline-block;
+	width:34px;
+	line-height: 34px;
+	height: 34px;
+	margin: 0 4px;
+	-webkit-border-radius: 34px;
+	-moz-border-radius: 34px;
+	border-radius:34px;
+	opacity: 0.7;
+}
+
+/*.image-wrapper a.photo-up{*/
+    /*background: url('../img/theme/icon-glass.png') no-repeat center center;*/
+/*}*/
+
+.brandclub-widget {
+    padding-bottom: 15px;
+}
+
+/*.image-wrapper a.web-link{*/
+    /*background: url('../img/theme/icon-web-link.png') no-repeat center center;*/
+/*}*/
+
+/*.image-wrapper a.go-link{*/
+    /*background: url('../img/theme/icon-link.png') no-repeat center center;*/
+/*}*/
+
+.image-wrapper .mouse-effect{
+	background-color: #2e2e2e;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	z-index: 1;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	opacity:0;
+	filter: alpha(opacity=0);
+}
+.image-wrapper a:hover.photo-up, .image-wrapper a:hover.go-link, .image-wrapper a:hover.web-link{
+	opacity:0.9;
+
+	-moz-transition: all 0.2s ease-in-out;
+ 	-webkit-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+
+}
+
+
+.brandclub-widget .img-frame h5{
+	margin: 12px 12px 6px 12px;
+	color:#707070;
+	font-size: 15px;
+}
+
+.brandclub-widget .img-frame p {
+    margin: 0 7px 6px 7px;
+    font-family: "Lato Regular", "Times New Roman", Helvetica, Arial, sans-serif;
+}
+
+
+.img-frame h5{
+	font-size: 14px;
+	margin: 8px 5px 0 5px;
+	/*border-bottom: 1px solid #dedede;*/
+	color:#303030;
+}
+
+.img-frame .info-panel {
+    border-bottom: 1px solid #dedede;
+}
+
+h1,h2,h3,h4,h5,h6,.name{
+	font-family: "Lato Bold", "Times New Roman", Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	text-transform:uppercase;
+}
+
+img.image {
+}
+
+.navbar-header {
+    width: 100%;
+}
+
+.navbar-header .navbar-icon {
+    line-height:50px;
+    height:50px;
+}
+
+.navbar-header  a.navbar-icon {
+    padding:0 10px;
+    font-size: 18px;
+    color: #000;
+}
+
+.navbar-header .navbar-brand img {
+    max-height: 40px;
+}
+
+.info-panel .navbar-icon {
+    line-height:35px;
+    height:35px;
+}
+
+.info-panel  a.navbar-icon {
+    padding:0 10px;
+    font-size: 14px;
+    color: #000;
+    /*margin: 12px 12px 6px 12px*/
+}
+
+.my-personal-modal{
+    padding:5px;
+    left: 5%;
+    width: 90%;
+    overflow: hidden;
+}
+
+.store-map-image    {
+    max-height: 70%;
+}
+
+.align-center   {
+    text-align: center;
+}
+
+.float-left {
+    float: left;
+}
+
+.form-group {
+    padding: 0px 15px 0px 15px;
+}
+
+
+
+
