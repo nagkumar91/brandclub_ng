@@ -90,10 +90,11 @@ class Cluster(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
-        cache_key = "Cluster-Home-%s-%s" % (cluster_id, device_id)
+        cluster_id = home_store.cluster.id
+        cache_key = "Cluster-Home-%s-%s" % (self.id, device_id)
         contents = cache.get(cache_key)
         if not contents:
             all_contents = Content.active_objects.select_related('store').\
@@ -101,6 +102,7 @@ class Cluster(CachingMixin, TimeStampedModel):
                 filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
                 filter(store__in=(self.stores.exclude(active=False))).\
                 order_by('store__id').distinct('store__id')
+            print all_contents
             contents = list(all_contents)
             for index, content in enumerate(contents):
                 stores = content.store.all()

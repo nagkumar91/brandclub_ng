@@ -11,10 +11,12 @@ from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wal
 
 
 def home_cluster_view(request, slug):
-    cluster_id = request.cluster_id
-    home_cluster = get_object_or_None(Cluster, id=cluster_id)
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    home_cluster = device.store.cluster
+    cluster_id = home_cluster.id
     if home_cluster is not None:
-        all_contents = home_cluster.get_all_home_content(request.device_id, request.cluster_id)
+        all_contents = home_cluster.get_all_home_content(request.device_id)
         home_brand = get_object_or_None(Brand, slug_name=slug)
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
@@ -98,10 +100,9 @@ def cluster_info(request):
     return render_to_response("info.html", context_instance)
 
 
-def store_info(request):
-    device_id = request.device_id
-    device = get_object_or_404(Device, device_id=device_id)
-    contents = device.store.get_store_info()
-    brand = device.store.brand
+def store_info(request, slug):
+    store = get_object_or_404(Store, slug_name=slug)
+    contents = store.get_store_info()
+    brand = store.brand
     context_instance = RequestContext(request, {"contents": contents, "brand": brand})
     return render_to_response("info.html", context_instance)
