@@ -19,7 +19,7 @@ class OrderContentStoreInline(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster')
+    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'map_image_tag')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
     save_as = True
@@ -54,7 +54,8 @@ class BrandAdmin(BrandClubAdmin):
 
 
 class ClusterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name', 'description', )
+    filter_horizontal = ('content', )
     search_fields = ('name',)
     actions = ['create_atm_map_for_cluster']
     inlines = [
@@ -89,7 +90,8 @@ class DeviceAdmin(admin.ModelAdmin):
 
 
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'show_on_home', 'content_type', 'start_date', 'end_date')
+    list_display = ('name', 'content_location', 'content_type', 'start_date', 'end_date')
+    list_filter = ('content_location', )
     filter_horizontal = ("store", )
     save_as = True
 

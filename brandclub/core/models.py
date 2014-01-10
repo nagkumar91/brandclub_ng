@@ -1,3 +1,4 @@
+from annoying.functions import get_object_or_None
 from caching.base import CachingMixin, CachingManager
 import datetime
 from django.core.cache import cache
@@ -82,7 +83,8 @@ class Cluster(CachingMixin, TimeStampedModel):
     map_name = models.CharField(max_length=200, blank=True, null=True, editable=False)
     city = models.ForeignKey(City, related_name="clusters")
     state = models.ForeignKey(State, related_name="clusters")
-
+    content = models.ManyToManyField('Content', related_name='clusters', null=True, blank=True,
+                                     limit_choices_to={"content_location": "3"})
     objects = CachingManager()
 
     def __unicode__(self):
@@ -95,7 +97,7 @@ class Cluster(CachingMixin, TimeStampedModel):
         contents = cache.get(cache_key)
         if not contents:
             all_contents = Content.active_objects.select_related('store').\
-                filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
+                filter(store__cluster__id=cluster_id).filter(content_location="2"). \
                 filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
                 filter(store__in=(self.stores.exclude(active=False))).\
                 order_by('store__id').distinct('store__id')
@@ -106,6 +108,14 @@ class Cluster(CachingMixin, TimeStampedModel):
                 if home_store in stores:
                     contents[0], contents[index] = contents[index], contents[0]
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        return contents
+
+    def get_cluster_info(self):
+        cache_key = "Cluster-Info-%s" % self.id
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = self.content.all().select_subclasses()
+            contents = list(all_contents)
         return contents
 
     def _find_center_of_cluster(self):
@@ -196,7 +206,7 @@ class Store(CachingMixin, TimeStampedModel):
         if not contents:
             all_contents = []
             if self.active:
-                all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
+                all_contents = Content.active_objects.filter(content_location="1", store=self.id).select_subclasses()
             for index, content in enumerate(all_contents):
                 stores = content.store.all()
                 setattr(content, 'own_store', stores[0])
@@ -290,10 +300,13 @@ class OrderedStoreContent(models.Model):
         ordering = ['order']
 
 
-
 class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     show_on_home = models.BooleanField(default=False)
+    content_location = models.CharField(max_length=100,
+                                        choices=[("1", "Store Home"), ("2", "Cluster Home"), ("3", "Cluster Info")],
+                                        default="1"
+                                        )
     short_description = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     rating = models.IntegerField(default=5)

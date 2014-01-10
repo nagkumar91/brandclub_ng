@@ -9,6 +9,7 @@ urlpatterns = patterns('',
                        url(r'create_user_id/$', 'core.views.create_user_id'),
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
                        url(r'wallpaper/(?P<wid>\d+)/$', 'core.views.wallpaper_fullscreen'),
+                       url(r'ci/$', 'core.views.cluster_info'),
                        url(r'(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
 

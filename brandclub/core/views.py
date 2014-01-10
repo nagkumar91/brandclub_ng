@@ -86,3 +86,11 @@ def create_user_id(request):
     data = {"user_id": user_id}
     data = json.dumps(data)
     return HttpResponse(data, mimetype='application/json')
+
+
+def cluster_info(request):
+    cluster_id = request.cluster_id
+    cluster = get_object_or_404(Cluster, pk=cluster_id)
+    contents = cluster.get_cluster_info()
+    context_instance = RequestContext(request, {"contents": contents})
+    return render_to_response("cluster_info.html", context_instance)
