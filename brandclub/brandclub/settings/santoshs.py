@@ -81,3 +81,5 @@ DEBUG_TOOLBAR_CONFIG = {
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 CACHE_TIME_OUT = 30
+
+CONTENT_CACHE_DIRECTORY = '/tmp/bclub'
