@@ -55,7 +55,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'brandclubdb',
         'USER': 'brandclub',
-        'PASSWORD': 'brandclub',
+        'PASSWORD': 'bclub',
         'HOST': '192.168.188.122',
         'PORT': '5432',
     }
