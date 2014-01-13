@@ -67,10 +67,7 @@ DATABASES = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': [
-            'localhost:11211',
-        ]
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 ########## END CACHE CONFIGURATION
@@ -96,5 +93,5 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
 CONTENT_CACHE_DIRECTORY = '/srv/content'
 
-CACHE_TIME_OUT = 30 * 60
+CACHE_TIME_OUT = 1 * 60
 
