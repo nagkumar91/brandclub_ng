@@ -3,7 +3,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
 
-from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Device
+from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Device, OrderedStoreContent
 from pyquery import PyQuery
 
 
@@ -40,8 +40,9 @@ class ClusterTestCase(TestCase):
         for i in range(count):
             w = Wallpaper.objects.create(name="name %s" % i, content_type=ctype, end_date=dateobj,
                                          show_on_home=show_on_home)
-            w.store.add(stores[i])
             w.save()
+            o = OrderedStoreContent(store=stores[i], content=w, order=i)
+            o.save()
 
     def _create_initial_defaults(self):
         self.state = State.objects.create(name="Karnataka")

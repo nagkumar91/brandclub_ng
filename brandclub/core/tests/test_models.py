@@ -1,7 +1,7 @@
 import datetime
 from django.db import IntegrityError
 from django.test import TestCase
-from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Content, Device
+from ..models import Brand, Cluster, City, State, Wallpaper, ContentType, Store, Content, Device, OrderedStoreContent
 
 
 class ClusterTestCase(TestCase):
@@ -52,8 +52,9 @@ class ClusterTestCase(TestCase):
         w = Wallpaper.objects.create(name="Expired Object 1", content_type=self.ctype_wall, start_date=expired_start,
                                      end_date=expired_end, show_on_home=show_on_home_status, active=active_status,
                                      archived=archived_status)
-        w.store.add(s)
+        o = OrderedStoreContent(store=s, content=w, order=1)
         w.save()
+        o.save()
 
     def _create_content(self, stores, count=5):
         datestr = '2014-05-01'
@@ -61,8 +62,9 @@ class ClusterTestCase(TestCase):
         for i in range(count):
             w = Wallpaper.objects.create(name="name %s" % i, content_type=self.ctype_wall, end_date=dateobj,
                                          show_on_home=True)
-            w.store.add(stores[i])
+            o = OrderedStoreContent(store=stores[i], content=w, order=i)
             w.save()
+            o.save()
 
     def _create_initial_defaults(self):
         self.state = State.objects.create(name="Karnataka")
@@ -96,7 +98,7 @@ class ClusterTestCase(TestCase):
         s.save()
         dev = Device.objects.create(device_id=1234, type="Simple", store=s)
         dev.save()
-        content = cluster.get_all_home_content(cluster_id=cluster.id, device_id=1234)
+        content = cluster.get_all_home_content(device_id=1234)
         self.assertEquals(0, len(content))
 
     def test_content_fetching_according_to_cluster_is_not_null(self):
@@ -135,15 +137,17 @@ class ClusterTestCase(TestCase):
 
     def __get_content_for_current_cluster(self):
         cluster_id = self.cluster.id
-        return self.cluster.get_all_home_content(4, cluster_id)
+        return self.cluster.get_all_home_content(4)
 
     def test_only_one_show_on_home_content_appears_for_each_brand_in_a_cluster(self):
         datestr = '2014-05-01'
         dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
         temp_wall_obj = Wallpaper.objects.create(name="un important wallpaper", content_type=self.ctype_wall,
                                                  end_date=dateobj, show_on_home=True)
-        temp_wall_obj.store.add(self.some_store)
+        # temp_wall_obj.store.add(self.some_store)
         temp_wall_obj.save()
+        o = OrderedStoreContent(store=self.some_store, content = temp_wall_obj, order = 100)
+        o.save()
         home_contents = self.__get_content_for_current_cluster()
         all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
         self.assertNotEqual(len(all_contents), len(home_contents))
@@ -159,8 +163,10 @@ class ClusterTestCase(TestCase):
         dev.save()
         temp_wall_obj = Wallpaper.objects.create(name="un important wallpaper", content_type=self.ctype_wall,
                                                  show_on_home=True)
-        temp_wall_obj.store.add(s)
+        # temp_wall_obj.store.add(s)
         temp_wall_obj.save()
+        o = OrderedStoreContent(store = s, content = temp_wall_obj, order = 1000)
+        o.save()
         all_contents = Content.objects.filter(store__in=self.cluster.stores.all())
         home_contents = self.__get_content_for_current_cluster()
         self.assertNotEqual(len(all_contents), len(home_contents))
@@ -245,5 +251,5 @@ class BrandTestCase(TestCase):
         device = Device(device_id=3226, store=stores[1])
         device.save()
         cluster_id = self.cluster.id
-        home_content = self.cluster.get_all_home_content(3226, cluster_id)
+        home_content = self.cluster.get_all_home_content(3226)
         self.assertEqual(3, len(home_content))
