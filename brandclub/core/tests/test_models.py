@@ -51,7 +51,7 @@ class ClusterTestCase(TestCase):
         expired_end = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
         w = Wallpaper.objects.create(name="Expired Object 1", content_type=self.ctype_wall, start_date=expired_start,
                                      end_date=expired_end, show_on_home=show_on_home_status, active=active_status,
-                                     archived=archived_status)
+                                     archived=archived_status, content_location=2)
         o = OrderedStoreContent(store=s, content=w, order=1)
         w.save()
         o.save()
@@ -196,10 +196,9 @@ class BrandTestCase(TestCase):
     def test_for_brand_competitors(self):
         store, created = Brand.objects.get_or_create(name='pnrao', footfall=10)
         self.assertEquals("pnrao", store.name)
-        all_competitors = store.competitors.all()
+        all_competitors = self.store2.competitors.all()
         self.assertEquals(1, len(all_competitors))
-        self.assertEquals(all_competitors[0].id, self.store2.id)
-        self.assertEquals(all_competitors[0].name, self.store2.name)
+        self.assertEquals(all_competitors[0].name, store.name)
 
     def test_brand_competition_is_symmetrical(self):
         store = Brand.objects.get(name="pnrao", footfall=10)
@@ -244,9 +243,10 @@ class BrandTestCase(TestCase):
         dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
         for i in range(5):
             w = Wallpaper.objects.create(name="name %s" % i, content_type=self.ctype_wall, end_date=dateobj,
-                                         show_on_home=True)
-            w.store.add(stores[i])
+                                         show_on_home=True, content_location=2)
             w.save()
+            o = OrderedStoreContent(store=stores[i], content=w, order=i)
+            o.save()
 
         device = Device(device_id=3226, store=stores[1])
         device.save()

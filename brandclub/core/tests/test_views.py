@@ -39,7 +39,7 @@ class ClusterTestCase(TestCase):
         dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d').date()
         for i in range(count):
             w = Wallpaper.objects.create(name="name %s" % i, content_type=ctype, end_date=dateobj,
-                                         show_on_home=show_on_home)
+                                         show_on_home=show_on_home, content_location=2)
             w.save()
             o = OrderedStoreContent(store=stores[i], content=w, order=i)
             o.save()
@@ -63,10 +63,10 @@ class ClusterTestCase(TestCase):
     def test_Cluster_View(self):
         client = Client()
         response = client.get("/B-1/")
-        query = PyQuery(response.content)
-        h5 = query("h5")
-        self.assertTrue(5, len(h5))
-        self.assertTrue("name 1", PyQuery(query("h5")[1]).html())
+        contents = response.context['contents']
+        self.assertEquals('B 1', response.context['brand'].name)
+        self.assertEquals(5, len(contents))
+        self.assertEquals('name 1', contents[0].name)
 
     def test_if_unique_code_is_unique(self):
         client = Client()
