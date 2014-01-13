@@ -1,6 +1,7 @@
 """Production settings and globals."""
 
 from os import environ
+import os
 
 from base import *
 
@@ -19,7 +20,7 @@ def get_env_setting(setting):
 
 ########## HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
-ALLOWED_HOSTS = ['beta.brandclub.mobi', '162.243.106.173']
+ALLOWED_HOSTS = ['beta.brandclub.mobi', '162.243.106.173', 'srv1.brandclub.mobi', 'brandclub.mobi']
 ########## END HOST CONFIGURATION
 
 ########## EMAIL CONFIGURATION
@@ -52,10 +53,10 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'brandclub',
+        'NAME': 'brandclubdb',
         'USER': 'brandclub',
-        'PASSWORD': 'brandclub',
-        'HOST': 'localhost',
+        'PASSWORD': 'bclub',
+        'HOST': '192.168.188.122',
         'PORT': '5432',
     }
 
@@ -96,5 +97,9 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
 CONTENT_CACHE_DIRECTORY = '/srv/content'
 
-CACHE_TIME_OUT = 30 * 60
+MEDIA_ROOT = '/opt/bclub/media'
+
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'ckeditor')
+
+CACHE_TIME_OUT = 1 * 60
 
