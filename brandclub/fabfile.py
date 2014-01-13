@@ -21,3 +21,19 @@ def deploy():
             sudo("source /srv/bcenv/bin/activate && ./manage.py migrate --no-initial-data", user="www-data")
         sudo("supervisorctl restart beta")
     print(green("Deployment complete"))
+
+def deploy_prod():
+    print(red("Deploying to production server"))
+    local('git push origin master')
+    with cd("/opt/bclub/brandclub"):
+        run("git reset --hard || true")
+        run("git pull origin master")
+        run("source /opt/bclub/.virtualenvs/bcenv/bin/activate && pip install -r requirements.txt")
+    with cd("/opt/bclub/brandclub/brandclub"):
+        with shell_env(DJANGO_SETTINGS_MODULE='brandclub.settings.prod',
+                       SECRET_KEY='bclubmfw0w!ipbgtlen=&m^3i(f$by2oi$$7!7$xrqioag3*^pane+0prod'):
+            run("source /opt/bclub/.virtualenvs/bcenv/bin/activate && python manage.py collectstatic --noinput > /dev/null")
+            run("source /opt/bclub/.virtualenvs/bcenv/bin/activate && ./manage.py migrate --no-initial-data")
+        sudo("supervisorctl restart brandclub")
+    print(green("Deployment complete"))
+
