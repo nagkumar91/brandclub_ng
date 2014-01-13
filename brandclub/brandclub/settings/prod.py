@@ -1,6 +1,7 @@
 """Production settings and globals."""
 
 from os import environ
+import os
 
 from base import *
 
@@ -95,6 +96,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 )
 
 CONTENT_CACHE_DIRECTORY = '/srv/content'
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'ckeditor')
 
 CACHE_TIME_OUT = 1 * 60
 
