@@ -342,7 +342,6 @@ class OrderedStoreContent(models.Model):
 
 class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
-    show_on_home = models.BooleanField(default=False)
     content_location = models.CharField(max_length=100,
                                         choices=[
                                             ("1", "Store Home"),
