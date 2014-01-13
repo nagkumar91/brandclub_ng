@@ -10,14 +10,17 @@ from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper
 
 
-def home_cluster_view(request, slug):
+def home_cluster_view(request, slug=""):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
     if device.store is not None:
         if device.store.cluster is not None:
             home_cluster = device.store.cluster
             all_contents = home_cluster.get_all_home_content(request.device_id)
-            home_brand = get_object_or_None(Brand, slug_name=slug)
+            if slug is not "":
+                home_brand = get_object_or_None(Brand, slug_name=slug)
+            else:
+                home_brand = device.store.brand
             context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
             context_instance = RequestContext(request, context)
             return render_to_response('home.html', context_instance)
