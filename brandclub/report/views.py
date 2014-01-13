@@ -93,16 +93,16 @@ def store_contents(request):
     return response
 
 
-def brand_validation(request):
+def brands_footfall(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="brand_validation.csv"'
+    response['Content-Disposition'] = 'attachment; filename="brands_footfall.csv"'
     writer = csv.writer(response)
     brands = Brand.objects.all()
     for b in brands:
         brand_id = b.id
         brand_name = b.name
         brand_footfall = b.footfall
-        stores = b.stores.all()
+        stores = b.stores.filter(demo=False, active=True)
         competitors = b.competitors.all()
         for st in stores:
             store_name = st.name
@@ -110,22 +110,17 @@ def brand_validation(request):
             cluster_id = st.cluster.id
             cluster_name = st.cluster.name
             city = st.city
-            all_brands = Brand.objects.all()
-            for nc in all_brands:
-                if nc not in competitors and nc.id is not brand_id:
-                    assoc_partner_name = nc.name
-                    assoc_partner_footfall = nc.footfall
-                    assoc_partner_id = nc.id
-                    nc_stores = nc.stores.all()
-                    for nc_st in nc_stores:
-                        assoc_store_id = nc_st.id
-                        assoc_store_name = nc_st.name
-                        print "Row %s %s %s %s %s %s %s %s %s %s %s %s %s" % (
-                            brand_id, brand_name, store_id, store_name,
-                            cluster_id, cluster_name, brand_footfall, assoc_partner_id, assoc_partner_name,
-                            assoc_partner_footfall, assoc_store_id, assoc_store_name, city)
-                        writer.writerow([
-                            brand_id, brand_name, store_id, store_name, cluster_id, cluster_name, brand_footfall,
-                            assoc_partner_id, assoc_partner_name, assoc_partner_footfall, assoc_store_id,
-                            assoc_store_name, city])
+            clust = st.cluster
+            stores_in_cluster = clust.stores.filter(demo=False, active=True)
+            for sic in stores_in_cluster:
+                if sic.brand not in competitors and sic.id is not st.id:
+                    assoc_partner_name = sic.brand.name
+                    assoc_partner_footfall = sic.brand.footfall
+                    assoc_partner_id = sic.brand.id
+                    assoc_store_id = sic.id
+                    assoc_store_name = sic.name
+                    writer.writerow([
+                        brand_id, brand_name, store_id, store_name, cluster_id, cluster_name, brand_footfall,
+                        assoc_partner_id, assoc_partner_name, assoc_partner_footfall, assoc_store_id,
+                        assoc_store_name, city])
     return response
