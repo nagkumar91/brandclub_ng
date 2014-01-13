@@ -3,10 +3,12 @@ from fabric.context_managers import cd, shell_env
 from fabric.operations import run, sudo, local
 from fabric.state import env
 
-env.hosts = ["beta.brandclub.mobi"]
-env.user = 'brandclub'
+#env.hosts = ["beta.brandclub.mobi"]
+#env.user = 'brandclub'
 
+# To run use fab -H host_name -u user deploy
 
+# Host is beta.brandclub.mobi user is brandclub
 def deploy():
     print(red("Pushing to server repo"))
     local("git push prod develop")
@@ -22,6 +24,9 @@ def deploy():
         sudo("supervisorctl restart beta")
     print(green("Deployment complete"))
 
+
+# To run use fab -H host_name -u user deploy_prod
+#Host is srv1.brandclub.mobi user is bclub
 def deploy_prod():
     print(red("Deploying to production server"))
     local('git push origin master')
