@@ -16,6 +16,7 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 class OrderContentStoreInline(admin.TabularInline):
     model = Content.store.through
+    sortable_field_name = 'order'
 
 
 class StoreAdmin(BrandClubAdmin):
@@ -102,6 +103,7 @@ class SlideShowImageInline(admin.TabularInline):
     model = SlideShow.image.through
     readonly_fields = ('image_tag',)
     extra = 1
+    sortable_field_name = "order"
 
 
 class SlideShowAdmin(ContentAdmin):

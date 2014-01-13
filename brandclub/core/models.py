@@ -336,7 +336,7 @@ class OrderedStoreContent(models.Model):
     order = models.IntegerField()
 
     class Meta:
-        unique_together = ("store", "order")
+        # unique_together = ("store", "order")
         ordering = ['order']
 
 
@@ -459,7 +459,7 @@ class SlideShowImage(models.Model):
     order = models.IntegerField()
 
     class Meta:
-        unique_together = ("slideshow", "order")
+        # unique_together = ("slideshow", "order")
         ordering = ['order']
 
     def image_tag(self):
