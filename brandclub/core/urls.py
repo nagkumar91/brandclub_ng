@@ -6,9 +6,13 @@ urlpatterns = patterns('',
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),
                        url(r'feedback/(?P<slug>[\-\w]+)/$', 'core.views.store_feedback'),
                        url(r'all_feedback/$', 'core.views.display_feedback'),
+                       url(r'offers/$', 'core.views.display_offers'),
                        url(r'create_user_id/$', 'core.views.create_user_id'),
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
                        url(r'wallpaper/(?P<wid>\d+)/$', 'core.views.wallpaper_fullscreen'),
+                       url(r'ci/$', 'core.views.cluster_info'),
+                       url(r'si/(?P<slug>[\-\w]+)/$', 'core.views.store_info'),
+                       url(r'^$', 'core.views.home_cluster_view'),
                        url(r'(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
 

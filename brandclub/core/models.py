@@ -1,3 +1,4 @@
+from annoying.functions import get_object_or_None
 from caching.base import CachingMixin, CachingManager
 import datetime
 from django.core.cache import cache
@@ -82,20 +83,22 @@ class Cluster(CachingMixin, TimeStampedModel):
     map_name = models.CharField(max_length=200, blank=True, null=True, editable=False)
     city = models.ForeignKey(City, related_name="clusters")
     state = models.ForeignKey(State, related_name="clusters")
-
+    content = models.ManyToManyField('Content', related_name='clusters', null=True, blank=True,
+                                     limit_choices_to={"content_location": "3"})
     objects = CachingManager()
 
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
-        cache_key = "Cluster-Home-%s-%s" % (cluster_id, device_id)
+        cluster_id = home_store.cluster.id
+        cache_key = "Cluster-Home-%s-%s" % (self.id, device_id)
         contents = cache.get(cache_key)
         if not contents:
             all_contents = Content.active_objects.select_related('store').\
-                filter(store__cluster__id=cluster_id).filter(show_on_home=True). \
+                filter(store__cluster__id=cluster_id).filter(content_location="2"). \
                 filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
                 filter(store__in=(self.stores.exclude(active=False))).\
                 order_by('store__id').distinct('store__id')
@@ -106,6 +109,27 @@ class Cluster(CachingMixin, TimeStampedModel):
                 if home_store in stores:
                     contents[0], contents[index] = contents[index], contents[0]
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        return contents
+
+    def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
+        device = Device.objects.select_related("store").get(device_id=device_id)
+        home_store = device.store
+        offer_ctype = ContentType.objects.get_or_create(name="Offer")
+        contents = Content.active_objects.select_related('store').\
+            filter(store__cluster__id=cluster_id).\
+            filter(content_type=offer_ctype[0].id).\
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
+            filter(store__in=(self.stores.exclude(active=False))).\
+            order_by('store__id').distinct('store__id').\
+            select_subclasses()
+        return contents
+
+    def get_cluster_info(self):
+        cache_key = "Cluster-Info-%s" % self.id
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = self.content.all().select_subclasses()
+            contents = list(all_contents)
         return contents
 
     def _find_center_of_cluster(self):
@@ -130,10 +154,23 @@ class Cluster(CachingMixin, TimeStampedModel):
         lon = to_degrees(lon)
         return lat, lon
 
+    def create_atm_for_cluster(self, image_file):
+        wallpaper_ctype, flag = ContentType.objects.get_or_create(name="Wallpaper")
+        widget_name = "ATMs in %s" % self.name
+        atm_wall = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
+                                            thumbnail=image_file, content_type=wallpaper_ctype, file=image_file)
+        atm_wall.save()
+        self.content.add(atm_wall)
+        self.save()
+
     def _create_map_of_all_atms(self):
         if self.map_name is not None:
             file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', self.map_name)
-            os.remove(file_name)
+            if file_name is not None:
+                os.remove(file_name)
+            widget_name = "ATMs in %s" % self.name
+            obj = Wallpaper.objects.all().filter(name=widget_name).delete()
+
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
               'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
@@ -164,6 +201,7 @@ class Cluster(CachingMixin, TimeStampedModel):
                     f.write(chunk)
             self.map_name = name
             self.save()
+            self.create_atm_for_cluster(file_name)
 
 
 class Store(CachingMixin, TimeStampedModel):
@@ -187,6 +225,7 @@ class Store(CachingMixin, TimeStampedModel):
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
     objects = CachingManager()
+
     def create_slug(self):
         return slugify(self.name)
 
@@ -196,10 +235,21 @@ class Store(CachingMixin, TimeStampedModel):
         if not contents:
             all_contents = []
             if self.active:
-                all_contents = Content.active_objects.filter(show_on_home=False, store=self.id).select_subclasses()
+                all_contents = Content.active_objects.filter(content_location="1", store=self.id).select_subclasses()
             for index, content in enumerate(all_contents):
                 stores = content.store.all()
                 setattr(content, 'own_store', stores[0])
+            contents = all_contents
+            cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        return contents
+
+    def get_store_info(self):
+        cache_key = "Store-Info-%s" % self.id
+        contents = cache.get(cache_key)
+        if not contents:
+            all_contents = []
+            if self.active:
+                all_contents = Content.active_objects.filter(content_location="4", store=self.id).select_subclasses()
             contents = all_contents
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
@@ -277,12 +327,31 @@ class ContentManager(InheritanceManager):
     def get_queryset(self):
         date_time_today = datetime.datetime.now()
         return super(ContentManager, self).get_query_set(). \
-            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today)
+            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today).order_by('store_contents__order')
+
+
+class OrderedStoreContent(models.Model):
+    store = models.ForeignKey('Store')
+    content = models.ForeignKey('Content', related_name="store_contents")
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = ("store", "order")
+        ordering = ['order']
 
 
 class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     show_on_home = models.BooleanField(default=False)
+    content_location = models.CharField(max_length=100,
+                                        choices=[
+                                            ("1", "Store Home"),
+                                            ("2", "Cluster Home"),
+                                            ("3", "Cluster Info"),
+                                            ("4", "Store Info")
+                                        ],
+                                        default="1"
+                                        )
     short_description = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     rating = models.IntegerField(default=5)
@@ -293,7 +362,7 @@ class Content(CachingMixin, TimeStampedModel):
     archived = models.BooleanField(default=False, help_text='Select this if you want to delete this content')
     thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, verbose_name='Thumbnail for content',
                                   help_text='Ensure that the image size is 500x500')
-    store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True)
+    store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True, through=OrderedStoreContent)
     content_type = models.ForeignKey(ContentType, related_name='contents')
     objects = InheritanceManager()
     active_objects = ContentManager()
@@ -362,6 +431,14 @@ class WebContent(Content):
     @property
     def redirect_url_path(self):
         return "/redirect?url=%s" % urlencode(self.url)
+
+
+class Offer(Content):
+    file = models.ImageField(upload_to=get_content_info_path)
+
+    @property
+    def template_file(self):
+        return "partials/_wallpaper.html"
 
 
 class Image(CachingMixin, TimeStampedModel):
