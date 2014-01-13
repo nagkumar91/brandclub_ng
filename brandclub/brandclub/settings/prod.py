@@ -53,10 +53,10 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'brandclub',
+        'NAME': 'brandclubdb',
         'USER': 'brandclub',
         'PASSWORD': 'brandclub',
-        'HOST': 'localhost',
+        'HOST': '192.168.188.122',
         'PORT': '5432',
     }
 
