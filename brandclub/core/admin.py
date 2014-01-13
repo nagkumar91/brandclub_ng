@@ -1,9 +1,14 @@
+from django import forms
 from django.contrib import admin
 
 # Register your models here.
 from django.forms import ModelForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback, Content, Offer
+    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -94,9 +99,44 @@ class ContentAdmin(admin.ModelAdmin):
     list_filter = ('content_location', )
     filter_horizontal = ("store", )
     save_as = True
+    actions = ['assign_to_brand']
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    class BrandSelectForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        brand = forms.ModelChoiceField(Brand.objects)
+
+    def assign_to_brand(self, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+            form = self.BrandSelectForm(request.POST)
+            if form.is_valid():
+                brand = form.cleaned_data['brand']
+
+                for content in queryset:
+                    stores = Store.objects.filter(brand=brand)
+                    for st in stores:
+                        order_index = 0
+                        all_ordered_content = OrderedStoreContent.objects.filter(store=st)
+                        for aoc in all_ordered_content:
+                            if aoc.order > order_index:
+                                order_index = aoc.order
+                        order_index += 1
+                        o = OrderedStoreContent(store=st, order=order_index, content=content)
+                        o.save()
+
+                self.message_user(request, "Done!")
+                return HttpResponseRedirect(request.get_full_path())
+
+        if not form:
+            form = self.BrandSelectForm(
+                initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
+            )
+        context = {'contents': queryset, 'brand_form': form}
+        return render_to_response('add_tag.html', RequestContext(request,context))
 
 
 class SlideShowImageInline(admin.TabularInline):
