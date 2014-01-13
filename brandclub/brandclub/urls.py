@@ -10,6 +10,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^ckeditor/', include('ckeditor.urls')),
+                       url(r'^report/', include('report.urls')),
                        url(r'^', include('core.urls')),
 
 
