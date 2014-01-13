@@ -95,3 +95,5 @@ CONTENT_CACHE_DIRECTORY = '/srv/content'
 
 CACHE_TIME_OUT = 1 * 60
 
+DEBUG = True
+
