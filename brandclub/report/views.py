@@ -18,7 +18,8 @@ def device_list(request):
             cluster_id = d.store.cluster.id
             cluster_name = d.store.cluster.name
             city = d.store.cluster.city.name
-            writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city])
+            brand = d.store.brand
+            writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id])
     return response
 
 
@@ -80,15 +81,14 @@ def store_contents(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="store_contents.csv"'
     writer = csv.writer(response)
-    writer.writerow(['store_id', 'cluster_id', 'content_id', 'content_name'])
+    writer.writerow(['store_id', 'cluster_id', 'content_id', 'content_name', 'content_type'])
 
     stores = Store.objects.filter(active=True, demo=False)
 
     for st in stores:
         objects = Content.active_objects.filter(store=st)
         for obj in objects:
-            print "Row %s %s %s %s" % (st.id, st.cluster.id, obj.id, obj.name)
-            writer.writerow([st.id, st.cluster.id, obj.id, obj.name])
+            writer.writerow([st.id, st.cluster.id, obj.id, obj.name, obj.content_type])
 
     return response
 
