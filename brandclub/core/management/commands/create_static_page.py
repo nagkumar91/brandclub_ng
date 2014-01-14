@@ -1,3 +1,4 @@
+from annoying.functions import get_object_or_None
 from django.conf import settings
 from django.core.management import BaseCommand
 from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType
@@ -30,13 +31,14 @@ class Command(BaseCommand):
             self._generate_feedback_forms(slug, cluster_id, device_id, dir)
             self._generate_store_info(slug, cluster_id, device_id, dir)
             contents = OrderedStoreContent.objects.filter(store=cluster_store)
-            ctype_slideshow = ContentType.objects.get_or_create(name="Slide Show")
-            ctype_wallpaper = ContentType.objects.get_or_create(name="Wallpaper")
+            print contents
+            ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
+            ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
             for individual_content in contents:
                 content = individual_content.content
-                if content.content_type is ctype_slideshow:
+                if content.content_type.id == ctype_slideshow.id:
                     self._generate_slideshow(content.id, cluster_id, device_id, dir)
-                if content.content_type is ctype_wallpaper:
+                if content.content_type.id == ctype_wallpaper.id:
                     self._generate_wallpapers(content.id, cluster_id, device_id, dir)
         print "==================================================================="
 

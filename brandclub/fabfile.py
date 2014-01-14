@@ -11,6 +11,7 @@ from fabric.state import env
 # Host is beta.brandclub.mobi user is brandclub
 def deploy():
     print(red("Pushing to server repo"))
+    local("git push origin develop")
     local("git push prod develop")
     with cd("/srv/www/brandclub"):
         sudo("git reset --hard || true", user="www-data")
