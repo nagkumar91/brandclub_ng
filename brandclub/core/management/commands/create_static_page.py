@@ -123,6 +123,11 @@ class Command(BaseCommand):
                 print "Device is %s" % device_id
                 static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content", device_id)
                 os.makedirs(static_dir)
+                tar_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content", "compressed")
+                if not os.path.exists(tar_dir):
+                    os.makedirs(tar_dir)
                 self._generate_page(static_dir, cluster, device.device_id, store)
+                os.system("tar cvzf %s/%s.tar.gz %s" % (tar_dir, device_id, static_dir))
+
 
 
