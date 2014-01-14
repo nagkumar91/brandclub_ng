@@ -13,7 +13,7 @@ from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wal
 def home_cluster_view(request, slug=""):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
-    if device.store and device.store.cluster:
+    if device and device.store and device.store.cluster:
         home_cluster = device.store.cluster
         all_contents = home_cluster.get_all_home_content(request.device_id)
         home_brand = device.store.brand
@@ -29,7 +29,7 @@ def home_cluster_view(request, slug=""):
 def store_home(request, slug):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
-    if device.store is not None:
+    if device.store is not None and device is not None:
         redirect = "/%s" % device.store.brand.slug_name
         to = "cluster"
         if device.store.cluster is not None:
@@ -68,7 +68,7 @@ def slideshow(request, ssid):
 def wallpaper_fullscreen(request, wid):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
-    if device.store is not None:
+    if device.store is not None and device is not None:
         if device.store.brand is not None:
             brand = device.store.brand
             redirect = "/%s" % device.store.brand.slug_name
