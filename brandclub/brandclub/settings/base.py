@@ -316,3 +316,5 @@ PIWIK_SITE_ID = '1'
 PIWIK_COOKIE_DOMAIN = "*.beta.brandclub.mobi"
 PIWIK_SITE_TOKEN = '663969d8ed74ece3ba288c38b74b0609'
 DEFAULT_MAC_ID = "0:0:0:0:0:0:0"
+
+BRANDCLUB_HOST = "localhost"
