@@ -54,7 +54,7 @@ class Command(BaseCommand):
         output_dir = "%s/si" % static_dir
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-        output_file = "/%s/si/%s" % (output_dir, slug)
+        output_file = "/%s/%s" % (output_dir, slug)
         with open(output_file, 'w') as f:
             f.write(response.content)
             f.close()
