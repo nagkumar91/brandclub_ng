@@ -51,7 +51,10 @@ class Command(BaseCommand):
     def _generate_store_info(self, slug, cluster_id, device_id, static_dir):
         page = "/si/%s/" % slug
         response = self.generate_response(cluster_id, device_id, page)
-        output_file = "/%s/%s" % (static_dir, slug)
+        output_dir = "%s/si" % static_dir
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        output_file = "/%s/si/%s" % (output_dir, slug)
         with open(output_file, 'w') as f:
             f.write(response.content)
             f.close()
@@ -78,7 +81,7 @@ class Command(BaseCommand):
     def _generate_feedback_forms(self, slug, cluster_id, device_id, static_dir):
         page = "/feedback/%s/" % slug
         response = self.generate_response(cluster_id, device_id, page)
-        output_dir = "%s/home" % static_dir
+        output_dir = "%s/feedback" % static_dir
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         output_file = "/%s/%s" % (output_dir, slug)
@@ -89,7 +92,7 @@ class Command(BaseCommand):
     def _generate_slideshow(self, ssid, cluster_id, device_id, static_dir):
         page = "/slideshow/%s/" % ssid
         response = self.generate_response(cluster_id, device_id, page)
-        output_dir = "%s/home" % static_dir
+        output_dir = "%s/slideshow" % static_dir
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         output_file = "/%s/%s" % (output_dir, ssid)
@@ -100,7 +103,7 @@ class Command(BaseCommand):
     def _generate_wallpapers(self, wid, cluster_id, device_id, static_dir):
         page = "/wallpaper/%s/" % wid
         response = self.generate_response(cluster_id, device_id, page)
-        output_dir = "%s/home" % static_dir
+        output_dir = "%s/wallpaper" % static_dir
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         output_file = "/%s/%s" % (output_dir, wid)
