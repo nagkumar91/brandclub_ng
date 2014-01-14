@@ -27,18 +27,18 @@ class Command(BaseCommand):
         for cluster_store in stores:
             slug = cluster_store.slug_name
             self._generate_store_home_page(slug, cluster_id, device_id, dir)
-            self._generate_feedback_forms(slug, cluster_id, device_id, dir)
-            self._generate_cluster_info(slug, cluster_id, device_id, dir)
-            self._generate_store_info(slug, cluster_id, device_id, dir)
-            contents = OrderedStoreContent.objects.filter(store=cluster_store)
-            ctype_slideshow = ContentType.objects.get_or_create(name="Slide Show")
-            ctype_wallpaper = ContentType.objects.get_or_create(name="Wallpaper")
-            for individual_content in contents:
-                content = individual_content.content
-                if content.content_type is ctype_slideshow:
-                    self._generate_slideshow(content.id, cluster_id, device_id, dir)
-                if content.content_type is ctype_wallpaper:
-                    self._generate_wallpapers(content.id, cluster_id, device_id, dir)
+        self._generate_feedback_forms(slug, cluster_id, device_id, dir)
+        self._generate_cluster_info(slug, cluster_id, device_id, dir)
+        self._generate_store_info(slug, cluster_id, device_id, dir)
+        contents = OrderedStoreContent.objects.filter(store=cluster_store)
+        ctype_slideshow = ContentType.objects.get_or_create(name="Slide Show")
+        ctype_wallpaper = ContentType.objects.get_or_create(name="Wallpaper")
+        for individual_content in contents:
+            content = individual_content.content
+            if content.content_type is ctype_slideshow:
+                self._generate_slideshow(content.id, cluster_id, device_id, dir)
+            if content.content_type is ctype_wallpaper:
+                self._generate_wallpapers(content.id, cluster_id, device_id, dir)
         print "==================================================================="
 
     def _generate_main_page(self, slug, cluster_id, device_id, static_dir):
