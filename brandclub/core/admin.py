@@ -139,6 +139,56 @@ class ContentAdmin(admin.ModelAdmin):
         return render_to_response('add_tag.html', RequestContext(request,context))
 
 
+class ContentNonEditableAdmin(admin.ModelAdmin):
+    actions = ['assign_to_brand']
+    list_display = ('name', 'content_location', 'content_type', 'image_tag', 'start_date', 'end_date',
+                    'active', 'archived',)
+    list_filter = ('content_location', 'content_type', 'store', 'store__brand', 'active', 'archived')
+    filter_horizontal = ("store", )
+    search_fields = ('name', )
+    date_hierarchy = "created"
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    class BrandSelectForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        brand = forms.ModelChoiceField(Brand.objects)
+
+    def assign_to_brand(self, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+            form = self.BrandSelectForm(request.POST)
+            if form.is_valid():
+                brand = form.cleaned_data['brand']
+
+                for content in queryset:
+                    stores = Store.objects.filter(brand=brand)
+                    for st in stores:
+                        order_index = 0
+                        all_ordered_content = OrderedStoreContent.objects.filter(store=st)
+                        for aoc in all_ordered_content:
+                            if aoc.order > order_index:
+                                order_index = aoc.order
+                        order_index += 1
+                        o = OrderedStoreContent(store=st, order=order_index, content=content)
+                        o.save()
+
+                self.message_user(request, "Done!")
+                return HttpResponseRedirect(request.get_full_path())
+
+        if not form:
+            form = self.BrandSelectForm(
+                initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
+            )
+        context = {'contents': queryset, 'brand_form': form}
+        return render_to_response('add_tag.html', RequestContext(request,context))
+
+
 class SlideShowImageInline(admin.TabularInline):
     model = SlideShow.image.through
     readonly_fields = ('image_tag',)
@@ -206,3 +256,4 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
+admin.site.register(Content, ContentNonEditableAdmin)
