@@ -73,7 +73,7 @@ class Brand(CachingMixin, TimeStampedModel):
     image_tag.allow_tags = True
 
     def __unicode__(self):
-        return self.name
+        return "%s - (%d)" % (self.name, self.pk)
 
 
 class Cluster(CachingMixin, TimeStampedModel):
@@ -441,7 +441,7 @@ class Offer(Content):
 
 
 class Image(CachingMixin, TimeStampedModel):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True, blank=True, default="Image_for_slideshow")
     image = models.ImageField(upload_to=upload_and_rename_images)
     caption = models.CharField(max_length=300, null=True, blank=True)
     target_url = models.URLField(null=True, blank=True)
