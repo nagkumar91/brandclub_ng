@@ -25,7 +25,7 @@ class OrderContentStoreInline(admin.TabularInline):
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster')
+    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'store_device')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
     save_as = True
@@ -33,6 +33,9 @@ class StoreAdmin(BrandClubAdmin):
         OrderContentStoreInline,
         DeviceInlineAdmin
     ]
+
+    def store_device(self, obj):
+        return ",".join(["%s" % d.device_id for d in obj.devices.all()])
 
 
 class StoreInlineAdmin(admin.TabularInline):
