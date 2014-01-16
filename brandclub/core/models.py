@@ -336,13 +336,12 @@ class OrderedStoreContent(models.Model):
     order = models.IntegerField()
 
     class Meta:
-        unique_together = ("store", "order")
+        # unique_together = ("store", "order")
         ordering = ['order']
 
 
 class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
-    show_on_home = models.BooleanField(default=False)
     content_location = models.CharField(max_length=100,
                                         choices=[
                                             ("1", "Store Home"),
@@ -459,7 +458,7 @@ class SlideShowImage(models.Model):
     order = models.IntegerField()
 
     class Meta:
-        unique_together = ("slideshow", "order")
+        # unique_together = ("slideshow", "order")
         ordering = ['order']
 
     def image_tag(self):

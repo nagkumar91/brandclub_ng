@@ -1,9 +1,14 @@
+from django import forms
 from django.contrib import admin
 
 # Register your models here.
 from django.forms import ModelForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback, Content, Offer
+    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -16,10 +21,11 @@ class DeviceInlineAdmin(admin.TabularInline):
 
 class OrderContentStoreInline(admin.TabularInline):
     model = Content.store.through
+    sortable_field_name = 'order'
 
 
 class StoreAdmin(BrandClubAdmin):
-    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster')
+    list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'store_device')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
     list_filter = ('city', 'brand__name', 'cluster')
     save_as = True
@@ -27,6 +33,9 @@ class StoreAdmin(BrandClubAdmin):
         OrderContentStoreInline,
         DeviceInlineAdmin
     ]
+
+    def store_device(self, obj):
+        return ",".join(["%s" % d.device_id for d in obj.devices.all()])
 
 
 class StoreInlineAdmin(admin.TabularInline):
@@ -93,15 +102,101 @@ class ContentAdmin(admin.ModelAdmin):
     list_filter = ('content_location', )
     filter_horizontal = ("store", )
     save_as = True
+    actions = ['assign_to_brand']
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    class BrandSelectForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        brand = forms.ModelChoiceField(Brand.objects)
+
+    def assign_to_brand(self, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+            form = self.BrandSelectForm(request.POST)
+            if form.is_valid():
+                brand = form.cleaned_data['brand']
+
+                for content in queryset:
+                    stores = Store.objects.filter(brand=brand)
+                    for st in stores:
+                        order_index = 0
+                        all_ordered_content = OrderedStoreContent.objects.filter(store=st)
+                        for aoc in all_ordered_content:
+                            if aoc.order > order_index:
+                                order_index = aoc.order
+                        order_index += 1
+                        o = OrderedStoreContent(store=st, order=order_index, content=content)
+                        o.save()
+
+                self.message_user(request, "Done!")
+                return HttpResponseRedirect(request.get_full_path())
+
+        if not form:
+            form = self.BrandSelectForm(
+                initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
+            )
+        context = {'contents': queryset, 'brand_form': form}
+        return render_to_response('add_tag.html', RequestContext(request,context))
+
+
+class ContentNonEditableAdmin(admin.ModelAdmin):
+    actions = ['assign_to_brand']
+    list_display = ('name', 'content_location', 'content_type', 'image_tag', 'start_date', 'end_date',
+                    'active', 'archived',)
+    list_filter = ('content_location', 'content_type', 'store', 'store__brand', 'active', 'archived')
+    filter_horizontal = ("store", )
+    search_fields = ('name', )
+    date_hierarchy = "created"
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    class BrandSelectForm(forms.Form):
+        _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
+        brand = forms.ModelChoiceField(Brand.objects)
+
+    def assign_to_brand(self, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+            form = self.BrandSelectForm(request.POST)
+            if form.is_valid():
+                brand = form.cleaned_data['brand']
+
+                for content in queryset:
+                    stores = Store.objects.filter(brand=brand)
+                    for st in stores:
+                        order_index = 0
+                        all_ordered_content = OrderedStoreContent.objects.filter(store=st)
+                        for aoc in all_ordered_content:
+                            if aoc.order > order_index:
+                                order_index = aoc.order
+                        order_index += 1
+                        o = OrderedStoreContent(store=st, order=order_index, content=content)
+                        o.save()
+
+                self.message_user(request, "Done!")
+                return HttpResponseRedirect(request.get_full_path())
+
+        if not form:
+            form = self.BrandSelectForm(
+                initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
+            )
+        context = {'contents': queryset, 'brand_form': form}
+        return render_to_response('add_tag.html', RequestContext(request,context))
 
 
 class SlideShowImageInline(admin.TabularInline):
     model = SlideShow.image.through
     readonly_fields = ('image_tag',)
     extra = 1
+    sortable_field_name = "order"
 
 
 class SlideShowAdmin(ContentAdmin):
@@ -164,3 +259,4 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
+admin.site.register(Content, ContentNonEditableAdmin)

@@ -1,0 +1,2 @@
+#!/bin/bash
+fab -H beta.brandclub.mobi -u brandclub deploy
