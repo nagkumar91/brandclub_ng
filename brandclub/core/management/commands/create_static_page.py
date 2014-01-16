@@ -1,4 +1,6 @@
 from annoying.functions import get_object_or_None
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 from django.conf import settings
 from django.core.management import BaseCommand
 from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType
@@ -114,10 +116,14 @@ class Command(BaseCommand):
             f.close()
 
     def handle(self, *args, **options):
-        path = static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content")
+        path = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content")
         if os.path.exists(path):
             shutil.rmtree(path)
         stores = Store.objects.all()
+        enable_s3 = True if settings.AWS_SECRET_KEY is not None else False
+        conn = None
+        if enable_s3:
+            conn = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_KEY)
         for store in stores:
             cluster = store.cluster.id
             print "Store is %s" % store.name
@@ -130,7 +136,15 @@ class Command(BaseCommand):
                 if not os.path.exists(tar_dir):
                     os.makedirs(tar_dir)
                 self._generate_page(static_dir, cluster, device.device_id, store)
-                os.system("tar czf %s/%s.tar.gz %s" % (tar_dir, device_id, static_dir))
+                file_name = "%s/%s.tar.gz" % (tar_dir, device_id)
+                os.system("tar czf %s %s" % (file_name, static_dir))
+                if conn:
+                    bucket = conn.get_bucket('tib.bcng.content')
+                    key = Key(bucket)
+                    key.key = "%s.tar.gz" % device_id
+                    key.set_contents_from_filename(file_name)
+                    key.set_acl('public-read')
+
 
 
 
