@@ -102,7 +102,8 @@ class Cluster(CachingMixin, TimeStampedModel):
                 filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
                 filter(store__in=(self.stores.exclude(active=False))).\
                 order_by('store__id').distinct('store__id')
-            contents = list(all_contents)
+            contents = set(all_contents)
+            contents = list(contents)
             for index, content in enumerate(contents):
                 stores = content.store.all()
                 setattr(content, 'own_store', stores[0])
