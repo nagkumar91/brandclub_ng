@@ -53,7 +53,8 @@ class BrandAdminForm(ModelForm):
 
 
 class BrandAdmin(BrandClubAdmin):
-    list_display = ('name', 'description', 'image_tag', )
+    list_display = ('pk', 'name', 'description', 'image_tag', )
+    list_display_links = ('pk', 'name')
     readonly_fields = ('image_tag',)
     inlines = [
         StoreInlineAdmin
