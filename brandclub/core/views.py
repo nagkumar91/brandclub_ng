@@ -87,9 +87,9 @@ def display_clusters(request):
     return render_to_response('home.html', context_instance)
 
 
-def store_feedback(request, slug):
-    store = get_object_or_404(Store, slug_name=slug)
-    redirect = "/home/%s" % slug
+def store_feedback(request, store_id):
+    store = get_object_or_404(Store, pk=store_id)
+    redirect = "/home/%s" % store.slug_name
     to = "store"
     form = FeedbackForm()
     if request.method == 'POST':

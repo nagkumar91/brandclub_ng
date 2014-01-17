@@ -24,7 +24,7 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <form action="/feedback/{{ store.slug_name }}/" class="form-horizontal" role="form" method="post">
+        <form action="/feedback/{{ store.id }}/" class="form-horizontal" role="form" method="post">
                 {% csrf_token %}
                     {{form | crispy}}
                 <input type="hidden" name="store" id="store" value="{{ store.id }}"/>
