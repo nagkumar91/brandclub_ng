@@ -7,7 +7,7 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo
 
 
 def home_cluster_view(request, slug=""):
@@ -66,20 +66,19 @@ def slideshow(request, ssid):
 
 
 def wallpaper_fullscreen(request, wid):
-    device_id = request.device_id
-    device = get_object_or_None(Device, device_id=device_id)
-    if device.store is not None and device is not None:
-        if device.store.brand is not None:
-            brand = device.store.brand
-            redirect = "/%s" % device.store.brand.slug_name
-            to = "cluster"
-            wallpaper = get_object_or_404(Wallpaper, id=wid)
+    wallpaper = get_object_or_404(Wallpaper, id=wid)
+    if wallpaper is not None:
+        store = wallpaper.store.all()
+        if store is not None:
+            store = store[0]
+            brand = store.brand
+            redirect = "/home/%s" % store.slug_name
+            to = "store"
             context_instance = RequestContext(request,
-                                              {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand}
-                                              )
+                                              {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
             return render_to_response("wallpaper_fullscreen.html", context_instance)
-        return "No brand for store"
-    return "No store assigned to device"
+        return "Wallpaper not assigned to any store"
+    return "Wallpaper not found"
 
 
 def display_clusters(request):
@@ -154,3 +153,34 @@ def store_info(request, slug):
     to = "store"
     context_instance = RequestContext(request, {"contents": contents, "brand": brand, "redirect": redirect, "to": to})
     return render_to_response("info.html", context_instance)
+
+
+def offer(request, offer_id):
+    offer_obj = get_object_or_None(Offer, id=offer_id)
+    if offer_obj is not None:
+        store = offer_obj.store.all()
+        if store is not None:
+            store = store[0]
+            brand = store.brand
+            redirect = "/home/%s" % store.slug_name
+            to = "store"
+            context_instance = RequestContext(request,
+                                              {'content': offer_obj, "redirect": redirect,
+                                               "to": to, "brand": brand}
+                                              )
+            return render_to_response("offer_fullscreen.html", context_instance)
+        return "Offer not assigned to any store"
+    return "Offer not found"
+
+
+def authenticate_user_for_offer(request):
+    response_data = {'show_offer': True}
+    user_info = request.GET
+    phone_number = user_info['phone_number']
+    email_id = user_info['email_id']
+    user_name = user_info['user_name']
+    offer_id = user_info['offer']
+    offer_obj = Offer.objects.get(pk=offer_id)
+    odi_obj = OfferDownloadInfo(user_name=user_name, email_id=email_id, mobile_number=phone_number, offer=offer_obj)
+    odi_obj.save()
+    return HttpResponse(json.dumps(response_data), content_type="application/json")

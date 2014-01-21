@@ -435,11 +435,12 @@ class WebContent(Content):
 
 
 class Offer(Content):
+    authenticate_user = models.BooleanField(default=True)
     file = models.ImageField(upload_to=get_content_info_path)
 
     @property
     def template_file(self):
-        return "partials/_wallpaper.html"
+        return "partials/_offer.html"
 
 
 class Image(CachingMixin, TimeStampedModel):
@@ -477,3 +478,9 @@ class SlideShow(Content):
     def template_file(self):
         return "partials/_slideshow.html"
 
+
+class OfferDownloadInfo(TimeStampedModel):
+    offer = models.ForeignKey(Offer, related_name='offer_download_info')
+    user_name = models.CharField(max_length=50, unique=False)
+    email_id = models.EmailField(max_length=100, unique=False, null=True)
+    mobile_number = models.CharField(max_length=15, unique=False, null=True)
