@@ -1,0 +1,109 @@
+{% extends "core_base.html" %}
+{% load crispy_forms_tags %}
+{% block store_details %}
+{% endblock %}
+{% block extra_css %}
+    <style>
+        .center-img     {
+            margin: 0 auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+{% block brand_background %}{% endblock %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container">
+        {% if content.authenticate_user %}
+            <div class="form form-group">
+                <h3>Fill this form to get the offer</h3>
+                <div class="user_name_div">
+                    <input type="text" name="user_name" id="user_name" placeholder="Your Name" class="form-control"/><br/>
+                </div>
+                <div class="email_div">
+                    <input type="email" name="email" id="email_id" placeholder="Your email id" class="form-control"/><br/>
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Your phone number"
+                           class="form-control"/>
+                    <br/>
+                </div>
+                <input type="hidden" name="offer" id="offer" value="{{ content.id }}"/>
+                <input type="button" value="Submit" onclick="validate_and_submit()"/>
+            </div>
+        {% endif %}
+        <div class="offer">
+            <div class="center-img">
+                <img src="{{ content.file.url }}"
+                     class="img-responsive"/>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".offer").hide();
+        });
+        function no_number_or_mail() {
+            $(".email_div").addClass("has-error");
+            $("#email_id").focus();
+            return;
+        }
+        function show_offer()   {
+            $(".offer").show();
+            $(".form").hide();
+        }
+        function validate_and_submit(){
+            var user_name = $("#user_name").val();
+            var email = $("#email_id").val();
+            var phone_number = $("#phone_number").val();
+            var offer = $("#offer").val();
+            if(user_name == "") {
+                if($(".user_name_div").hasClass("has-error"))   {}
+                else    {
+                    $(".user_name_div").addClass("has-error");
+                    $('<label class="label_for_name" for="user_name">This field is mandatory</label>').insertBefore("#user_name");
+                }
+                $("#user_name").focus();
+                return;
+            }
+            else    {
+                $(".label_for_name").remove();
+                $(".user_name_div").removeClass("has-error").addClass("has-success");
+            }
+            if(email == "" && phone_number == "")   {
+                no_number_or_mail();
+                return;
+            }
+            else    {
+                if(validate_phone_number(phone_number) || validate_email(email))    {
+                    var data = {"user_name": user_name, "phone_number": phone_number, "email_id": email, "offer": offer};
+                    $.ajax({
+                        url: "/authenticateUserForOffer/",
+                        data: data,
+                        success: function(){
+                            show_offer();
+                        },
+                        fail: function(){
+                            console.log("Ajax incomplete")
+                        }
+                    });
+                }
+                else
+                    no_number_or_mail();
+            }
+        }
+        function validate_phone_number(phone){
+            if(phone.length != 10 || !$.isNumeric(phone)){
+                return false;
+            }
+            return true;
+        }
+        function validate_email(email) {
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            if( email.length > 3 && emailReg.test(email)) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+{% endblock %}
