@@ -32,7 +32,7 @@ class Command(BaseCommand):
             slug = cluster_store.slug_name
             self._generate_store_home_page(slug, cluster_id, device_id, dir)
             self._generate_feedback_forms(cluster_store.id, cluster_id, device_id, dir)
-            self._generate_store_info(slug, cluster_id, device_id, dir)
+            self._generate_store_info(cluster_store.id, cluster_id, device_id, dir)
             contents = OrderedStoreContent.objects.filter(store=cluster_store)
             ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
             ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
@@ -52,13 +52,13 @@ class Command(BaseCommand):
             f.write(response.content)
             f.close()
 
-    def _generate_store_info(self, slug, cluster_id, device_id, static_dir):
-        page = "/si/%s/" % slug
+    def _generate_store_info(self, storeid, cluster_id, device_id, static_dir):
+        page = "/si/%d/" % storeid
         response = self.generate_response(cluster_id, device_id, page)
         output_dir = "%s/si" % static_dir
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-        output_file = "/%s/%s" % (output_dir, slug)
+        output_file = "/%s/%s" % (output_dir, storeid)
         with open(output_file, 'w') as f:
             f.write(response.content)
             f.close()
