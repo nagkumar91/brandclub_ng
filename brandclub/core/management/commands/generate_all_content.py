@@ -46,7 +46,8 @@ class Command(BaseCommand):
             mdir = os.path.dirname(new_path)
             if not os.path.exists(mdir):
                 os.makedirs(mdir)
-            os.symlink(file_loc, new_path)
+            if not os.path.exists(new_path):
+                os.symlink(file_loc, new_path)
 
     def handle(self, *args, **options):
         clusters = Cluster.objects.all()
@@ -60,7 +61,8 @@ class Command(BaseCommand):
             for dir_name in dirs:
                 path = os.path.join(settings.STATIC_ROOT, dir_name)
                 link_path = os.path.join(static_dir, dir_name)
-                os.symlink(path, link_path)
+                if not os.path.exists(link_path):
+                    os.symlink(path, link_path)
 
 
     @staticmethod

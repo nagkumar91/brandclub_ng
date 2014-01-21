@@ -92,7 +92,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
 
-CONTENT_CACHE_DIRECTORY = '/srv/content'
+CONTENT_CACHE_DIRECTORY = '/opt/bclub/content'
 
 MEDIA_ROOT = '/opt/bclub/media'
 
