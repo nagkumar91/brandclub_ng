@@ -20,7 +20,7 @@ def get_env_setting(setting):
 
 ########## HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
-ALLOWED_HOSTS = ['beta.brandclub.mobi', '162.243.106.173', 'srv1.brandclub.mobi', 'brandclub.mobi']
+ALLOWED_HOSTS = ['beta.brandclub.mobi', '162.243.106.173', 'srv1.brandclub.mobi', 'brandclub.mobi', '198.74.61.6']
 ########## END HOST CONFIGURATION
 
 ########## EMAIL CONFIGURATION
