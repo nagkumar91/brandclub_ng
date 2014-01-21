@@ -106,7 +106,8 @@ class Cluster(CachingMixin, TimeStampedModel):
             contents = list(contents)
             for index, content in enumerate(contents):
                 stores = content.store.all()
-                setattr(content, 'own_store', stores[0])
+                stores_in_cluster = Store.objects.filter(cluster_id = self.id, brand = stores[0].brand)
+                setattr(content, 'own_store', stores_in_cluster[0])
                 if home_store in stores:
                     contents[0], contents[index] = contents[index], contents[0]
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)

@@ -14,10 +14,10 @@ def device_list(request):
         if d.store.active is True and d.store.demo is False:
             device_id = d.device_id
             store_id = d.store.id
-            store_name = d.store.name
+            store_name = d.store.name.encode("utf-8")
             cluster_id = d.store.cluster.id
-            cluster_name = d.store.cluster.name
-            city = d.store.cluster.city.name
+            cluster_name = d.store.cluster.name.encode("utf-8")
+            city = d.store.cluster.city.name.encode("utf-8")
             brand = d.store.brand
             writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id])
     return response
@@ -88,7 +88,7 @@ def store_contents(request):
     for st in stores:
         objects = Content.active_objects.filter(store=st)
         for obj in objects:
-            writer.writerow([st.id, st.cluster.id, obj.id, obj.name, obj.content_type])
+            writer.writerow([st.id, st.cluster.id, obj.id, obj.name.encode("utf-8"), obj.content_type])
 
     return response
 
@@ -100,25 +100,25 @@ def brands_footfall(request):
     brands = Brand.objects.all()
     for b in brands:
         brand_id = b.id
-        brand_name = b.name
+        brand_name = b.name.encode("utf-8")
         brand_footfall = b.footfall
         stores = b.stores.filter(demo=False, active=True)
         competitors = b.competitors.all()
         for st in stores:
-            store_name = st.name
+            store_name = st.name.encode("utf-8")
             store_id = st.id
             cluster_id = st.cluster.id
-            cluster_name = st.cluster.name
+            cluster_name = st.cluster.name.encode("utf-8")
             city = st.city
             clust = st.cluster
             stores_in_cluster = clust.stores.filter(demo=False, active=True)
             for sic in stores_in_cluster:
                 if sic.brand not in competitors and sic.id is not st.id:
-                    assoc_partner_name = sic.brand.name
+                    assoc_partner_name = sic.brand.name.encode("utf-8")
                     assoc_partner_footfall = sic.brand.footfall
                     assoc_partner_id = sic.brand.id
                     assoc_store_id = sic.id
-                    assoc_store_name = sic.name
+                    assoc_store_name = sic.name.encode("utf-8")
                     writer.writerow([
                         brand_id, brand_name, store_id, store_name, cluster_id, cluster_name, brand_footfall,
                         assoc_partner_id, assoc_partner_name, assoc_partner_footfall, assoc_store_id,
