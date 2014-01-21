@@ -146,7 +146,8 @@ def cluster_info(request):
 
 
 def store_info(request, slug):
-    store = get_object_or_404(Store, slug_name=slug)
+    device_id = request.device_id
+    store = get_object_or_404(Store, slug_name=slug, devices__device_id=device_id)
     contents = store.get_store_info()
     brand = store.brand
     redirect = "/home/%s" % slug
