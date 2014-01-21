@@ -68,10 +68,7 @@ DATABASES = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': [
-            'localhost:11211',
-        ]
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 ########## END CACHE CONFIGURATION
@@ -95,7 +92,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
 
-CONTENT_CACHE_DIRECTORY = '/srv/content'
+CONTENT_CACHE_DIRECTORY = '/opt/bclub/content'
 
 MEDIA_ROOT = '/opt/bclub/media'
 
@@ -105,4 +102,7 @@ CACHE_TIME_OUT = 1 * 60
 
 AWS_ACCESS_KEY = 'AKIAIFIYZIZLNSPDEZEA'
 AWS_SECRET_KEY = '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'
+
+BRANDCLUB_HOST = "srv1.brandclub.mobi"
+
 
