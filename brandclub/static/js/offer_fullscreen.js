@@ -11,7 +11,7 @@ $(document).ready(function () {
 });
 function no_number_or_mail() {
     $(".email_div").addClass("has-error");
-    $("#email_id").focus();
+    $("#phone_number").focus();
     return;
 }
 function show_offer() {
