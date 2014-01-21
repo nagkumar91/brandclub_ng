@@ -5,8 +5,8 @@
      data-log-content-id="{{ content.id }}">
     <div class="img-frame">
         <div class="image-wrapper">
-            <div id="ss-container">
-                <div id="slide-show-carousel"
+            <div id="ss-container-{{ content.id }}" data-slideshow-id="{{ content.id }}" class="slideshow">
+                <div id="slide-show-carousel-{{ content.id }}"
                      class=" content-link img-preview blueimp-gallery blueimp-gallery-controls">
                     <div class="slides"></div>
                     <h3 class="title"></h3>
@@ -14,7 +14,7 @@
                     <a class="next">›</a>
                     <a class="play-pause"></a>
                 </div>
-                <div id="links">
+                <div class="links">
                     {% for i in content.image.all %}
                         <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
                     {% endfor %}
