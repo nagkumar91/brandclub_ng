@@ -52,9 +52,14 @@ class Command(BaseCommand):
     def _generate_main_page(self, slug, cluster_id, device_id, static_dir):
         page = "/%s/" % slug
         response = self.generate_response(cluster_id, device_id, page)
+        content = response.content
         output_file = "/%s/%s" % (static_dir, slug)
         with open(output_file, 'w') as f:
-            f.write(response.content)
+            f.write(content)
+            f.close()
+        output_file = "/%s/%s" % (static_dir, "index.html")
+        with open(output_file, 'w') as f:
+            f.write(content)
             f.close()
 
     def _generate_store_info(self, storeid, cluster_id, device_id, static_dir):

@@ -18,7 +18,8 @@ def home_cluster_view(request, slug=""):
         all_contents = home_cluster.get_all_home_content(request.device_id)
         home_brand = device.store.brand
         if slug is not "":
-            home_brand = get_object_or_None(Brand, slug_name=slug)
+            home_store = get_object_or_None(Store, slug_name=slug)
+            home_brand = home_store.brand
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
         return render_to_response('home.html', context_instance)
@@ -30,7 +31,7 @@ def store_home(request, slug):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
     if device.store is not None and device is not None:
-        redirect = "/%s" % device.store.brand.slug_name
+        redirect = "/%s" % device.store.slug_name
         to = "cluster"
         if device.store.cluster is not None:
             cluster = device.store.cluster
@@ -134,7 +135,7 @@ def cluster_info(request):
             cluster = device.store.cluster
             contents = cluster.get_cluster_info()
             brand = device.store.brand
-            redirect = "/%s" % device.store.brand.slug_name
+            redirect = "/%s" % device.store.slug_name
             to = "cluster"
             context_instance = RequestContext(request,
                                               {"contents": contents, "brand": brand, "redirect": redirect, "to": to}
