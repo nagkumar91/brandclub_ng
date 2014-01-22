@@ -105,4 +105,6 @@ AWS_SECRET_KEY = 'Urq3cL+D3WbrFP3BdE0+CJbwxl54Vse/hdnqV2Dh'
 
 BRANDCLUB_HOST = "srv1.brandclub.mobi"
 
+REPORT_DOWNLOAD_PATH = os.path.join(MEDIA_ROOT, 'reports')
+
 
