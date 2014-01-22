@@ -18,7 +18,7 @@ def home_cluster_view(request, slug=""):
         all_contents = home_cluster.get_all_home_content(request.device_id)
         home_brand = device.store.brand
         if slug is not "":
-            home_store = get_object_or_None(Store, slug_name=slug)
+            home_store = get_object_or_None(Store, slug_name=slug, devices__device_id=device_id)
             home_brand = home_store.brand
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
@@ -139,7 +139,7 @@ def cluster_info(request):
             to = "cluster"
             context_instance = RequestContext(request,
                                               {"contents": contents, "brand": brand, "redirect": redirect, "to": to}
-                                              )
+            )
             return render_to_response("info.html", context_instance)
         return "No cluster assigned for the store"
     return "No Store assigned to device"
@@ -167,7 +167,7 @@ def offer(request, offer_id):
             context_instance = RequestContext(request,
                                               {'content': offer_obj, "redirect": redirect,
                                                "to": to, "brand": brand}
-                                              )
+            )
             return render_to_response("offer_fullscreen.html", context_instance)
         return "Offer not assigned to any store"
     return "Offer not found"
