@@ -71,3 +71,4 @@ DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '1'
 CREATE_STORE_MAPS = True
 CACHE_TIME_OUT = 0
+REPORT_DOWNLOAD_PATH = "/py_projects/brandclub_ng/brandclub/reporting/downloads"
