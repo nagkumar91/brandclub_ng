@@ -3,13 +3,18 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.conf import settings
 from django.core.management import BaseCommand
-from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType
+from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType, Device
 from django.test import Client
+from optparse import make_option
 import os
 import shutil
 
 
 class Command(BaseCommand):
+
+    option_list = BaseCommand.option_list + (
+        make_option('-d', dest='device_id', help="The id of the device"),
+    )
 
     def generate_response(self, cluster_id, device_id, page):
         client = Client()
@@ -119,7 +124,14 @@ class Command(BaseCommand):
         path = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content")
         if os.path.exists(path):
             shutil.rmtree(path)
-        stores = Store.objects.all()
+        stores = []
+        if not options['device_id']:
+            stores = Store.objects.all()
+        else:
+            device_id = options['device_id']
+            device = get_object_or_None(Device, device_id = device_id)
+            stores.append(device.store)
+        
         enable_s3 = True if settings.AWS_SECRET_KEY is not None else False
         conn = None
         if enable_s3:
