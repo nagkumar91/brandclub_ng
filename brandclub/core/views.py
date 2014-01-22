@@ -144,12 +144,11 @@ def cluster_info(request):
     return "No Store assigned to device"
 
 
-def store_info(request, slug):
-    device_id = request.device_id
-    store = get_object_or_404(Store, slug_name=slug, devices__device_id=device_id)
+def store_info(request, storeid):
+    store = get_object_or_404(Store, pk=storeid)
     contents = store.get_store_info()
     brand = store.brand
-    redirect = "/home/%s" % slug
+    redirect = "/home/%s" % store.slug_name
     to = "store"
     context_instance = RequestContext(request, {"contents": contents, "brand": brand, "redirect": redirect, "to": to})
     return render_to_response("info.html", context_instance)

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
                        url(r'wallpaper/(?P<wid>\d+)/$', 'core.views.wallpaper_fullscreen'),
                        url(r'ci/$', 'core.views.cluster_info'),
-                       url(r'si/(?P<slug>[\-\w]+)/$', 'core.views.store_info'),
+                       url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
