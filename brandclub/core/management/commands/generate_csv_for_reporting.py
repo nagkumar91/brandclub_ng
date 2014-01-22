@@ -1,5 +1,4 @@
 import csv
-from annoying.functions import get_object_or_None
 from django.conf import settings
 from django.core.management import BaseCommand
 import os
@@ -28,6 +27,7 @@ class Command(BaseCommand):
                     city = d.store.cluster.city.name.encode("utf-8")
                     brand = d.store.brand
                     writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id])
+            csv_file.close()
 
     def footfall(self):
         file_name = "footfall.csv"
@@ -51,6 +51,7 @@ class Command(BaseCommand):
                     for st in all_stores_in_cluster:
                         total_footfall += st.brand.footfall
                 writer.writerow([brand_id, store_count, store_footfall, total_footfall])
+            csv_file.close()
 
     def brand_clusters(self):
         file_name = "brand_clusters.csv"
@@ -67,6 +68,7 @@ class Command(BaseCommand):
                 for s in stores:
                     cluster_id = s.cluster.id
                     writer.writerow([brand_id, cluster_id])
+            csv_file.close()
 
     def brand_associates(self):
         file_name = "brand_associates.csv"
@@ -84,6 +86,7 @@ class Command(BaseCommand):
                 for nc in all_brands:
                     if nc not in competitors and nc.id is not brand_id:
                         writer.writerow([brand_id, nc.id])
+            csv_file.close()
 
     def store_contents(self):
         file_name = "store_contents.csv"
@@ -98,6 +101,7 @@ class Command(BaseCommand):
                 objects = Content.active_objects.filter(store=st)
                 for obj in objects:
                     writer.writerow([st.id, st.cluster.id, obj.id, obj.name.encode("utf-8"), obj.content_type])
+            csv_file.close()
 
     def brands_footfall(self):
         file_name = "brands_footfall.csv"
@@ -132,6 +136,7 @@ class Command(BaseCommand):
                                 brand_id, brand_name, store_id, store_name, cluster_id, cluster_name, brand_footfall,
                                 assoc_partner_id, assoc_partner_name, assoc_partner_footfall, assoc_store_id,
                                 assoc_store_name, city])
+            csv_file.close()
 
     def handle(self, *args, **options):
         if not os.path.exists(self.dir_path):
