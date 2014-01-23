@@ -9,6 +9,10 @@ from core.models import Device, Brand, Store, Content
 class Command(BaseCommand):
     dir_path = settings.REPORT_DOWNLOAD_PATH
 
+    @staticmethod
+    def remove_comma(string):
+        return string.replace(",", " ").replace('"', '')
+
     def device_list(self):
         file_name = "device_list.csv"
         complete_path = os.path.join(self.dir_path, file_name)
@@ -22,9 +26,12 @@ class Command(BaseCommand):
                     device_id = d.device_id
                     store_id = d.store.id
                     store_name = d.store.name.encode("utf-8")
+                    store_name = self.remove_comma(store_name)
                     cluster_id = d.store.cluster.id
                     cluster_name = d.store.cluster.name.encode("utf-8")
+                    cluster_name = self.remove_comma(cluster_name)
                     city = d.store.cluster.city.name.encode("utf-8")
+                    city = self.remove_comma(city)
                     brand = d.store.brand
                     writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id])
             csv_file.close()
@@ -100,7 +107,9 @@ class Command(BaseCommand):
             for st in stores:
                 objects = Content.active_objects.filter(store=st)
                 for obj in objects:
-                    writer.writerow([st.id, st.cluster.id, obj.id, obj.name.encode("utf-8"), obj.content_type])
+                    obj_name = obj.name.encode("utf-8")
+                    obj_name = self.remove_comma(obj_name)
+                    writer.writerow([st.id, st.cluster.id, obj.id, obj_name, obj.content_type])
             csv_file.close()
 
     def brands_footfall(self):
@@ -114,24 +123,30 @@ class Command(BaseCommand):
             for b in brands:
                 brand_id = b.id
                 brand_name = b.name.encode("utf-8")
+                brand_name = self.remove_comma(brand_name)
                 brand_footfall = b.footfall
                 stores = b.stores.filter(demo=False, active=True)
                 competitors = b.competitors.all()
                 for st in stores:
                     store_name = st.name.encode("utf-8")
+                    store_name = self.remove_comma(store_name)
                     store_id = st.id
                     cluster_id = st.cluster.id
                     cluster_name = st.cluster.name.encode("utf-8")
-                    city = st.city
+                    cluster_name = self.remove_comma(cluster_name)
+                    city = st.city.name
+                    city = self.remove_comma(city)
                     clust = st.cluster
                     stores_in_cluster = clust.stores.filter(demo=False, active=True)
                     for sic in stores_in_cluster:
                         if sic.brand not in competitors and sic.id is not st.id:
                             assoc_partner_name = sic.brand.name.encode("utf-8")
+                            assoc_partner_name = self.remove_comma(assoc_partner_name)
                             assoc_partner_footfall = sic.brand.footfall
                             assoc_partner_id = sic.brand.id
                             assoc_store_id = sic.id
                             assoc_store_name = sic.name.encode("utf-8")
+                            assoc_store_name = self.remove_comma(assoc_store_name)
                             writer.writerow([
                                 brand_id, brand_name, store_id, store_name, cluster_id, cluster_name, brand_footfall,
                                 assoc_partner_id, assoc_partner_name, assoc_partner_footfall, assoc_store_id,
