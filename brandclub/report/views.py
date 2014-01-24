@@ -22,6 +22,22 @@ def device_list(request):
             writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id])
     return response
 
+def device_all_list(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="device_all_list.csv"'
+    writer = csv.writer(response)
+    devices = Device.objects.all()
+    for d in devices:
+        device_id = d.device_id
+        store_id = d.store.id
+        store_name = d.store.name.encode("utf-8")
+        cluster_id = d.store.cluster.id
+        cluster_name = d.store.cluster.name.encode("utf-8")
+        city = d.store.cluster.city.name.encode("utf-8")
+        brand = d.store.brand
+        writer.writerow([device_id, store_id, store_name, cluster_id, cluster_name, city, brand.id, d.store.active, d.store.demo])
+    return response
+
 
 def footfall(request):
     response = HttpResponse(content_type='text/csv')
