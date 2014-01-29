@@ -3,7 +3,7 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.conf import settings
 from django.core.management import BaseCommand
-from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType, Device
+from core.models import Cluster, Store, Brand, OrderedStoreContent, ContentType, Device, NavMenu
 from django.test import Client
 from optparse import make_option
 import os
@@ -11,20 +11,20 @@ import shutil
 
 
 class Command(BaseCommand):
-
     option_list = BaseCommand.option_list + (
         make_option('-d', dest='device_id', help="The id of the device"),
     )
 
     def generate_response(self, cluster_id, device_id, page):
         client = Client()
-        response = client.get(page, **{'HTTP_X_CLUSTER_ID': cluster_id, 'HTTP_X_DEVICE_ID': device_id, 'HTTP_HOST' : settings.BRANDCLUB_HOST})
+        response = client.get(page, **{'HTTP_X_CLUSTER_ID': cluster_id, 'HTTP_X_DEVICE_ID': device_id,
+                                       'HTTP_HOST': settings.BRANDCLUB_HOST})
         print "Generating %s and got code %d " % (page, response.status_code)
         return response
 
     @staticmethod
     def _page_headers(cluster_id, device_id):
-        return {'X_CLUSTER_ID': cluster_id, 'X_DEVICE_ID': device_id, 'HTTP_HOST' : settings.BRANDCLUB_HOST}
+        return {'X_CLUSTER_ID': cluster_id, 'X_DEVICE_ID': device_id, 'HTTP_HOST': settings.BRANDCLUB_HOST}
 
     def _generate_page(self, dir, cluster_id, device_id, store):
         print "Generating contents for cluster %s and device %s " % (cluster_id, device_id)
@@ -41,12 +41,15 @@ class Command(BaseCommand):
             contents = OrderedStoreContent.objects.filter(store=cluster_store)
             ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
             ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
+            ctype_nav_menu = get_object_or_None(ContentType, name="Nav Menu")
             for individual_content in contents:
                 content = individual_content.content
                 if content.content_type.id == ctype_slideshow.id:
                     self._generate_slideshow(content.id, cluster_id, device_id, dir)
                 if content.content_type.id == ctype_wallpaper.id:
                     self._generate_wallpapers(content.id, cluster_id, device_id, dir)
+                if content.content_type.id == ctype_nav_menu.id:
+                    self._generate_navmenu(content.id, cluster_id, device_id, dir)
         print "==================================================================="
 
     def _generate_main_page(self, slug, cluster_id, device_id, static_dir):
@@ -125,6 +128,31 @@ class Command(BaseCommand):
             f.write(response.content)
             f.close()
 
+    def _generate_navmenu(self, wid, cluster_id, device_id, static_dir):
+        page = "/navmenu/%s/" % wid
+        response = self.generate_response(cluster_id, device_id, page)
+        output_dir = "%s/navmenu" % static_dir
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        output_file = "/%s/%s" % (output_dir, wid)
+        with open(output_file, 'w') as f:
+            f.write(response.content)
+            f.close()
+        navmenu = NavMenu.objects.get(id=wid)
+        contents = navmenu.menu_contents.all()
+        ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
+        ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
+        ctype_nav_menu = get_object_or_None(ContentType, name="Nav Menu")
+        for content in contents:
+            if content.content_type.id == ctype_slideshow.id:
+                self._generate_slideshow(content.id, cluster_id, device_id, static_dir)
+            if content.content_type.id == ctype_wallpaper.id:
+                self._generate_wallpapers(content.id, cluster_id, device_id, static_dir)
+            if content.content_type.id == ctype_nav_menu.id:
+                self._generate_navmenu(content.id, cluster_id, device_id, static_dir)
+
+
+
     def handle(self, *args, **options):
         path = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content")
         if os.path.exists(path):
@@ -134,9 +162,9 @@ class Command(BaseCommand):
             stores = Store.objects.all()
         else:
             device_id = options['device_id']
-            device = get_object_or_None(Device, device_id = device_id)
+            device = get_object_or_None(Device, device_id=device_id)
             stores.append(device.store)
-        
+
         enable_s3 = True if settings.AWS_SECRET_KEY is not None else False
         conn = None
         if enable_s3:

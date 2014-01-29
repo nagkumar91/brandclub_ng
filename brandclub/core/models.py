@@ -340,6 +340,15 @@ class OrderedStoreContent(models.Model):
         # unique_together = ("store", "order")
         ordering = ['order']
 
+class OrderedNavMenuContent(models.Model):
+    nav_menu = models.ForeignKey('NavMenu')
+    content = models.ForeignKey('Content', related_name="nav_contents")
+    order = models.IntegerField()
+
+    class Meta:
+        # unique_together = ("store", "order")
+        ordering = ['order']
+
 
 class Content(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
@@ -385,6 +394,11 @@ class Content(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return self.name
 
+class NavMenu(Content):
+    menu_contents = models.ManyToManyField(Content, related_name='ordered_contents', through=OrderedNavMenuContent, symmetrical=False)
+
+    def template_file(self):
+        return "partials/_navmenu.html"
 
 class Audio(Content):
     file = models.FileField(upload_to=get_content_info_path)
