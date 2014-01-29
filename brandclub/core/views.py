@@ -7,7 +7,7 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, Web
 
 
 def home_cluster_view(request, slug=""):
@@ -25,6 +25,39 @@ def home_cluster_view(request, slug=""):
         return render_to_response('home.html', context_instance)
     context_instance = RequestContext(request, {'device': device})
     return render_to_response('default.html', context_instance)
+
+
+def home_cluster_screenshot(request, hid=""):
+    device_id = int(hid)
+    device = get_object_or_None(Device, device_id=device_id)
+    if device and device.store and device.store.cluster:
+        home_cluster = device.store.cluster
+        all_contents = home_cluster.get_all_home_content(device_id)
+        home_brand = device.store.brand
+        context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
+        context_instance = RequestContext(request, context)
+        return render_to_response('home.html', context_instance)
+    context_instance = RequestContext(request, {'device': device})
+    return render_to_response('default.html', context_instance)
+
+
+def store_home_screenshot(request, hid):
+    device_id = int(hid)
+    device = get_object_or_None(Device, device_id=device_id)
+    if device.store is not None and device is not None:
+        redirect = "/%s" % device.store.slug_name
+        to = "cluster"
+        if device.store.cluster is not None:
+            cluster = device.store.cluster
+            store = device.store
+            if store is not None:
+                contents = store.get_content_for_store()
+                context = {'contents': contents, 'store': store, 'brand': store.brand, "redirect": redirect, "to": to}
+                context_instance = RequestContext(request, context)
+                return render_to_response('store_home.html', context_instance)
+            return "Store not found"
+        return "No cluster assigned to store"
+    return "No store assigned to device"
 
 
 def store_home(request, slug):
@@ -78,6 +111,22 @@ def wallpaper_fullscreen(request, wid):
             context_instance = RequestContext(request,
                                               {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
             return render_to_response("wallpaper_fullscreen.html", context_instance)
+        return "Wallpaper not assigned to any store"
+    return "Wallpaper not found"
+
+
+def web_fullscreen(request, wid):
+    web = get_object_or_404(Web, id=wid)
+    if web is not None:
+        store = web.store.all()
+        if store is not None:
+            store = store[0]
+            brand = store.brand
+            redirect = "/home/%s" % store.slug_name
+            to = "store"
+            context_instance = RequestContext(request,
+                                              {'content': web, "redirect": redirect, "to": to, "brand": brand})
+            return render_to_response("web_template.html", context_instance)
         return "Wallpaper not assigned to any store"
     return "Wallpaper not found"
 
