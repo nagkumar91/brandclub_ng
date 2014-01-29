@@ -16,7 +16,7 @@ urlpatterns = patterns('',
                        url(r'ci/$', 'core.views.cluster_info'),
                        url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
                        url(r'^$', 'core.views.home_cluster_view'),
-                       url(r'(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
+                       url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
 
 

@@ -73,12 +73,18 @@ def wallpaper_fullscreen(request, wid):
         if len(store) > 0 :
             store = store[0]
             brand = store.brand
-            redirect = "/home/%s" % store.slug_name
+            redirect = "/home/%s/" % store.slug_name
             to = "store"
-            context_instance = RequestContext(request,
-                                              {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
-            return render_to_response("wallpaper_fullscreen.html", context_instance)
-        return "Wallpaper not assigned to any store"
+        else:
+            device_id = request.device_id
+            device = Device.objects.select_related("store").get(device_id=device_id)
+            store = device.store
+            brand = store.brand
+            redirect = "/%s/" % store.slug_name
+            to = "store"
+        context_instance = RequestContext(request,
+                                          {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
+        return render_to_response("wallpaper_fullscreen.html", context_instance)
     return "Wallpaper not found"
 
 
@@ -190,8 +196,8 @@ def navmenu(request, navmenu_id):
     device = get_object_or_None(Device, device_id=device_id)
     redirect = "/%s" % device.store.slug_name
     to = "cluster"
-    ordered_content_ids = list(OrderedNavMenuContent.objects.values('id').filter(nav_menu__id = navmenu_id))
-    ordered_ids = [ item['id'] for item in ordered_content_ids ]
+    ordered_content_ids = list(OrderedNavMenuContent.objects.filter(nav_menu__id = navmenu_id))
+    ordered_ids = [ item.content.id for item in ordered_content_ids ]
     contents = list(Content.objects.select_subclasses().filter(id__in = ordered_ids))
     contents.sort(key=lambda content: ordered_ids.index(content.pk))
     for content in contents:
