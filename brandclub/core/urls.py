@@ -8,6 +8,7 @@ urlpatterns = patterns('',
                        url(r'all_feedback/$', 'core.views.display_feedback'),
                        url(r'offers/$', 'core.views.display_offers'),
                        url(r'offer/(?P<offer_id>\d+)/$', 'core.views.offer'),
+                       url(r'navmenu/(?P<navmenu_id>\d+)/$', 'core.views.navmenu'),
                        url(r'authenticateUserForOffer/$', 'core.views.authenticate_user_for_offer'),
                        url(r'create_user_id/$', 'core.views.create_user_id'),
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
@@ -15,7 +16,7 @@ urlpatterns = patterns('',
                        url(r'ci/$', 'core.views.cluster_info'),
                        url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
                        url(r'^$', 'core.views.home_cluster_view'),
-                       url(r'(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
+                       url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
 
 
