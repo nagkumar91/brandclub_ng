@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent
+    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -244,6 +244,18 @@ class StoreFeedbackAdmin(admin.ModelAdmin):
 class OfferAdmin(ContentAdmin):
     pass
 
+
+class OrderedNavMenuContentAdmin(admin.TabularInline):
+    model = OrderedNavMenuContent
+    fk_name = 'nav_menu'
+    sortable_field_name = 'order'
+
+
+class NavMenuAdmin(ContentAdmin):
+    inlines = [
+        OrderedNavMenuContentAdmin
+    ]
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -261,3 +273,4 @@ admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Content, ContentNonEditableAdmin)
+admin.site.register(NavMenu, NavMenuAdmin)

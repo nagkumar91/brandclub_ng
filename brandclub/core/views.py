@@ -7,7 +7,7 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content
 
 
 def home_cluster_view(request, slug=""):
@@ -69,8 +69,8 @@ def slideshow(request, ssid):
 def wallpaper_fullscreen(request, wid):
     wallpaper = get_object_or_404(Wallpaper, id=wid)
     if wallpaper is not None:
-        store = wallpaper.store.all()
-        if store is not None:
+        store = list(wallpaper.store.all())
+        if len(store) > 0 :
             store = store[0]
             brand = store.brand
             redirect = "/home/%s" % store.slug_name
@@ -184,3 +184,21 @@ def authenticate_user_for_offer(request):
     odi_obj = OfferDownloadInfo(user_name=user_name, email_id=email_id, mobile_number=phone_number, offer=offer_obj)
     odi_obj.save()
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def navmenu(request, navmenu_id):
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    redirect = "/%s" % device.store.slug_name
+    to = "cluster"
+    ordered_content_ids = list(OrderedNavMenuContent.objects.values('id').filter(nav_menu__id = navmenu_id))
+    ordered_ids = [ item['id'] for item in ordered_content_ids ]
+    contents = list(Content.objects.select_subclasses().filter(id__in = ordered_ids))
+    contents.sort(key=lambda content: ordered_ids.index(content.pk))
+    for content in contents:
+        setattr(content, 'own_store', device.store)
+    context = {'contents': contents, 'store': device.store, 'brand': device.store.brand, "redirect": redirect, "to": to}
+    context_instance = RequestContext(request, context)
+    return render_to_response('store_home.html', context_instance)
+
+
+
