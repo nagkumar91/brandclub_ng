@@ -7,7 +7,7 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web
 
 
 def home_cluster_view(request, slug=""):
@@ -85,6 +85,22 @@ def wallpaper_fullscreen(request, wid):
         context_instance = RequestContext(request,
                                           {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
         return render_to_response("wallpaper_fullscreen.html", context_instance)
+    return "Wallpaper not found"
+
+
+def web_fullscreen(request, wid):
+    web = get_object_or_404(Web, id=wid)
+    if web is not None:
+        store = web.store.all()
+        if store is not None:
+            store = store[0]
+            brand = store.brand
+            redirect = "/home/%s" % store.slug_name
+            to = "store"
+            context_instance = RequestContext(request,
+                                              {'content': web, "redirect": redirect, "to": to, "brand": brand})
+            return render_to_response("web_template.html", context_instance)
+        return "Wallpaper not assigned to any store"
     return "Wallpaper not found"
 
 
