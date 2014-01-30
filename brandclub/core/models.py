@@ -114,8 +114,6 @@ class Cluster(CachingMixin, TimeStampedModel):
                 dist -= dist % -10
                 setattr(content, 'distance_from_home_store', int(dist))
                 setattr(content, 'own_store', stores_in_cluster[0])
-                if home_store in stores:
-                    contents[0], contents[index] = contents[index], contents[0]
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
 
