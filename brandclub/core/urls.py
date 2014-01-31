@@ -16,6 +16,8 @@ urlpatterns = patterns('',
                        url(r'web/(?P<wid>\d+)/$', 'core.views.web_fullscreen'),
                        url(r'ci/$', 'core.views.cluster_info'),
                        url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
+                       url(r'ch/(?P<hid>\d+)/$', 'core.views.home_cluster_hid'),
+                       url(r'sh/(?P<hid>\d+)/$', 'core.views.store_home_hid'),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
