@@ -42,6 +42,7 @@ class State(CachingMixin, TimeStampedModel):
 class City(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     objects = CachingManager()
+
     class Meta:
         verbose_name_plural = "Cities"
         verbose_name = "City"
@@ -66,6 +67,7 @@ class Brand(CachingMixin, TimeStampedModel):
     competitors = models.ManyToManyField('Brand', related_name='competition', symmetrical=True, blank=True, null=True)
 
     objects = CachingManager()
+
     def image_tag(self):
         return u"<img src='%s' style='height: 50px;max-width: auto'>" % self.logo.url
 
@@ -97,18 +99,21 @@ class Cluster(CachingMixin, TimeStampedModel):
         cache_key = "Cluster-Home-%s-%s" % (self.id, device_id)
         contents = cache.get(cache_key)
         if not contents:
-            all_contents = Content.active_objects.select_related('store').\
+            all_contents = Content.active_objects.select_related('store'). \
                 filter(store__cluster__id=cluster_id).filter(content_location="2"). \
-                filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
-                filter(store__in=(self.stores.exclude(active=False))).\
+                filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
+                filter(store__in=(self.stores.exclude(active=False))). \
                 order_by('store__brand__id').distinct('store__brand__id')
             contents = list(all_contents)
             for index, content in enumerate(contents):
                 stores = content.store.all()
-                stores_in_cluster = Store.objects.filter(cluster_id = self.id, brand = stores[0].brand)
+                stores_in_cluster = Store.objects.filter(cluster_id=self.id, brand=stores[0].brand)
+                content_owner = content.store.filter(cluster_id=self.id)[:1]
+                content_owner = content_owner[0]
+                dist = home_store.get_distance_from(content_owner)
+                dist -= dist % -10
+                setattr(content, 'distance_from_home_store', int(dist))
                 setattr(content, 'own_store', stores_in_cluster[0])
-                if home_store in stores:
-                    contents[0], contents[index] = contents[index], contents[0]
             cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
         return contents
 
@@ -116,12 +121,12 @@ class Cluster(CachingMixin, TimeStampedModel):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
         offer_ctype = ContentType.objects.get_or_create(name="Offer")
-        contents = Content.active_objects.select_related('store').\
-            filter(store__cluster__id=cluster_id).\
-            filter(content_type=offer_ctype[0].id).\
-            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))).\
-            filter(store__in=(self.stores.exclude(active=False))).\
-            order_by('store__id').distinct('store__id').\
+        contents = Content.active_objects.select_related('store'). \
+            filter(store__cluster__id=cluster_id). \
+            filter(content_type=offer_ctype[0].id). \
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
+            filter(store__in=(self.stores.exclude(active=False))). \
+            order_by('store__id').distinct('store__id'). \
             select_subclasses()
         return contents
 
@@ -227,6 +232,15 @@ class Store(CachingMixin, TimeStampedModel):
 
     objects = CachingManager()
 
+    def get_distance_from(self, new_store):
+        r = 6371
+        dlat = to_radians(new_store.latitude - self.latitude)
+        dlon = to_radians(new_store.longitude - self.longitude)
+        a = sin(dlat / 2) * sin(dlat / 2) + cos(to_radians(self.latitude)) * cos(to_radians(new_store.latitude)) * sin(dlon / 2) * sin(dlon / 2)
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        d = r * c * 1000
+        return d
+
     def create_slug(self):
         return slugify(self.name)
 
@@ -312,6 +326,7 @@ class Device(CachingMixin, TimeStampedModel):
     store = models.ForeignKey(Store, related_name='devices', null=True)
 
     objects = CachingManager()
+
     def __unicode__(self):
         return u'%d' % self.device_id
 
@@ -328,7 +343,8 @@ class ContentManager(InheritanceManager):
     def get_queryset(self):
         date_time_today = datetime.datetime.now()
         return super(ContentManager, self).get_query_set(). \
-            filter(active=True, archived=False, start_date__lte=date_time_today, end_date__gte=date_time_today).order_by('store_contents__order')
+            filter(active=True, archived=False, start_date__lte=date_time_today,
+                   end_date__gte=date_time_today).order_by('store_contents__order')
 
 
 class OrderedStoreContent(models.Model):
@@ -360,7 +376,7 @@ class Content(CachingMixin, TimeStampedModel):
                                             ("4", "Store Info")
                                         ],
                                         default="1"
-                                        )
+    )
     short_description = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     rating = models.IntegerField(default=5)
