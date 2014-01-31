@@ -1,0 +1,71 @@
+{% extends "core_base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+{% block store_details %}
+    <div class="icon-container pull-right">
+        <a href="/ci"
+           class="navbar-icon">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </a>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container list-unstyled" id="home-widget-list">
+        <div class="row masonry" style="margin-bottom: 40px;">
+            {% for content in contents %}
+                <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget"
+                     data-log-brand-name="{{ content.own_store.brand.name }}"
+                     data-log-content-name="{{ content.name }}"
+                     data-log-content-type="{{ content.content_type }}"
+                     data-log-content-id="{{ content.id }}">
+                    <div class="img-frame">
+                        <div class="image-wrapper">
+                                <a class="content-link img-preview"
+                                   onclick="logAndRedirect(this, '/sh/'+'{{ content.device_id}}')"
+                                   data-log-brand-name="{{ content.own_store.brand.name }}"
+                                   data-log-content-name="{{ content.name }}"
+                                   data-log-content-type="{{ content.content_type }}"
+                                   data-log-content-id="{{ content.id }}">
+                            <img class="img-responsive image"
+                                 src="{{ content.thumbnail_url |default_if_none:'#' }}"
+                                 alt="{{ c.name }}"/>
+                            </a>
+                        </div>
+                        <div class="row info-panel">
+                            <div class="icons col-xs-8">
+                                <h5>{{ content.name }}</h5>
+                            </div>
+                            <div class="col-xs-4">
+
+                            </div>
+                        </div>
+
+                        <p>{{ content.short_description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block navbar_bottom %}
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+    <script>
+        $(function ($) {
+            var $container = $(".masonry");
+            $container.imagesLoaded(function () {
+                $container.masonry({
+                    itemSelector: '.brandclub-widget',
+                    columnWidth: '.brandclub-widget',
+                })
+            });
+        }(jQuery))
+    </script>
+{% endblock %}

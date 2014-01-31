@@ -27,21 +27,26 @@ def home_cluster_view(request, slug=""):
     return render_to_response('default.html', context_instance)
 
 
-def home_cluster_screenshot(request, hid=""):
+def home_cluster_hid(request, hid=""):
     device_id = int(hid)
     device = get_object_or_None(Device, device_id=device_id)
     if device and device.store and device.store.cluster:
         home_cluster = device.store.cluster
         all_contents = home_cluster.get_all_home_content(device_id)
         home_brand = device.store.brand
+        for c in all_contents:
+            content_store = c.store.all()[:1]
+            content_store = content_store[0]
+            content_device = content_store.devices.all()[:1]
+            setattr(c, "device_id", content_device[0].device_id)
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
-        return render_to_response('home.html', context_instance)
+        return render_to_response('home_hid.html', context_instance)
     context_instance = RequestContext(request, {'device': device})
     return render_to_response('default.html', context_instance)
 
 
-def store_home_screenshot(request, hid):
+def store_home_hid(request, hid):
     device_id = int(hid)
     device = get_object_or_None(Device, device_id=device_id)
     if device.store is not None and device is not None:
