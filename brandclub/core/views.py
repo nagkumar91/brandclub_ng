@@ -107,8 +107,8 @@ def slideshow(request, ssid):
 def wallpaper_fullscreen(request, wid):
     wallpaper = get_object_or_404(Wallpaper, id=wid)
     if wallpaper is not None:
-        store = list(wallpaper.store.all())
-        if len(store) > 0 :
+        store = wallpaper.store.all()
+        if store.exists():
             store = store[0]
             brand = store.brand
             redirect = "/home/%s/" % store.slug_name
