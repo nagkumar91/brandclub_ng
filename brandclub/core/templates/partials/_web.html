@@ -5,7 +5,17 @@
      data-log-content-id="{{ content.id }}">
     <div class="img-frame">
         <div class="image-wrapper">
-            {{ content.content|safe }}
+            <a class="content-link img-preview"
+               data-log-brand-name="{{ content.own_store.brand.name }}"
+               data-log-content-name="{{ content.name }}"
+               data-log-content-type="{{ content.content_type }}"
+               data-log-content-id="{{ content.id }}"
+               onclick="logAndRedirect(this, '/web/'+'{{ content.id }}')">
+                <img
+                        class="img-responsive image"
+                        src="{{ content.thumbnail.url }}"
+                        alt="{{ c.name }}"/>
+            </a>
         </div>
         <div class="row info-panel">
             <div class="icons col-xs-8">

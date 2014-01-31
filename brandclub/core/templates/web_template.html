@@ -1,0 +1,19 @@
+{% extends "core_base.html" %}
+{% block store_details %}
+{% endblock %}
+{% block extra_css %}
+    <style>
+        .center-img     {
+            margin: 0 auto;
+            width: 80%;
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block brand_background %}{% endblock %}
+{% load staticfiles %}
+{% block content %}
+    <div class="center-img">
+        {{ content.content | safe }}
+    </div>
+{% endblock %}
