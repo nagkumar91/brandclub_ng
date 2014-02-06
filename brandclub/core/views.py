@@ -130,10 +130,17 @@ def web_fullscreen(request, wid):
     web = get_object_or_404(Web, id=wid)
     if web is not None:
         store = web.store.all()
-        if store is not None:
+        if store.exists():
             store = store[0]
             brand = store.brand
-            redirect = "/home/%s" % store.slug_name
+            redirect = "/home/%s/" % store.slug_name
+            to = "store"
+        else:
+            device_id = request.device_id
+            device = Device.objects.select_related("store").get(device_id=device_id)
+            store = device.store
+            brand = store.brand
+            redirect = "/%s/" % store.slug_name
             to = "store"
             context_instance = RequestContext(request,
                                               {'content': web, "redirect": redirect, "to": to, "brand": brand})
