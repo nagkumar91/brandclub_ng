@@ -7,7 +7,8 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
+    NavMenu, OrderedNavMenuContent, Content, Web
 
 
 def home_cluster_view(request, slug=""):
@@ -207,7 +208,7 @@ def cluster_info(request):
             context_instance = RequestContext(request,
                                               {"contents": contents, "brand": brand, "redirect": redirect, "to": to}
             )
-            return render_to_response("info.html", context_instance)
+            return render_to_response("cluster_info.html", context_instance)
         return "No cluster assigned for the store"
     return "No Store assigned to device"
 
@@ -219,7 +220,7 @@ def store_info(request, storeid):
     redirect = "/home/%s" % store.slug_name
     to = "store"
     context_instance = RequestContext(request, {"contents": contents, "brand": brand, "redirect": redirect, "to": to})
-    return render_to_response("info.html", context_instance)
+    return render_to_response("store_info.html", context_instance)
 
 
 def offer(request, offer_id):
@@ -252,20 +253,28 @@ def authenticate_user_for_offer(request):
     odi_obj.save()
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+
 def navmenu(request, navmenu_id):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
     redirect = "/%s" % device.store.slug_name
     to = "cluster"
-    ordered_content_ids = list(OrderedNavMenuContent.objects.filter(nav_menu__id = navmenu_id))
-    ordered_ids = [ item.content.id for item in ordered_content_ids ]
-    contents = list(Content.objects.select_subclasses().filter(id__in = ordered_ids))
+    ordered_content_ids = list(OrderedNavMenuContent.objects.filter(nav_menu__id=navmenu_id))
+    ordered_ids = [item.content.id for item in ordered_content_ids]
+    contents = list(Content.objects.select_subclasses().filter(id__in=ordered_ids))
     contents.sort(key=lambda content: ordered_ids.index(content.pk))
     for content in contents:
         setattr(content, 'own_store', device.store)
     context = {'contents': contents, 'store': device.store, 'brand': device.store.brand, "redirect": redirect, "to": to}
     context_instance = RequestContext(request, context)
     return render_to_response('store_home.html', context_instance)
+
+
+def call_log(request):
+    print request
+    data = {"user_id": ""}
+    data = json.dumps(data)
+    return HttpResponse(data, mimetype='application/json')
 
 
 
