@@ -323,3 +323,15 @@ BRANDCLUB_HOST = "localhost"
 AWS_ACCESS_KEY = None
 AWS_SECRET_KEY = None
 REPORT_DOWNLOAD_PATH = "/tmp/reports"
+CONTENT_ID_FOR_CLUSTER_HOME = -1
+CONTENT_ID_FOR_STORE_HOME = -2
+CONTENT_ID_FOR_CLUSTER_INFO = -3
+CONTENT_ID_FOR_STORE_INFO = -4
+CONTENT_ID_FOR_STORE_FEEDBACK = -5
+CONTENT_ID_FOR_OFFERS_PAGE = -6
+CONTENT_ID_MAPPING = {-1: "Cluster Home",
+                      -2: "Store Home",
+                      -3: "Cluster Info",
+                      -4: "Store Info",
+                      -5: "Store Feedback",
+                      -6: "Offers in Cluster"}
