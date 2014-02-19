@@ -10,7 +10,10 @@ $(function($) {
             } else if (visiblePartY == 'bottom') {
             } else {
                 // whole part of element is visible
-                impressionLog(content_id, content_type, content_name, content_owner)
+                var user_unique_id = readCookie("user_unique_id");
+                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "");
+                impressionLog(content_id, content_type, content_name, content_owner);
+
             }
         }
     });
