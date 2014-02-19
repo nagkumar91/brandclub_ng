@@ -17,3 +17,14 @@
              class="img-responsive"/>
     </div>
 {% endblock %}
+{% block extra_js %}
+    {% block logging %}
+        <script>
+            $(document).ready(function(){
+                var user_unique_id = readCookie("user_unique_id");
+                call_log({{ content.id }}, window.log_info.home_device_id, user_unique_id, document.title, "");
+            });
+        </script>
+
+    {% endblock %}
+{% endblock %}
