@@ -30,7 +30,7 @@
         <a class="play-pause"></a>
         <a class="close">x</a>
     </div>
-        <div id="links">
+        <div id="links" data-log-content-id="{{ content.id }}">
             {% for i in content.image.all %}
                     <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
                        title="{{ i.caption }}"></a>
@@ -46,7 +46,7 @@
         <script>
             $(document).ready(function(){
                 var user_unique_id = readCookie("user_unique_id");
-                call_log({{ content.id }}, window.log_info.home_device_id, user_unique_id, document.title, "");
+                call_log({{ content.id }}, window.log_info.home_device_id, user_unique_id, "Slide Show Fullscreen", "page load", "");
             });
         </script>
 

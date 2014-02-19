@@ -11,7 +11,7 @@ $(function($) {
             } else {
                 // whole part of element is visible
                 var user_unique_id = readCookie("user_unique_id");
-                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "");
+                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "card in view","");
                 impressionLog(content_id, content_type, content_name, content_owner);
 
             }

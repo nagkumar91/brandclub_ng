@@ -66,9 +66,9 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 ########## END TOOLBAR CONFIGURATION
-CKEDITOR_UPLOAD_PATH = "/tmp/ckeditor/uploads"
+CKEDITOR_UPLOAD_PATH = "/data/ckeditor/uploads"
 DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '1'
 CREATE_STORE_MAPS = True
 CACHE_TIME_OUT = 0
-REPORT_DOWNLOAD_PATH = "/tmp/reporting/downloads"
+REPORT_DOWNLOAD_PATH = "/data/ckeditor/reporting/downloads"

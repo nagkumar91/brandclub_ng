@@ -356,6 +356,7 @@ class OrderedStoreContent(models.Model):
         # unique_together = ("store", "order")
         ordering = ['order']
 
+
 class OrderedNavMenuContent(models.Model):
     nav_menu = models.ForeignKey('NavMenu')
     content = models.ForeignKey('Content', related_name="nav_contents")
@@ -517,12 +518,10 @@ class OfferDownloadInfo(TimeStampedModel):
 
 class Log(TimeStampedModel):
     mac_address = models.CharField(max_length=25, null=True, blank=True)
-    content_id = models.IntegerField(null=True, blank=True)
+    content_id = models.CharField(max_length=100, null=True, blank=True)
     content_name = models.CharField(max_length=100, null=True, blank=True)
     content_type = models.CharField(max_length=100, null=True, blank=True)
     content_location = models.CharField(max_length=100, null=True, blank=True)
-    content_owner_store_id = models.IntegerField(null=True, blank=True)
-    content_owner_store_name = models.CharField(max_length=100, null=True, blank=True)
     content_owner_brand_id = models.IntegerField(null=True, blank=True)
     content_owner_brand_name = models.CharField(max_length=100, null=True, blank=True)
     location_device_id = models.IntegerField(null=True, blank=True)
@@ -530,6 +529,8 @@ class Log(TimeStampedModel):
     location_store_name = models.CharField(max_length=100, null=True, blank=True)
     location_brand_id = models.IntegerField(null=True, blank=True)
     location_brand_name = models.CharField(max_length=100, null=True, blank=True)
+    location_cluster_id = models.IntegerField(null=True, blank=True)
+    location_cluster_name = models.CharField(max_length=200, null=True, blank=True)
     user_agent = models.CharField(max_length=300, null=True, blank=True)
     mobile_make = models.CharField(max_length=300, null=True, blank=True)
     mobile_model = models.CharField(max_length=300, null=True, blank=True)
@@ -542,3 +543,5 @@ class Log(TimeStampedModel):
     redirect_url = models.CharField(max_length=300, null=True, blank=True)
     action = models.CharField(max_length=100, null=True, blank=True)
     access_date = models.DateTimeField(auto_now_add=True)
+    city = models.CharField(max_length=200, blank=True, null=True)
+    state = models.CharField(max_length=200, blank=True, null=True)

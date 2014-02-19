@@ -335,3 +335,4 @@ CONTENT_ID_MAPPING = {-1: "Cluster Home",
                       -4: "Store Info",
                       -5: "Store Feedback",
                       -6: "Offers in Cluster"}
+CONTENT_ID_ARRAY = [-1, -2, -3, -4, -5, -6]
