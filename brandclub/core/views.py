@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .logging import log_this
+from .logging import log_data
 from .helpers import id_generator
 
 from .forms import FeedbackForm
@@ -296,7 +296,7 @@ def call_log(request):
     width = post_values['device_width']
     action = post_values['user_action']
     user_ip_address = request.META['REMOTE_ADDR']
-    log_this(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
+    log_data(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
              width, action, user_ip_address)
     data = {"Success": True}
 
