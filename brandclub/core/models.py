@@ -542,6 +542,6 @@ class Log(TimeStampedModel):
     referrer = models.CharField(max_length=500, null=True, blank=True)
     redirect_url = models.CharField(max_length=300, null=True, blank=True)
     action = models.CharField(max_length=100, null=True, blank=True)
-    access_date = models.DateTimeField(auto_now_add=True)
+    access_date = models.DateTimeField(default=datetime.datetime.now, blank=True)
     city = models.CharField(max_length=200, blank=True, null=True)
     state = models.CharField(max_length=200, blank=True, null=True)
