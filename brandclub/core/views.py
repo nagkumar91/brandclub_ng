@@ -11,7 +11,7 @@ from .helpers import id_generator
 from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
     NavMenu, OrderedNavMenuContent, Content, Web, Log
-
+from .tasks import log_bc_data
 
 content_type_mapping = {
     1: 'Store Home',
@@ -296,9 +296,7 @@ def call_log(request):
     width = post_values['device_width']
     action = post_values['user_action']
     user_ip_address = request.META['REMOTE_ADDR']
-    log_data(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
+    log_bc_data.delay(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
              width, action, user_ip_address)
-    data = {"Success": True}
-
-    data = json.dumps(data)
+    data = json.dumps({"Success": True})
     return HttpResponse(data, mimetype='application/json')
