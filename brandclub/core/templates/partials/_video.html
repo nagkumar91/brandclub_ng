@@ -10,7 +10,8 @@
                href="#">
                 <video style="width:100%;height:auto;"
                        poster="{{ content.thumbnail.url }}"
-                       controls="controls" preload="none">
+                       controls="controls" preload="none"
+                       data-log-content-id="{{ content.id }}">
                     <source type="video/mp4"
                             src="{{ content.file.url }}"/>
                     <object style="height:inherit;width:inherit"
