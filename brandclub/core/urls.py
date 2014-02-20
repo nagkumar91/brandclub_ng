@@ -1,6 +1,22 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from tastypie.api import Api
+from .api import *
+
+v1_api = Api(api_name='v1')
+v1_api.register(ContentTypeResource())
+v1_api.register(ContentResource())
+v1_api.register(StoreResource())
+v1_api.register(ClusterContentResource())
+v1_api.register(WallpaperResource())
+v1_api.register(SlideShowResource())
+v1_api.register(SlideShowImageResource())
+v1_api.register(ImageResource())
+
+
+
 
 urlpatterns = patterns('',
+                       url(r'^api/', include(v1_api.urls)),
                        url(r'^redirect/$', 'core.views.redirect_to_outside'),
                        url(r'^contents_dir/(?P<device_id>\d+)/$', 'core.views.contents_loc_view'),
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),
