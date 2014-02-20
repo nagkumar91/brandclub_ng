@@ -9,7 +9,7 @@ function call_log(content_id, device_id, user_unique_id, page_title, user_action
         user_agent: navigator.userAgent,
         device_height: $(window).height(),
         device_width: $(window).width(),
-        user_action: user_action
+        user_action: convertToSlug(user_action)
 
     };
     $.ajax({
@@ -21,4 +21,13 @@ function call_log(content_id, device_id, user_unique_id, page_title, user_action
 //            console.log(data);
         }
     });
+}
+
+function convertToSlug(Text)
+{
+    return Text
+        .toLowerCase()
+        .replace(/[^\w ]+/g,'')
+        .replace(/ +/g,'_')
+        ;
 }
