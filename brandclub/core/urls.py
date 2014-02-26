@@ -11,6 +11,9 @@ v1_api.register(WallpaperResource())
 v1_api.register(SlideShowResource())
 v1_api.register(SlideShowImageResource())
 v1_api.register(ImageResource())
+v1_api.register(StoreContentResource())
+v1_api.register(ClusterResource())
+v1_api.register(DeviceResource())
 
 
 
