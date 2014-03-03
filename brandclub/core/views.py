@@ -300,3 +300,9 @@ def call_log(request):
              width, action, user_ip_address)
     data = json.dumps({"Success": True})
     return HttpResponse(data, mimetype='application/json')
+
+
+@csrf_exempt
+def upload_log(request):
+    print request.POST
+    return HttpResponse(json.dumps({"Success": True}), mimetype='application/json')
