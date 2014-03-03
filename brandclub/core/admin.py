@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from django.contrib import admin
 
@@ -103,7 +104,7 @@ class ContentAdmin(admin.ModelAdmin):
     list_filter = ('content_location', )
     filter_horizontal = ("store", )
     save_as = True
-    actions = ['assign_to_brand']
+    actions = ['assign_to_brand', 'increase_validity_by_1_month']
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -142,9 +143,20 @@ class ContentAdmin(admin.ModelAdmin):
         context = {'contents': queryset, 'brand_form': form}
         return render_to_response('add_tag.html', RequestContext(request,context))
 
+    def increase_validity_by_1_month(self, request, queryset):
+
+        form = None
+        for content in queryset:
+            old_end_date = content.end_date
+            new_end_date = old_end_date + datetime.timedelta(days=30)
+            content.end_date = new_end_date
+            content.save()
+        self.message_user(request, "Done!")
+
+
 
 class ContentNonEditableAdmin(admin.ModelAdmin):
-    actions = ['assign_to_brand']
+    actions = ['assign_to_brand', 'increase_validity_by_1_month']
     list_display = ('name', 'content_location', 'content_type', 'image_tag', 'start_date', 'end_date',
                     'active', 'archived',)
     list_filter = ('content_location', 'content_type', 'store', 'store__brand', 'active', 'archived')
@@ -191,6 +203,16 @@ class ContentNonEditableAdmin(admin.ModelAdmin):
             )
         context = {'contents': queryset, 'brand_form': form}
         return render_to_response('add_tag.html', RequestContext(request,context))
+
+    def increase_validity_by_1_month(self, request, queryset):
+
+        form = None
+        for content in queryset:
+            old_end_date = content.end_date
+            new_end_date = old_end_date + datetime.timedelta(days=30)
+            content.end_date = new_end_date
+            content.save()
+        self.message_user(request, "Done!")
 
 
 class SlideShowImageInline(admin.TabularInline):
