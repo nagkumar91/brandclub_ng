@@ -8,9 +8,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from .helpers import id_generator
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
     State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
-    FreeInternet
+    FreeInternet, FreeInternetLog
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -280,7 +281,31 @@ class NavMenuAdmin(ContentAdmin):
 
 
 class FreeInternetAdmin(ContentAdmin):
-    pass
+    actions = ContentAdmin.actions + ['create_50_codes']
+
+    def create_50_codes(self, request, queryset):
+        for content in queryset:
+            if content.store.all() is None:
+                self.message_user(request, "Content not assigned to any store")
+                return
+            else:
+                brands = []
+                for st in content.store.all():
+                    brands.append(st.brand)
+                brands = set(brands)
+                if len(brands) > 1:
+                    self.message_user(request, "Content assigned to more than a single brand. Please correct.")
+                    return
+                for st in content.store.all():
+                    store = Store.objects.get(pk=st.id)
+                    today = datetime.datetime.now()
+                    i = 50
+                    while i != 0:
+                        code = id_generator(6)
+                        fil_object = FreeInternetLog(code=code, store=store, created_date=today)
+                        fil_object.save()
+                        i -= 1
+        self.message_user(request, "Codes created for selected content(s)")
 
 admin.site.register(City)
 admin.site.register(State)
