@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ store.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}"/>
+    <style>
+        .in-middle  {
+            margin-top: 18%;
+        }
+        .all-margins    {
+            border: 1px solid black;
+            min-height: 150px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="text-align: center">
+<h1>{{ store.name }}</h1>
+<div class="container">
+    <div class="row">
+        {% for c in codes %}
+            <div class="col-lg-4 col-md-4 col-xs-6 all-margins">
+                <h3 class="in-middle">{{ c.code }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

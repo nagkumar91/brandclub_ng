@@ -18,6 +18,7 @@ urlpatterns = patterns('',
                        url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
                        url(r'ch/(?P<hid>\d+)/$', 'core.views.home_cluster_hid'),
                        url(r'sh/(?P<hid>\d+)/$', 'core.views.store_home_hid'),
+                       url(r'free_internet_codes/(?P<st_id>\d+)/$', 'core.views.free_internet_codes'),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )

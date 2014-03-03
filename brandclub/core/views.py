@@ -7,7 +7,8 @@ import json
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web, \
+    FreeInternetLog
 
 
 def home_cluster_view(request, slug=""):
@@ -268,4 +269,7 @@ def navmenu(request, navmenu_id):
     return render_to_response('store_home.html', context_instance)
 
 
-
+def free_internet_codes(request, st_id):
+    store = Store.objects.get(pk=st_id)
+    free_internet_code = FreeInternetLog.objects.filter(store=store, used_status=False)
+    return render_to_response("free_internet_codes.html", {'store': store, 'codes': free_internet_code})
