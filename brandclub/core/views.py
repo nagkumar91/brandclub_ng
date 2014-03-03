@@ -1,3 +1,5 @@
+from datetime import time
+import os
 from annoying.functions import get_object_or_None
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -305,4 +307,18 @@ def call_log(request):
 @csrf_exempt
 def upload_log(request):
     print request.POST
+    file_path = save_file(request.FILES['file'], request.POST['device_id'])
     return HttpResponse(json.dumps({"Success": True}), mimetype='application/json')
+
+
+def save_file(csv_file, device_id):
+    filename = csv_file._get_name()
+    direct = os.path.join(settings.LOG_SAVE_PATH, device_id)
+    if not os.path.exists(direct):
+        os.makedirs(direct)
+    file_path = os.path.join(direct, filename)
+    fd = open(file_path, 'wb')
+    for chunk in csv_file.chunks():
+        fd.write(chunk)
+    fd.close()
+    return True
