@@ -9,7 +9,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu
+    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
+    FreeInternet
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -154,7 +155,6 @@ class ContentAdmin(admin.ModelAdmin):
         self.message_user(request, "Done!")
 
 
-
 class ContentNonEditableAdmin(admin.ModelAdmin):
     actions = ['assign_to_brand', 'increase_validity_by_1_month']
     list_display = ('name', 'content_location', 'content_type', 'image_tag', 'start_date', 'end_date',
@@ -278,6 +278,10 @@ class NavMenuAdmin(ContentAdmin):
         OrderedNavMenuContentAdmin
     ]
 
+
+class FreeInternetAdmin(ContentAdmin):
+    pass
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -296,3 +300,4 @@ admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Content, ContentNonEditableAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)
+admin.site.register(FreeInternet, FreeInternetAdmin)
