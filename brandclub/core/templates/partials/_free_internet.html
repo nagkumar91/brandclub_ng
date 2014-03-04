@@ -10,7 +10,8 @@
                data-log-content-name="{{ content.name }}"
                data-log-content-type="{{ content.content_type }}"
                data-log-content-id="{{ content.id }}"
-               onclick="logAndRedirect(this, '/free_internet/'+'{{ content.id }}')">
+               data-reveal-id="free-internet-form"
+               href="#">
                 <img
                         class="img-responsive image"
                         src="{{ content.thumbnail.url }}"
@@ -28,4 +29,5 @@
 
         <p>{{ content.short_description }}</p>
     </div>
+
 </div>
