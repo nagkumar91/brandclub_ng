@@ -10,7 +10,8 @@ $(function($) {
            slidesContainer:'div',
            slideClass:'slide',
             urlProperty:'href',
-            fullScreen:true
+            fullScreen:true,
+            preloadRange: 100,
         });
 
     });

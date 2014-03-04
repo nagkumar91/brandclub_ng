@@ -92,29 +92,32 @@ class Cluster(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
+    def get_all_home_content_queryset(self, device_id=settings.DEFAULT_DEVICE_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
         cluster_id = home_store.cluster.id
         cache_key = "Cluster-Home-%s-%s" % (self.id, device_id)
-        contents = cache.get(cache_key)
-        if not contents:
-            all_contents = Content.active_objects.select_related('store'). \
-                filter(store__cluster__id=cluster_id).filter(content_location="2"). \
-                filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
-                filter(store__in=(self.stores.exclude(active=False))). \
-                order_by('store__brand__id').distinct('store__brand__id')
-            contents = list(all_contents)
-            for index, content in enumerate(contents):
-                stores = content.store.all()
-                stores_in_cluster = Store.objects.filter(cluster_id=self.id, brand=stores[0].brand)
-                content_owner = content.store.filter(cluster_id=self.id)[:1]
-                content_owner = content_owner[0]
-                dist = home_store.get_distance_from(content_owner)
-                dist -= dist % -10
-                setattr(content, 'distance_from_home_store', int(dist))
-                setattr(content, 'own_store', stores_in_cluster[0])
-            cache.set(cache_key, contents, settings.CACHE_TIME_OUT)
+        all_contents = Content.active_objects.select_related('store'). \
+            filter(store__cluster__id=cluster_id).filter(content_location="2"). \
+            filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
+            filter(store__in=(self.stores.exclude(active=False))). \
+            order_by('store__brand__id').distinct('store__brand__id')
+        return all_contents.select_subclasses()
+
+    def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
+        device = Device.objects.select_related("store").get(device_id=device_id)
+        home_store = device.store
+        all_contents = self.get_all_home_content_queryset(device_id)
+        contents = list(all_contents)
+        for index, content in enumerate(contents):
+            stores = content.store.all()
+            stores_in_cluster = Store.objects.filter(cluster_id=self.id, brand=stores[0].brand)
+            content_owner = content.store.filter(cluster_id=self.id)[:1]
+            content_owner = content_owner[0]
+            dist = home_store.get_distance_from(content_owner)
+            dist -= dist % -10
+            setattr(content, 'distance_from_home_store', int(dist))
+            setattr(content, 'own_store', stores_in_cluster[0])
         return contents
 
     def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
@@ -236,7 +239,8 @@ class Store(CachingMixin, TimeStampedModel):
         r = 6371
         dlat = to_radians(new_store.latitude - self.latitude)
         dlon = to_radians(new_store.longitude - self.longitude)
-        a = sin(dlat / 2) * sin(dlat / 2) + cos(to_radians(self.latitude)) * cos(to_radians(new_store.latitude)) * sin(dlon / 2) * sin(dlon / 2)
+        a = sin(dlat / 2) * sin(dlat / 2) + cos(to_radians(self.latitude)) * cos(to_radians(new_store.latitude)) * sin(
+            dlon / 2) * sin(dlon / 2)
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         d = r * c * 1000
         return d
@@ -356,6 +360,7 @@ class OrderedStoreContent(models.Model):
         # unique_together = ("store", "order")
         ordering = ['order']
 
+
 class OrderedNavMenuContent(models.Model):
     nav_menu = models.ForeignKey('NavMenu')
     content = models.ForeignKey('Content', related_name="nav_contents")
@@ -410,11 +415,14 @@ class Content(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return self.name
 
+
 class NavMenu(Content):
-    menu_contents = models.ManyToManyField(Content, related_name='ordered_contents', through=OrderedNavMenuContent, symmetrical=False)
+    menu_contents = models.ManyToManyField(Content, related_name='ordered_contents', through=OrderedNavMenuContent,
+                                           symmetrical=False)
 
     def template_file(self):
         return "partials/_navmenu.html"
+
 
 class Audio(Content):
     file = models.FileField(upload_to=get_content_info_path)
