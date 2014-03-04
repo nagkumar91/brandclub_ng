@@ -33,6 +33,24 @@ def _dehydrate_content(content, request):
         return resource.full_dehydrate(c_bundle).data
     return None
 
+def _dehydrate_store_content(content, request):
+    resource = WallpaperResource()
+    if isinstance(content, Wallpaper):
+        resource = WallpaperResource()
+    elif isinstance(content, SlideShow):
+        resource = SlideShowResource()
+    elif isinstance(content, Video):
+        resource = VideoResource()
+    elif isinstance(content, Audio):
+        resource = AudioResource()
+
+    c_bundle = resource.build_bundle(obj=content, request=request)
+    c_bundle.data['type_name'] = content.content_type.name
+    c_bundle.data['store_id'] = content.own_store.id
+    if resource:
+        return resource.full_dehydrate(c_bundle).data
+    return None
+
 
 def dehydrate_distance(bundle):
     request = bundle.request
@@ -72,7 +90,7 @@ class StoreResource(ModelResource):
         contents = store.get_content_for_store()
         dehydrated = []
         for content in contents:
-            dehydrated.append(_dehydrate_content(content, bundle.request))
+            dehydrated.append(_dehydrate_store_content(content, bundle.request))
         return dehydrated
 
     def dehydrate(self, bundle):
