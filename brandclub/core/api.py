@@ -70,6 +70,20 @@ class StoreResource(ModelResource):
             dehydrated.append(_dehydrate_content(content, bundle.request))
         return dehydrated
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/device/(?P<device_id>\d*)/$" % self._meta.resource_name,
+                self.wrap_view('get_by_device_id'), name="api_get_by_device_id"),
+        ]
+
+    def get_by_device_id(self, request, **kwargs):
+        device = Device.objects.get(device_id=int(kwargs['device_id']))
+        store = device.store
+        bundle = self.build_bundle(obj=store, request=request)
+        bundle = self.full_dehydrate(bundle)
+        bundle = self.alter_detail_data_to_serialize(request, bundle)
+        return self.create_response(request, bundle)
+
 
 class ClusterResource(ModelResource):
     contents = fields.ToManyField('core.api.ContentResource', 'contents', null=True)
