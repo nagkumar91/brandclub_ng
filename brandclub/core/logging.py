@@ -12,6 +12,7 @@ content_type_mapping = {
 
 def log_data(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
              width, action, user_ip_address, access_date=datetime.datetime.now()):
+    print "Device is %s" % device_id
     device = get_object_or_None(Device, device_id=device_id)
     home_store = device.store
     home_store_name = device.store.name
