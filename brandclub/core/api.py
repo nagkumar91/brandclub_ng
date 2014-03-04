@@ -75,6 +75,12 @@ class StoreResource(ModelResource):
             dehydrated.append(_dehydrate_content(content, bundle.request))
         return dehydrated
 
+    def dehydrate(self, bundle):
+        store = bundle.obj
+        brand = store.brand
+        bundle.data['brand_id'] = brand.id
+        return bundle
+
     def prepend_urls(self):
         return [
             url(r"^(?P<resource_name>%s)/device/(?P<device_id>\d*)/$" % self._meta.resource_name,
