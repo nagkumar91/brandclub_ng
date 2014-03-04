@@ -117,10 +117,8 @@ class DeviceResource(ModelResource):
 
     def get_device_info(self, request, **kwargs):
         device_id = request.device_id
-        print device_id
         if not device_id:
             device_id = settings.DEFAULT_DEVICE_ID
-        print device_id
         device = Device.objects.get(device_id=device_id)
         bundle = self.build_bundle(obj=device, request=request)
         bundle = self.full_dehydrate(bundle)
