@@ -15,3 +15,5 @@ django-annoying
 django-crispy-forms
 django-cache-machine
 boto
+
+django-tastypie
