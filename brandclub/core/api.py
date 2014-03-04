@@ -123,7 +123,7 @@ class ClusterResource(ModelResource):
         contents = cluster.get_all_home_content(device_id=device_id)
         dehydrated = []
         for content in contents:
-            dehydrated.append(dehydrate_subclasses(content))
+            dehydrated.append(dehydrate_subclasses(bundle))
         return dehydrated
 
 
