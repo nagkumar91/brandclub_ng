@@ -27,8 +27,8 @@ def _dehydrate_content(content, request):
     c_bundle = resource.build_bundle(obj=content, request=request)
     c_bundle.data['type_name'] = content.content_type.name
     c_bundle.data['store_id'] = content.own_store.id
-    # if content.distance_from_home_store:
-    #     c_bundle.data['distance'] = content.distance_from_home_store
+    if content.distance_from_home_store:
+        c_bundle.data['distance'] = content.distance_from_home_store
     if resource:
         return resource.full_dehydrate(c_bundle).data
     return None
@@ -123,7 +123,7 @@ class ClusterResource(ModelResource):
         contents = cluster.get_all_home_content(device_id=device_id)
         dehydrated = []
         for content in contents:
-            dehydrated.append(dehydrate_subclasses(bundle))
+            dehydrated.append(_dehydrate_content(content, bundle.request))
         return dehydrated
 
 
