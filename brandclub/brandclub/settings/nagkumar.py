@@ -28,7 +28,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'brandclub',
         'USER': 'nagkumar',
-        'PASSWORD': 'teli123',
+        'PASSWORD': 'root123',
         'HOST': '',
         'PORT': '',
     }
@@ -71,4 +71,5 @@ DEFAULT_DEVICE_ID = '121'
 DEFAULT_CLUSTER_ID = '1'
 CREATE_STORE_MAPS = True
 CACHE_TIME_OUT = 0
-REPORT_DOWNLOAD_PATH = "/data/ckeditor/reporting/uploads"
+REPORT_DOWNLOAD_PATH = "/data/ckeditor/reporting/downloads"
+LOG_SAVE_PATH = "/data/ckeditor/reporting/logs"

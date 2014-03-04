@@ -123,4 +123,10 @@
     <script type="text/javascript" src="{% static 'js/store.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.reveal.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/free_internet_ajax.js' %}"></script>
+    <script>
+    $(document).ready(function(){
+        var user_unique_id = readCookie("user_unique_id");
+        call_log(-2, window.log_info.home_device_id, user_unique_id, "Store Home", "page load", "");
+    });
+    </script>
 {% endblock %}
