@@ -1,13 +1,16 @@
 from annoying.functions import get_object_or_None
+import datetime
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 import json
+from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
 
 from .forms import FeedbackForm
-from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web
+from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, NavMenu, OrderedNavMenuContent, Content, Web, \
+    FreeInternetLog
 
 
 def home_cluster_view(request, slug=""):
@@ -252,6 +255,7 @@ def authenticate_user_for_offer(request):
     odi_obj.save()
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+
 def navmenu(request, navmenu_id):
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
@@ -268,4 +272,29 @@ def navmenu(request, navmenu_id):
     return render_to_response('store_home.html', context_instance)
 
 
+def free_internet_codes(request, st_id):
+    store = Store.objects.get(pk=st_id)
+    free_internet_code = FreeInternetLog.objects.filter(store=store, used_status=False)
+    return render_to_response("free_internet_codes.html", {'store': store, 'codes': free_internet_code})
 
+
+@csrf_exempt
+def authorize_free_internet(request):
+    print request.POST
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    store = device.store
+    if store is not None:
+        fil = FreeInternetLog.objects.filter(store=store, used_status=False, code=request.POST['user_code'])
+        if fil:
+            fil = fil[0]
+            print fil
+            fil.used_status = True
+            fil.access_date = datetime.datetime.now()
+            fil.device = device
+            fil.user_name = request.POST["user_name"]
+            fil.user_phone_number = request.POST["user_phone"]
+            fil.save()
+            return HttpResponse(json.dumps({'success': True, "log_obj": fil.id}), content_type="application/json")
+        return HttpResponse(json.dumps({"success": False, "reason": "Invalid code"}), content_type="application/json")
+    return HttpResponse(json.dumps({"success": False, "reason": "Store doesn't have free internet"}), content_type="application/json")

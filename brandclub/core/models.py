@@ -521,3 +521,23 @@ class OfferDownloadInfo(TimeStampedModel):
     user_name = models.CharField(max_length=50, unique=False)
     email_id = models.EmailField(max_length=100, unique=False, null=True)
     mobile_number = models.CharField(max_length=15, unique=False, null=True)
+
+
+class FreeInternet(Content):
+    @property
+    def template_file(self):
+        return "partials/_free_internet.html"
+
+    class Meta:
+        verbose_name_plural = 'Free Internet'
+
+
+class FreeInternetLog(models.Model):
+    code = models.CharField(max_length=10)
+    created_date = models.DateTimeField(blank=True, null=True)
+    store = models.ForeignKey(Store)
+    used_status = models.BooleanField(default=False)
+    access_date = models.DateTimeField(null=True, blank=True)
+    device = models.ForeignKey(Device, blank=True, null=True)
+    user_name = models.CharField(max_length=100, null=True, blank=True)
+    user_phone_number = models.CharField(max_length=10, null=True, blank=True)

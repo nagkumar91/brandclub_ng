@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from django.contrib import admin
 
@@ -7,8 +8,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from .helpers import id_generator
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
-    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu
+    State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
+    FreeInternet, FreeInternetLog
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -103,7 +106,7 @@ class ContentAdmin(admin.ModelAdmin):
     list_filter = ('content_location', )
     filter_horizontal = ("store", )
     save_as = True
-    actions = ['assign_to_brand']
+    actions = ['assign_to_brand', 'increase_validity_by_1_month']
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -142,9 +145,19 @@ class ContentAdmin(admin.ModelAdmin):
         context = {'contents': queryset, 'brand_form': form}
         return render_to_response('add_tag.html', RequestContext(request,context))
 
+    def increase_validity_by_1_month(self, request, queryset):
+
+        form = None
+        for content in queryset:
+            old_end_date = content.end_date
+            new_end_date = old_end_date + datetime.timedelta(days=30)
+            content.end_date = new_end_date
+            content.save()
+        self.message_user(request, "Done!")
+
 
 class ContentNonEditableAdmin(admin.ModelAdmin):
-    actions = ['assign_to_brand']
+    actions = ['assign_to_brand', 'increase_validity_by_1_month']
     list_display = ('name', 'content_location', 'content_type', 'image_tag', 'start_date', 'end_date',
                     'active', 'archived',)
     list_filter = ('content_location', 'content_type', 'store', 'store__brand', 'active', 'archived')
@@ -191,6 +204,16 @@ class ContentNonEditableAdmin(admin.ModelAdmin):
             )
         context = {'contents': queryset, 'brand_form': form}
         return render_to_response('add_tag.html', RequestContext(request,context))
+
+    def increase_validity_by_1_month(self, request, queryset):
+
+        form = None
+        for content in queryset:
+            old_end_date = content.end_date
+            new_end_date = old_end_date + datetime.timedelta(days=30)
+            content.end_date = new_end_date
+            content.save()
+        self.message_user(request, "Done!")
 
 
 class SlideShowImageInline(admin.TabularInline):
@@ -256,6 +279,34 @@ class NavMenuAdmin(ContentAdmin):
         OrderedNavMenuContentAdmin
     ]
 
+
+class FreeInternetAdmin(ContentAdmin):
+    actions = ContentAdmin.actions + ['create_50_codes']
+
+    def create_50_codes(self, request, queryset):
+        for content in queryset:
+            if content.store.all() is None:
+                self.message_user(request, "Content not assigned to any store")
+                return
+            else:
+                brands = []
+                for st in content.store.all():
+                    brands.append(st.brand)
+                brands = set(brands)
+                if len(brands) > 1:
+                    self.message_user(request, "Content assigned to more than a single brand. Please correct.")
+                    return
+                for st in content.store.all():
+                    store = Store.objects.get(pk=st.id)
+                    today = datetime.datetime.now()
+                    i = 50
+                    while i != 0:
+                        code = id_generator(6)
+                        fil_object = FreeInternetLog(code=code, store=store, created_date=today)
+                        fil_object.save()
+                        i -= 1
+        self.message_user(request, "Codes created for selected content(s)")
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -274,3 +325,4 @@ admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Content, ContentNonEditableAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)
+admin.site.register(FreeInternet, FreeInternetAdmin)
