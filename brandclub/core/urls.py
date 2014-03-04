@@ -19,6 +19,7 @@ urlpatterns = patterns('',
                        url(r'ch/(?P<hid>\d+)/$', 'core.views.home_cluster_hid'),
                        url(r'sh/(?P<hid>\d+)/$', 'core.views.store_home_hid'),
                        url(r'free_internet_codes/(?P<st_id>\d+)/$', 'core.views.free_internet_codes'),
+                       url(r'authorize_free_internet/$', 'core.views.authorize_free_internet'),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
