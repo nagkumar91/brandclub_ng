@@ -54,13 +54,18 @@ def dehydrate_own_store(bundle):
     stores_in_cluster = Store.objects.filter(cluster_id=device.store.cluster.id, brand=stores[0].brand)
     return stores_in_cluster[0].id
 
+class BrandResource(ModelResource):
+    class Meta:
+        queryset = Brand.objects.all()
+        resource_name = 'brand'
 
 class StoreResource(ModelResource):
     contents = fields.ToManyField('core.api.ContentResource', 'contents')
-
+    brand = fields.ToOneField('core.api.BrandResource', 'brand')
     class Meta:
         queryset = Store.objects.all()
         resource_name = 'store'
+        depth = 1
 
     def dehydrate_contents(self, bundle):
         store = bundle.obj
@@ -106,7 +111,6 @@ class ClusterResource(ModelResource):
         bundle = self.alter_detail_data_to_serialize(request, bundle)
         return self.create_response(request, bundle)
 
-
     def dehydrate_contents(self, bundle):
         cluster = bundle.obj
         device_id = bundle.request.device_id
@@ -122,6 +126,7 @@ class DeviceResource(ModelResource):
         model = Device
         queryset = Device.objects.all()
         resource_name = 'device'
+        depth = 1
 
     def prepend_urls(self):
         return [
