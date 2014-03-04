@@ -27,6 +27,15 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/reveal.css' %}"/>
+    <style>
+        .form-control   {
+            margin-bottom: 5px;
+        }
+        .redirect-span  {
+            text-decoration: underline;
+            color: lightseagreen;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
@@ -80,9 +89,30 @@
 
                 <a class="close-reveal-modal">&#215;</a>
             </div>
-            <div class="reveal-modal my-personal-modal" id="store-info">
-
+            <div id="free-internet-form" class="reveal-modal my-personal-modal">
+            <div class="container">
+                <h5>Fill the details to avail free internet</h5>
+                <form action="/authorize_free_internet/" method="post" id="free_internet_form">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Name" required name="user_name" class="form-control" id="user_name"/>
+                    <input type="tel"
+                           required pattern=".{10}"
+                           title="Enter Valid Phone number"
+                           placeholder="Phone Number"
+                           name="user_phone"
+                           class="form-control"
+                           id="user_phone"/>
+                    <input type="text" placeholder="Code" name="user_code" class="form-control" id="user_code"/>
+                    <input type="button" class="btn btn-primary"
+                           id="free_internet_submit"
+                           onclick="validate_free_internet_form()"
+                           value="Submit"/>
+                </form>
+                <div id="error-message-container"></div>
             </div>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
         </div>
     </div>
 {% endblock %}
@@ -92,4 +122,5 @@
     <script type="text/javascript" src="{% static 'js/blueimp-gallery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/store.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.reveal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/free_internet_ajax.js' %}"></script>
 {% endblock %}
