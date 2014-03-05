@@ -338,3 +338,4 @@ CONTENT_ID_MAPPING = {-1: "Cluster Home",
                       -6: "Offers in Cluster"}
 CONTENT_ID_ARRAY = [-1, -2, -3, -4, -5, -6]
 LOG_SAVE_PATH = "/tmp/bc_logs_csv/"
+AWS_BUCKET_NAME = ''

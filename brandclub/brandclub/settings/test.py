@@ -34,3 +34,7 @@ CACHES = {
 }
 CONTENT_CACHE_DIRECTORY = '/home/sunil/content'
 LOG_SAVE_PATH = '/home/sunil/brandclub/bc_logs_csv'
+
+AWS_BUCKET_NAME = 'test.bcng.content'
+AWS_ACCESS_KEY = 'AKIAIOHZ3UXUTZ6EETWA'
+AWS_SECRET_KEY = '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'

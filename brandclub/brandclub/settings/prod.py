@@ -100,11 +100,13 @@ CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'ckeditor')
 
 CACHE_TIME_OUT = 1 * 60
 
-AWS_ACCESS_KEY = 'AKIAIFIYZIZLNSPDEZEA'
-AWS_SECRET_KEY = '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'
+AWS_ACCESS_KEY = 'AKIAIOHZ3UXUTZ6EETWA'
+
+AWS_SECRET_KEY = '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'
 
 BRANDCLUB_HOST = "srv1.brandclub.mobi"
 
 REPORT_DOWNLOAD_PATH = os.path.join(MEDIA_ROOT, 'reports')
 
+AWS_BUCKET_NAME = 'tib.bcng.content'
 

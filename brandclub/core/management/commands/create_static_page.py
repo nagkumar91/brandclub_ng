@@ -184,7 +184,7 @@ class Command(BaseCommand):
                 file_name = "%s/%s.tar.gz" % (tar_dir, device_id)
                 os.system("tar czf %s %s" % (file_name, static_dir))
                 if conn:
-                    bucket = conn.get_bucket('tib.bcng.content')
+                    bucket = conn.get_bucket(settings.AWS_BUCKET_NAME)
                     key = Key(bucket)
                     key.key = "%s.tar.gz" % device_id
                     key.set_contents_from_filename(file_name)
