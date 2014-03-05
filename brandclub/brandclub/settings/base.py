@@ -204,6 +204,7 @@ THIRD_PARTY_APPS = (
     'ckeditor',
     'pipeline',
     'crispy_forms',
+    'djcelery',
 )
 
 # Apps specific for this project go here.

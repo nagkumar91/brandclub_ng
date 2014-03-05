@@ -18,3 +18,4 @@ boto
 
 django-tastypie
 celery
+django-celery
