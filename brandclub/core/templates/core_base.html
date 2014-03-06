@@ -64,11 +64,12 @@
         </div>
     {% endblock %}
 {% endblock %}
-{% tracking_code %}
+
     <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/user_id_cookie.js' %}"></script>
+    {% tracking_code %}
+    <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/click.log.js' %}"></script>
     <script src="{% static 'js/project.js' %}"></script>
