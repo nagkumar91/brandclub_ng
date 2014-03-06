@@ -233,7 +233,7 @@ class AudioResource(ModelResource):
         queryset = Audio.objects.all()
         resource_name = 'audio'
 
-class FreeInternet(ModelResource):
+class FreeInternetResource(ModelResource):
     class Meta:
         queryset = FreeInternet.objects.all()
         resource_name = 'free_internet'
