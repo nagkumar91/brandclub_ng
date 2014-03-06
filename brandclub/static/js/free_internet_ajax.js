@@ -1,6 +1,3 @@
-$(function($){
-
-});
 function validate_free_internet_form()  {
     var name_field = $("#user_name");
     if(validate_name($(name_field).val()))  {
@@ -37,7 +34,7 @@ function validate_free_internet_form()  {
                                     'user_code': fi_code
                                 },
                                 dataType: "JSON",
-                                success: function(data){
+                                success: function(data, text_status, xhr){
                                     var redirect_html = '<h6>Click <span class="redirect-span" onclick="redirect_free_internet()">here</span> to continue.</h6>';
                                     $("#error-message-container").append(redirect_html);
                                 },

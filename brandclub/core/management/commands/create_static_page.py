@@ -42,6 +42,7 @@ class Command(BaseCommand):
             ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
             ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
             ctype_nav_menu = get_object_or_None(ContentType, name="Nav Menu")
+            ctype_free_internet = get_object_or_None(ContentType, name="Free Internet")
             for individual_content in contents:
                 content = individual_content.content
                 if content.content_type.id == ctype_slideshow.id:
@@ -50,6 +51,8 @@ class Command(BaseCommand):
                     self._generate_wallpapers(content.id, cluster_id, device_id, dir)
                 if content.content_type.id == ctype_nav_menu.id:
                     self._generate_navmenu(content.id, cluster_id, device_id, dir)
+                if content.content_type.id == ctype_free_internet.id:
+                    self._generate_free_internet(content.id, cluster_id, device_id, dir)
         print "==================================================================="
 
     def _generate_main_page(self, slug, cluster_id, device_id, static_dir):
@@ -106,6 +109,14 @@ class Command(BaseCommand):
             f.write(response.content)
             f.close()
 
+    def _generate_free_internet(self, store_id, cluster_id, device_id, static_dir):
+        page = "/free_internet_confirm"
+        response = self.generate_response(cluster_id, device_id, page)
+        output_file = "%s/free_internet_confirm" % static_dir
+        with open(output_file, 'w') as f:
+            f.write(response.content)
+            f.close()
+
     def _generate_slideshow(self, ssid, cluster_id, device_id, static_dir):
         page = "/slideshow/%s/" % ssid
         response = self.generate_response(cluster_id, device_id, page)
@@ -143,6 +154,7 @@ class Command(BaseCommand):
         ctype_slideshow = get_object_or_None(ContentType, name="Slide Show")
         ctype_wallpaper = get_object_or_None(ContentType, name="Wallpaper")
         ctype_nav_menu = get_object_or_None(ContentType, name="Nav Menu")
+
         for content in contents:
             if content.content_type.id == ctype_slideshow.id:
                 self._generate_slideshow(content.id, cluster_id, device_id, static_dir)
@@ -150,7 +162,6 @@ class Command(BaseCommand):
                 self._generate_wallpapers(content.id, cluster_id, device_id, static_dir)
             if content.content_type.id == ctype_nav_menu.id:
                 self._generate_navmenu(content.id, cluster_id, device_id, static_dir)
-
 
 
     def handle(self, *args, **options):

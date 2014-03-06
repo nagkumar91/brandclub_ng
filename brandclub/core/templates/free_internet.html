@@ -1,0 +1,44 @@
+{% extends "core_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    | {{ brand.name }}
+{% endblock %}
+{% block project_css %}
+{% endblock %}
+{% block extra_css %}
+    <style>
+        .navbar-brand img {
+            max-height: 50px;
+        }
+
+        .form-horizontal {
+            margin-top: 100px;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+    </style>
+{% endblock %}
+{% block store_details %}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h5>Fill the details to avail free internet</h5>
+        <input type="text" placeholder="Name" class="form-control" id="user_name"/>
+        <input type="tel" placeholder="Phone Number" class="form-control" id="user_phone"/>
+        <input type="text" placeholder="Code" class="form-control" id="user_code"/>
+        <input type="button" class="btn btn-primary" id="free_internet_submit" onclick="validate_free_internet_form()"
+               value="Submit"/>
+
+        <div id="error-message-container"></div>
+
+    </div>
+{% endblock %}
+{% block navbar_bottom %}
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/free_internet_ajax.js' %}"></script>
+    {% block logging %}
+    {% endblock %}
+{% endblock %}

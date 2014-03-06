@@ -330,6 +330,19 @@ def save_file(csv_file, device_id):
     fd.close()
     return True
 
+
+def free_internet_confirm(request):
+    dev_id = request.device_id
+    device = get_object_or_None(Device, device_id=dev_id)
+    store = device.store
+    brand = store.brand
+    redirect = "/%s/" % store.slug_name
+    to = "store"
+    context_instance = RequestContext(request,
+                                      {"redirect": redirect, "to": to, "brand": brand})
+    return render_to_response("free_internet.html", context_instance)
+
+
 @csrf_exempt
 def authorize_free_internet(request):
     device_id = request.device_id
