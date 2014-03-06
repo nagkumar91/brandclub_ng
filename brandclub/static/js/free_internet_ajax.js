@@ -2,20 +2,16 @@ $(function($){
 
 });
 function validate_free_internet_form()  {
-    console.log("Called");
     var name_field = $("#user_name");
     if(validate_name($(name_field).val()))  {
-        console.log("name is valid");
         $(name_field).removeClass("has-error");
         var user_name = $(name_field).val();
         var user_phone_field = $("#user_phone");
         if(validate_phone_number($(user_phone_field).val())){
-            console.log("Phone Number is valid");
             $(user_phone_field).removeClass("has-error")
             var phone_number = $(user_phone_field).val();
             var user_code_field = $("#user_code");
             if(validate_code($(user_code_field).val())) {
-                console.log("Code is valid");
                 var fi_code = $(user_code_field).val();
                 $.ajax({
                     type: 'POST',
@@ -48,6 +44,7 @@ function validate_free_internet_form()  {
                                 error: function()   {
                                     var err_msg = "<h6>Sorry. Some error occured.</h6>";
                                     $("#error-message-container").append(err_msg);
+                                    redirect_free_internet();
                                 }
                             });
                         }
@@ -59,17 +56,14 @@ function validate_free_internet_form()  {
                 });
             }
             else    {
-                console.log("Invalid Code");
                 $(user_code_field).addClass("has-error").focus();
             }
         }
         else    {
-            console.log("Phone Number invalid");
             $(user_phone_field).addClass("has-error").focus();
         }
     }
     else    {
-        console.log("Invalid name");
         $(name_field).addClass("has-error").focus();
     }
 

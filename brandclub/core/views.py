@@ -332,7 +332,6 @@ def save_file(csv_file, device_id):
 
 @csrf_exempt
 def authorize_free_internet(request):
-    print request.POST
     device_id = request.device_id
     device = get_object_or_None(Device, device_id=device_id)
     store = device.store
@@ -340,7 +339,6 @@ def authorize_free_internet(request):
         fil = FreeInternetLog.objects.filter(store=store, used_status=False, code=request.POST['user_code'])
         if fil:
             fil = fil[0]
-            print fil
             fil.used_status = True
             fil.access_date = datetime.datetime.now()
             fil.device = device
