@@ -34,7 +34,7 @@ function validate_free_internet_form()  {
                             $("#error-message-container").empty().append(success_html);
                             $.ajax({
                                 type: 'POST',
-                                url: "activate_free_internet.php",
+                                url: "/activate_free_internet.php",
                                 data: {
                                     'user_name': user_name,
                                     'user_phone': phone_number,
@@ -44,6 +44,10 @@ function validate_free_internet_form()  {
                                 success: function(data){
                                     var redirect_html = '<h6>Click <span class="redirect-span" onclick="redirect_free_internet()">here</span> to continue.</h6>';
                                     $("#error-message-container").append(redirect_html);
+                                },
+                                error: function()   {
+                                    var err_msg = "<h6>Sorry. Some error occured.</h6>";
+                                    $("#error-message-container").append(err_msg);
                                 }
                             });
                         }
@@ -93,7 +97,6 @@ function validate_code(text)    {
 }
 
 function redirect_free_internet()   {
-    setTimeout(function(){
-        window.location.href='http://google.com'
-    }, 2);
+    window.location.href='http://google.com'
+
 }
