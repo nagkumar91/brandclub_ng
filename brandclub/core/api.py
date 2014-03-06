@@ -43,6 +43,8 @@ def _dehydrate_store_content(content, request):
         resource = VideoResource()
     elif isinstance(content, Audio):
         resource = AudioResource()
+    elif isinstance(content, FreeInternet):
+        resource = FreeInternetResource()
 
     c_bundle = resource.build_bundle(obj=content, request=request)
     c_bundle.data['type_name'] = content.content_type.name
@@ -230,6 +232,11 @@ class AudioResource(ModelResource):
     class Meta:
         queryset = Audio.objects.all()
         resource_name = 'audio'
+
+class FreeInternet(ModelResource):
+    class Meta:
+        queryset = FreeInternet.objects.all()
+        resource_name = 'free_internet'
 
 
 class ClusterContentResource(ModelResource):
