@@ -18,6 +18,12 @@
         .container {
             margin-top: 100px;
         }
+        .form-control   {
+            margin-bottom: 1%;
+        }
+        .error-mesg {
+            color: red;
+        }
     </style>
 {% endblock %}
 {% block store_details %}
@@ -25,13 +31,16 @@
 {% block content %}
     <div class="container">
         <h5>Fill the details to avail free internet</h5>
+        <div class="name-error-mesg error-mesg"></div>
         <input type="text" placeholder="Name" class="form-control" id="user_name"/>
+        <div class="phone-error-mesg error-mesg"></div>
         <input type="tel" placeholder="Phone Number" class="form-control" id="user_phone"/>
+        <div class="code-error-mesg error-mesg"></div>
         <input type="text" placeholder="Code" class="form-control" id="user_code"/>
         <input type="button" class="btn btn-primary" id="free_internet_submit" onclick="validate_free_internet_form()"
                value="Submit"/>
 
-        <div id="error-message-container"></div>
+        <div id="error-message-container error-mesg"></div>
 
     </div>
 {% endblock %}

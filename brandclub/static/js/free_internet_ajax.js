@@ -1,11 +1,12 @@
 function validate_free_internet_form()  {
+    empty_error_messages();
     var name_field = $("#user_name");
     if(validate_name($(name_field).val()))  {
         $(name_field).removeClass("has-error");
         var user_name = $(name_field).val();
         var user_phone_field = $("#user_phone");
         if(validate_phone_number($(user_phone_field).val())){
-            $(user_phone_field).removeClass("has-error")
+            $(user_phone_field).removeClass("has-error");
             var phone_number = $(user_phone_field).val();
             var user_code_field = $("#user_code");
             if(validate_code($(user_code_field).val())) {
@@ -24,7 +25,7 @@ function validate_free_internet_form()  {
                         console.log(data['success']);
                         if(data['success']){
                             var success_html = '<h6>Enjoy Free Internet.</h6>';
-                            $("#error-message-container").empty().append(success_html);
+                            $("#error-message-container").append(success_html);
                             $.ajax({
                                 type: 'POST',
                                 url: "/activate_free_internet.php",
@@ -47,20 +48,24 @@ function validate_free_internet_form()  {
                         }
                         else    {
                             var error_html = '<h6>'+data['reason']+'</h6>';
-                            $("#error-message-container").empty().append(error_html);
+                            $("#error-message-container").append(error_html);
                         }
                     }
                 });
             }
             else    {
+                $(".code-error-mesg").append("<h6>Invalid code. Please try again.</h6>");
                 $(user_code_field).addClass("has-error").focus();
             }
         }
         else    {
+            $(".phone-error-mesg").append("<h6>Invalid phone number. Please try again.</h6>");
             $(user_phone_field).addClass("has-error").focus();
         }
     }
     else    {
+
+        $(".name-error-mesg").append("<h6>Invalid name. Please try again.</h6>");
         $(name_field).addClass("has-error").focus();
     }
 
@@ -89,5 +94,10 @@ function validate_code(text)    {
 
 function redirect_free_internet()   {
     window.location.href='http://google.com'
+}
 
+function empty_error_messages() {
+    $(".name-error-mesg").empty();
+    $(".phone-error-mesg").empty();
+    $(".code-error-mesg").empty();
 }
