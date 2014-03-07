@@ -159,6 +159,7 @@ TEMPLATE_DIRS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
     # Default Django middleware.
+    'core.middleware.XsSharing',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -203,6 +204,7 @@ THIRD_PARTY_APPS = (
     'ckeditor',
     'pipeline',
     'crispy_forms',
+    'djcelery',
 )
 
 # Apps specific for this project go here.
@@ -323,3 +325,18 @@ BRANDCLUB_HOST = "localhost"
 AWS_ACCESS_KEY = None
 AWS_SECRET_KEY = None
 REPORT_DOWNLOAD_PATH = "/tmp/reports"
+CONTENT_ID_FOR_CLUSTER_HOME = -1
+CONTENT_ID_FOR_STORE_HOME = -2
+CONTENT_ID_FOR_CLUSTER_INFO = -3
+CONTENT_ID_FOR_STORE_INFO = -4
+CONTENT_ID_FOR_STORE_FEEDBACK = -5
+CONTENT_ID_FOR_OFFERS_PAGE = -6
+CONTENT_ID_MAPPING = {-1: "Cluster Home",
+                      -2: "Store Home",
+                      -3: "Cluster Info",
+                      -4: "Store Info",
+                      -5: "Store Feedback",
+                      -6: "Offers in Cluster"}
+CONTENT_ID_ARRAY = [-1, -2, -3, -4, -5, -6]
+LOG_SAVE_PATH = "/tmp/bc_logs_csv/"
+AWS_BUCKET_NAME = 'tib.bcng.content'

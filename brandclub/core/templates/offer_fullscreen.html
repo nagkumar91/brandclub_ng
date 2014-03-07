@@ -40,4 +40,13 @@
 {% endblock %}
 {% block extra_js %}
     <script type="text/javascript" src="{% static 'js/offer_fullscreen.js' %}"></script>
+    {% block logging %}
+        <script>
+            $(document).ready(function(){
+                var user_unique_id = readCookie("user_unique_id");
+                call_log({{ content.id }}, window.log_info.home_device_id, user_unique_id, "Offers Fullscreen", "page load", "");
+            });
+        </script>
+
+    {% endblock %}
 {% endblock %}

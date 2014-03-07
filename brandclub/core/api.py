@@ -27,8 +27,28 @@ def _dehydrate_content(content, request):
     c_bundle = resource.build_bundle(obj=content, request=request)
     c_bundle.data['type_name'] = content.content_type.name
     c_bundle.data['store_id'] = content.own_store.id
-    # if content.distance_from_home_store:
-    #     c_bundle.data['distance'] = content.distance_from_home_store
+    if content.distance_from_home_store:
+        c_bundle.data['distance'] = content.distance_from_home_store
+    if resource:
+        return resource.full_dehydrate(c_bundle).data
+    return None
+
+def _dehydrate_store_content(content, request):
+    resource = WallpaperResource()
+    if isinstance(content, Wallpaper):
+        resource = WallpaperResource()
+    elif isinstance(content, SlideShow):
+        resource = SlideShowResource()
+    elif isinstance(content, Video):
+        resource = VideoResource()
+    elif isinstance(content, Audio):
+        resource = AudioResource()
+    elif isinstance(content, FreeInternet):
+        resource = FreeInternetResource()
+
+    c_bundle = resource.build_bundle(obj=content, request=request)
+    c_bundle.data['type_name'] = content.content_type.name
+    c_bundle.data['store_id'] = content.own_store.id
     if resource:
         return resource.full_dehydrate(c_bundle).data
     return None
@@ -54,21 +74,46 @@ def dehydrate_own_store(bundle):
     stores_in_cluster = Store.objects.filter(cluster_id=device.store.cluster.id, brand=stores[0].brand)
     return stores_in_cluster[0].id
 
+class BrandResource(ModelResource):
+    class Meta:
+        queryset = Brand.objects.all()
+        resource_name = 'brand'
 
 class StoreResource(ModelResource):
     contents = fields.ToManyField('core.api.ContentResource', 'contents')
-
+    brand = fields.ToOneField('core.api.BrandResource', 'brand')
     class Meta:
         queryset = Store.objects.all()
         resource_name = 'store'
+        depth = 1
 
     def dehydrate_contents(self, bundle):
         store = bundle.obj
         contents = store.get_content_for_store()
         dehydrated = []
         for content in contents:
-            dehydrated.append(_dehydrate_content(content, bundle.request))
+            dehydrated.append(_dehydrate_store_content(content, bundle.request))
         return dehydrated
+
+    def dehydrate(self, bundle):
+        store = bundle.obj
+        brand = store.brand
+        bundle.data['brand_id'] = brand.id
+        return bundle
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/device/(?P<device_id>\d*)/$" % self._meta.resource_name,
+                self.wrap_view('get_by_device_id'), name="api_get_by_device_id"),
+        ]
+
+    def get_by_device_id(self, request, **kwargs):
+        device = Device.objects.get(device_id=int(kwargs['device_id']))
+        store = device.store
+        bundle = self.build_bundle(obj=store, request=request)
+        bundle = self.full_dehydrate(bundle)
+        bundle = self.alter_detail_data_to_serialize(request, bundle)
+        return self.create_response(request, bundle)
 
 
 class ClusterResource(ModelResource):
@@ -92,7 +137,6 @@ class ClusterResource(ModelResource):
         bundle = self.alter_detail_data_to_serialize(request, bundle)
         return self.create_response(request, bundle)
 
-
     def dehydrate_contents(self, bundle):
         cluster = bundle.obj
         device_id = bundle.request.device_id
@@ -108,6 +152,7 @@ class DeviceResource(ModelResource):
         model = Device
         queryset = Device.objects.all()
         resource_name = 'device'
+        depth = 1
 
     def prepend_urls(self):
         return [
@@ -187,6 +232,11 @@ class AudioResource(ModelResource):
     class Meta:
         queryset = Audio.objects.all()
         resource_name = 'audio'
+
+class FreeInternetResource(ModelResource):
+    class Meta:
+        queryset = FreeInternet.objects.all()
+        resource_name = 'free_internet'
 
 
 class ClusterContentResource(ModelResource):

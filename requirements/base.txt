@@ -17,3 +17,5 @@ django-cache-machine
 boto
 
 django-tastypie
+celery
+django-celery
