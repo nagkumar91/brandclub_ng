@@ -71,7 +71,7 @@ def store_home_hid(request, hid):
             cluster = device.store.cluster
             store = device.store
             if store is not None:
-                contents = store.get_content_for_store()
+                contents = store.get_content_for_store(device_id=device_id)
                 context = {'contents': contents, 'store': store, 'brand': store.brand, "redirect": redirect, "to": to}
                 context_instance = RequestContext(request, context)
                 return render_to_response('store_home.html', context_instance)
@@ -90,7 +90,7 @@ def store_home(request, slug):
             cluster = device.store.cluster
             store = get_object_or_None(Store, slug_name=slug, cluster__id=cluster.id)
             if store is not None:
-                contents = store.get_content_for_store()
+                contents = store.get_content_for_store(device_id=device_id)
                 context = {'contents': contents, 'store': store, 'brand': store.brand, "redirect": redirect, "to": to}
                 context_instance = RequestContext(request, context)
                 return render_to_response('store_home.html', context_instance)

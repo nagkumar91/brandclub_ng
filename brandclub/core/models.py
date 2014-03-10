@@ -248,13 +248,17 @@ class Store(CachingMixin, TimeStampedModel):
     def create_slug(self):
         return slugify(self.name)
 
-    def get_content_for_store(self):
+    def get_content_for_store(self, device_id=None):
         cache_key = "Store-Home-%s" % self.id
-        contents = cache.get(cache_key)
+        contents = None
+        is_own_store = self.is_home_store(device_id)
         if not contents:
             all_contents = []
             if self.active:
-                all_contents = Content.active_objects.filter(content_location="1", store=self.id).select_subclasses()
+                all_contents = Content.active_objects.filter(content_location="1", store=self.id)
+                if not is_own_store:
+                    all_contents = all_contents.filter(display_in_store=False)
+                all_contents = all_contents.select_subclasses()
             for index, content in enumerate(all_contents):
                 stores = content.store.all()
                 setattr(content, 'own_store', stores[0])
@@ -308,6 +312,12 @@ class Store(CachingMixin, TimeStampedModel):
         img_url = os.path.join(settings.MEDIA_URL, settings.STORE_MAPS_DIRECTORY, name)
         return u"<a href='%s' target='_blank'><img src='%s' style='height: 50px;max-width: auto'></a>" % (
             img_url, img_url)
+
+    def is_home_store(self, device_id):
+        if not device_id:
+            return False
+        devices = self.devices.filter(device_id=device_id)
+        return len(devices) > 0
 
     map_image_tag.allow_tags = True
 
@@ -394,6 +404,7 @@ class Content(CachingMixin, TimeStampedModel):
                                   help_text='Ensure that the image size is 500x500')
     store = models.ManyToManyField(Store, related_name='contents', null=True, blank=True, through=OrderedStoreContent)
     content_type = models.ForeignKey(ContentType, related_name='contents')
+    display_in_store = models.BooleanField(default=False)
     objects = InheritanceManager()
     active_objects = ContentManager()
 
@@ -541,6 +552,7 @@ class FreeInternetLog(models.Model):
     device = models.ForeignKey(Device, blank=True, null=True)
     user_name = models.CharField(max_length=100, null=True, blank=True)
     user_phone_number = models.CharField(max_length=10, null=True, blank=True)
+
 
 class Log(TimeStampedModel):
     mac_address = models.CharField(max_length=25, null=True, blank=True)
