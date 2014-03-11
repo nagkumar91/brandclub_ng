@@ -45,6 +45,8 @@ def _dehydrate_store_content(content, request):
         resource = AudioResource()
     elif isinstance(content, FreeInternet):
         resource = FreeInternetResource()
+    elif isinstance(content, WebContent):
+        resource = WebContentResource()
 
     c_bundle = resource.build_bundle(obj=content, request=request)
     c_bundle.data['type_name'] = content.content_type.name
@@ -79,6 +81,21 @@ class BrandResource(ModelResource):
         queryset = Brand.objects.all()
         resource_name = 'brand'
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/device/(?P<device_id>\d*)/$" % self._meta.resource_name,
+                self.wrap_view('get_by_device_id'), name="api_get_by_device_id"),
+        ]
+
+    def get_by_device_id(self, request, **kwargs):
+        device = Device.objects.get(device_id=int(kwargs['device_id']))
+        brand = device.store.brand
+        bundle = self.build_bundle(obj=brand, request=request)
+        bundle = self.full_dehydrate(bundle)
+        bundle = self.alter_detail_data_to_serialize(request, bundle)
+        return self.create_response(request, bundle)
+
+
 class StoreResource(ModelResource):
     contents = fields.ToManyField('core.api.ContentResource', 'contents')
     brand = fields.ToOneField('core.api.BrandResource', 'brand')
@@ -89,7 +106,7 @@ class StoreResource(ModelResource):
 
     def dehydrate_contents(self, bundle):
         store = bundle.obj
-        contents = store.get_content_for_store()
+        contents = store.get_content_for_store(bundle.request.device_id)
         dehydrated = []
         for content in contents:
             dehydrated.append(_dehydrate_store_content(content, bundle.request))
@@ -238,6 +255,11 @@ class FreeInternetResource(ModelResource):
         queryset = FreeInternet.objects.all()
         resource_name = 'free_internet'
 
+class WebContentResource(ModelResource):
+    class Meta:
+        queryset = WebContent.objects.all()
+        resource_name = "web_content"
+
 
 class ClusterContentResource(ModelResource):
     distance = fields.DecimalField(blank=True, null=True)
@@ -260,7 +282,7 @@ class StoreContentResource(ModelResource):
     def get_detail(self, request, **kwargs):
         store = Store.objects.get(pk=kwargs['pk'])
         if store:
-            content = store.get_content_for_store()
+            content = store.get_content_for_store(request.device_id)
             bundle = self.build_bundle(obj=content, request=request)
             bundle = self.full_dehydrate(bundle)
             bundle = self.alter_detail_data_to_serialize(request, bundle)
