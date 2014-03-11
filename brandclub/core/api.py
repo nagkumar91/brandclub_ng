@@ -89,7 +89,7 @@ class StoreResource(ModelResource):
 
     def dehydrate_contents(self, bundle):
         store = bundle.obj
-        contents = store.get_content_for_store()
+        contents = store.get_content_for_store(bundle.request)
         dehydrated = []
         for content in contents:
             dehydrated.append(_dehydrate_store_content(content, bundle.request))
@@ -260,7 +260,7 @@ class StoreContentResource(ModelResource):
     def get_detail(self, request, **kwargs):
         store = Store.objects.get(pk=kwargs['pk'])
         if store:
-            content = store.get_content_for_store()
+            content = store.get_content_for_store(request.device_id)
             bundle = self.build_bundle(obj=content, request=request)
             bundle = self.full_dehydrate(bundle)
             bundle = self.alter_detail_data_to_serialize(request, bundle)
