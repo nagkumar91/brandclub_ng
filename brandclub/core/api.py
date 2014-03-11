@@ -89,7 +89,7 @@ class StoreResource(ModelResource):
 
     def dehydrate_contents(self, bundle):
         store = bundle.obj
-        contents = store.get_content_for_store(bundle.request)
+        contents = store.get_content_for_store(bundle.request.device_id)
         dehydrated = []
         for content in contents:
             dehydrated.append(_dehydrate_store_content(content, bundle.request))
