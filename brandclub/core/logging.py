@@ -11,8 +11,7 @@ content_type_mapping = {
 
 
 def log_data(**kwargs):
-
-    post_params = kwargs['request'].POST
+    post_params = kwargs['post_params']
     device = get_object_or_None(Device, device_id=post_params['device_id'])
     home_store = device.store
     home_brand = home_store.brand
@@ -37,7 +36,7 @@ def log_data(**kwargs):
             content_owner_brand_id = content_owner_brand.id
             content_owner_brand_name = content_owner_brand.name
 
-    log_info = dict(mac_address=kwargs['request'].META.get('HTTP_X_MAC_ADDRESS', ''),
+    log_info = dict(mac_address=kwargs['mac_address'],
         content_id=post_params['content_id'],
         content_name=content_name,
         content_type=content_type,
@@ -51,11 +50,11 @@ def log_data(**kwargs):
         location_brand_name=home_brand.name,
         location_cluster_id=location_cluster.id,
         location_cluster_name=location_cluster.name,
-        user_agent=kwargs['request'].META['HTTP_USER_AGENT'],
+        user_agent=kwargs['user_agent'],
         mobile_make='',
         mobile_model='',
         user_unique_id=post_params['user_unique_id'],
-        user_ip_address=kwargs['request'].META['REMOTE_ADDR'],
+        user_ip_address=kwargs['user_ip_address'],
         user_device_width= post_params['device_width'],
         user_device_height=post_params['device_height'],
         page_title=post_params['page_title'],

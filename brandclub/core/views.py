@@ -286,7 +286,9 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    log_bc_data.delay(request=request, date_time=datetime.datetime.now())
+    log_bc_data.delay(post_params=request.POST, date_time=datetime.datetime.now(),
+                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
+                      user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
