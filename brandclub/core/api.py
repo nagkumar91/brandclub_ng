@@ -81,6 +81,21 @@ class BrandResource(ModelResource):
         queryset = Brand.objects.all()
         resource_name = 'brand'
 
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/device/(?P<device_id>\d*)/$" % self._meta.resource_name,
+                self.wrap_view('get_by_device_id'), name="api_get_by_device_id"),
+        ]
+
+    def get_by_device_id(self, request, **kwargs):
+        device = Device.objects.get(device_id=int(kwargs['device_id']))
+        brand = device.store.brand
+        bundle = self.build_bundle(obj=brand, request=request)
+        bundle = self.full_dehydrate(bundle)
+        bundle = self.alter_detail_data_to_serialize(request, bundle)
+        return self.create_response(request, bundle)
+
+
 class StoreResource(ModelResource):
     contents = fields.ToManyField('core.api.ContentResource', 'contents')
     brand = fields.ToOneField('core.api.BrandResource', 'brand')
