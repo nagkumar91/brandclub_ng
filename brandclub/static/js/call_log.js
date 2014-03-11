@@ -12,15 +12,15 @@ function call_log(content_id, device_id, user_unique_id, page_title, user_action
         user_action: convertToSlug(user_action)
 
     };
-//    $.ajax({
-//        type: "POST",
-//        url: "/call_log/",
-//        data: data_to_be_sent,
-//        dataType: 'json',
-//        success: function(data){
-////            console.log(data);
-//        }
-//    });
+    $.ajax({
+        type: "POST",
+        url: "/call_log/",
+        data: data_to_be_sent,
+        dataType: 'json',
+        success: function(data){
+//            console.log(data);
+        }
+    });
 }
 
 function convertToSlug(Text)

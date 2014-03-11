@@ -286,24 +286,10 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    post_values = request.POST
-    mac_id = request.META.get('HTTP_X_MAC_ADDRESS', '')
-    content_id = post_values['content_id']
-    content_id = int(content_id)
-    user_agent = post_values['user_agent']
-    page_title = post_values['page_title']
-    device_id = post_values['device_id']
-    user_unique_id = post_values['user_unique_id']
-    redirect_url = post_values['redirect_url']
-    referrer = post_values['referrer']
-    height = post_values['device_height']
-    width = post_values['device_width']
-    action = post_values['user_action']
-    user_ip_address = request.META['REMOTE_ADDR']
-    log_bc_data.delay(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
-             width, action, user_ip_address)
-    data = json.dumps({"Success": True})
+    log_bc_data.delay(request=request, date_time=datetime.datetime.now())
+    data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
+
 
 def free_internet_codes(request, st_id):
     store = Store.objects.get(pk=st_id)
