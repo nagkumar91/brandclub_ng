@@ -349,3 +349,11 @@ def authorize_free_internet(request):
             return HttpResponse(json.dumps({'success': True, "log_obj": fil.id}), content_type="application/json")
         return HttpResponse(json.dumps({"success": False, "reason": "Invalid code"}), content_type="application/json")
     return HttpResponse(json.dumps({"success": False, "reason": "Store doesn't have free internet"}), content_type="application/json")
+
+
+def verify_log(request):
+    logs = Log.objects.all().order_by("-access_date")
+    logs = list(logs)
+    context_instance = RequestContext(request,
+                                      {"logs": logs})
+    return render_to_response("verify_log.html", context_instance)

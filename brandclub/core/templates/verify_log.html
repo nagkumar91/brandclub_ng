@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Logs</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}"/>
+</head>
+<body>
+        <table class="table-striped table">
+            <thead>
+                <tr>
+                    <th>mac_address</th>
+                    <th>content_id</th>
+                    <th>content_name</th>
+                    <th>content_type</th>
+                    <th>content_location</th>
+                    <th>content_owner_brand_name</th>
+                    <th>location_device_id</th>
+                    <th>location_store_name</th>
+                    <th>location_brand_name</th>
+                    <th>location_cluster_name</th>
+                    <th>page_title</th>
+                    <th>user_unique_id</th>
+                    <th>user_ip_address</th>
+                    <th>referrer</th>
+                    <th>action</th>
+                    <th>user_agent</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in logs %}
+                <tr>
+                    <td>{{ l.mac_address}}</td>
+                    <td>{{ l.content_id}}</td>
+                    <td>{{ l.content_name}}</td>
+                    <td>{{ l.content_type}}</td>
+                    <td>{{ l.content_location}}</td>
+                    <td>{{ l.content_owner_brand_name}}</td>
+                    <td>{{ l.location_device_id}}</td>
+                    <td>{{ l.location_store_name}}</td>
+                    <td>{{ l.location_brand_name}}</td>
+                    <td>{{ l.location_cluster_name}}</td>
+                    <td>{{ l.page_title}}</td>
+                    <td>{{ l.user_unique_id}}</td>
+                    <td>{{ l.user_ip_address}}</td>
+                    <td>{{ l.referrer}}</td>
+                    <td>{{ l.action}}</td>
+                    <td>{{ l.user_agent}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
