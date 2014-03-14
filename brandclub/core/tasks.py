@@ -9,4 +9,4 @@ from logging import log_data
 
 @shared_task
 def log_bc_data(**kwargs):
-    log_data(kwargs=kwargs)
+    log_data(**kwargs)

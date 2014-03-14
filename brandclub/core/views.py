@@ -157,10 +157,9 @@ def web_fullscreen(request, wid):
             brand = store.brand
             redirect = "/%s/" % store.slug_name
             to = "store"
-            context_instance = RequestContext(request,
+        context_instance = RequestContext(request,
                                               {'content': web, "redirect": redirect, "to": to, "brand": brand})
-            return render_to_response("web_template.html", context_instance)
-        return "Wallpaper not assigned to any store"
+        return render_to_response("web_template.html", context_instance)
     return "Wallpaper not found"
 
 
