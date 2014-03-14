@@ -14,6 +14,7 @@
             }
             .form-horizontal  {
                 margin-top: 100px;
+                margin-bottom: 45px;
             }
             .container  {
                 margin: 10px;
@@ -28,7 +29,7 @@
                 {% csrf_token %}
                     {{form | crispy}}
                 <input type="hidden" name="store" id="store" value="{{ store.id }}"/>
-                <input type="submit"/>
+                <input type="submit" style="margin-bottom: 5%"/>
         </form>
     </div>
 {% endblock %}
