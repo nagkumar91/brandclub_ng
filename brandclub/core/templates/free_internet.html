@@ -50,4 +50,10 @@
     <script type="text/javascript" src="{% static 'js/free_internet_ajax.js' %}"></script>
     {% block logging %}
     {% endblock %}
+    <script>
+        $(document).ready(function(){
+            var user_unique_id = readCookie("user_unique_id");
+            call_log(-7, window.log_info.home_device_id, user_unique_id, "Free Internet", "page load", "");
+        });
+    </script>
 {% endblock %}
