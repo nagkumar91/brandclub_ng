@@ -157,10 +157,9 @@ def web_fullscreen(request, wid):
             brand = store.brand
             redirect = "/%s/" % store.slug_name
             to = "store"
-            context_instance = RequestContext(request,
+        context_instance = RequestContext(request,
                                               {'content': web, "redirect": redirect, "to": to, "brand": brand})
-            return render_to_response("web_template.html", context_instance)
-        return "Wallpaper not assigned to any store"
+        return render_to_response("web_template.html", context_instance)
     return "Wallpaper not found"
 
 
@@ -286,24 +285,12 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    post_values = request.POST
-    mac_id = request.META.get('HTTP_X_MAC_ADDRESS', '')
-    content_id = post_values['content_id']
-    content_id = int(content_id)
-    user_agent = post_values['user_agent']
-    page_title = post_values['page_title']
-    device_id = post_values['device_id']
-    user_unique_id = post_values['user_unique_id']
-    redirect_url = post_values['redirect_url']
-    referrer = post_values['referrer']
-    height = post_values['device_height']
-    width = post_values['device_width']
-    action = post_values['user_action']
-    user_ip_address = request.META['REMOTE_ADDR']
-    log_bc_data.delay(mac_id, content_id, user_agent, page_title, device_id, user_unique_id, redirect_url, referrer, height,
-             width, action, user_ip_address)
-    data = json.dumps({"Success": True})
+    log_bc_data.delay(post_params=request.POST, date_time=datetime.datetime.now(),
+                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
+                      user_ip_address=request.META['REMOTE_ADDR'])
+    data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
+
 
 def free_internet_codes(request, st_id):
     store = Store.objects.get(pk=st_id)
@@ -361,3 +348,11 @@ def authorize_free_internet(request):
             return HttpResponse(json.dumps({'success': True, "log_obj": fil.id}), content_type="application/json")
         return HttpResponse(json.dumps({"success": False, "reason": "Invalid code"}), content_type="application/json")
     return HttpResponse(json.dumps({"success": False, "reason": "Store doesn't have free internet"}), content_type="application/json")
+
+
+def verify_log(request):
+    logs = Log.objects.all().order_by("-access_date")
+    logs = list(logs)
+    context_instance = RequestContext(request,
+                                      {"logs": logs})
+    return render_to_response("verify_log.html", context_instance)

@@ -292,13 +292,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T11:49:17.254Z",
-            "modified": "2014-02-20T06:38:52.115Z",
+            "modified": "2014-03-11T05:26:19.834Z",
             "thumbnail": "thumbnails/1ff05c20-b6f4-4e09-87db-22dfbcdbe672.png",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "3",
             "short_description": "Map of all atms in the cluster",
@@ -312,13 +313,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:32:08.658Z",
-            "modified": "2014-02-20T06:38:43.729Z",
+            "modified": "2014-03-11T05:26:19.828Z",
             "thumbnail": "thumbnails/b2cc2554-6613-4615-92be-179f80b111ce.png",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "2",
             "short_description": "Starbucks wall on home",
@@ -332,13 +334,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:34:42.651Z",
-            "modified": "2014-02-20T06:38:34.607Z",
+            "modified": "2014-03-11T05:26:19.821Z",
             "thumbnail": "thumbnails/e4416774-5579-4bd9-985d-903826cd57e2.JPG",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "2",
             "short_description": "Naturals wallpaper",
@@ -352,13 +355,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:38:17.650Z",
-            "modified": "2014-02-20T06:38:23.547Z",
+            "modified": "2014-03-11T05:26:19.814Z",
             "thumbnail": "thumbnails/26f2291a-9353-4d80-ae07-6a111266a846.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "1",
             "short_description": "Content inside starbucks",
@@ -372,13 +376,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:38:52.972Z",
-            "modified": "2014-02-20T06:38:16.530Z",
+            "modified": "2014-03-11T05:26:19.807Z",
             "thumbnail": "thumbnails/e85e50d6-1af7-46c2-a655-f70e601a0ad4.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "1",
             "short_description": "Content inside starbucks",
@@ -392,13 +397,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:39:29.268Z",
-            "modified": "2014-02-20T06:38:08.223Z",
+            "modified": "2014-03-11T05:26:19.801Z",
             "thumbnail": "thumbnails/401af3c3-d185-4468-a1f6-e3a547a94eda.JPG",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "1",
             "short_description": "Content inside naturals",
@@ -412,13 +418,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:39:50.105Z",
-            "modified": "2014-02-20T06:37:57.508Z",
+            "modified": "2014-03-11T05:26:19.794Z",
             "thumbnail": "thumbnails/6b3d28de-f28f-4eec-b8a6-a24584dfceeb.JPG",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "1",
             "short_description": "Content inside naturals",
@@ -432,13 +439,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:44:09.123Z",
-            "modified": "2014-02-20T06:37:49.533Z",
+            "modified": "2014-03-11T05:26:19.787Z",
             "thumbnail": "thumbnails/e3401c9d-e723-4f98-823d-60dc59127ac4.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 2,
             "content_location": "1",
             "short_description": "Entrances to Starbucks",
@@ -452,13 +460,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-09T12:47:51.180Z",
-            "modified": "2014-02-20T06:37:39.904Z",
+            "modified": "2014-03-11T05:26:19.780Z",
             "thumbnail": "thumbnails/499778f7-2437-4532-8983-937a3eafdac0.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 2,
             "content_location": "1",
             "short_description": "Bridal collection",
@@ -472,13 +481,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-10T05:24:45.439Z",
-            "modified": "2014-02-20T06:37:32.422Z",
+            "modified": "2014-03-11T05:26:19.772Z",
             "thumbnail": "thumbnails/1c13d7ea-589f-4910-a11d-69cd8fc34368.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "4",
             "short_description": "Info on starbucks",
@@ -492,13 +502,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-10T05:26:38.029Z",
-            "modified": "2014-02-20T06:37:24.867Z",
+            "modified": "2014-03-11T05:26:19.764Z",
             "thumbnail": "thumbnails/4abf8d68-4d4e-4598-b487-5cd0a5e05e4b.JPG",
             "active": true,
+            "display_in_store": false,
             "content_type": 1,
             "content_location": "4",
             "short_description": "Info on Naturals",
@@ -512,13 +523,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-02-28",
+            "end_date": "2014-04-29",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-01-10T06:35:39.362Z",
-            "modified": "2014-02-20T06:37:16.367Z",
+            "modified": "2014-03-11T05:26:19.757Z",
             "thumbnail": "thumbnails/185cbdff-d980-4e1f-b1f4-5c2d1f1bbb5c.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 2,
             "content_location": "1",
             "short_description": "CFC",
@@ -532,13 +544,14 @@
         "fields": {
             "rating": 5,
             "archived": false,
-            "end_date": "2014-03-21",
+            "end_date": "2014-05-20",
             "description": "",
             "no_of_people_rated": 1,
             "created": "2014-02-20T06:44:53.356Z",
-            "modified": "2014-02-20T06:44:53.651Z",
+            "modified": "2014-03-11T05:26:19.750Z",
             "thumbnail": "thumbnails/cf37baa9-2b79-4397-b5f3-d7e6da0c8552.jpg",
             "active": true,
+            "display_in_store": false,
             "content_type": 3,
             "content_location": "1",
             "short_description": "ha ha ha",
@@ -924,1266 +937,6 @@
         "pk": 12,
         "model": "core.slideshow",
         "fields": {}
-    },
-    {
-        "pk": 1,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Starbucks wall",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Cluster Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:38:56.952Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:38:56.952Z",
-            "referrer": "",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:38:56.952Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "2",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Cluster Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:38:56.956Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:38:56.955Z",
-            "referrer": "",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:38:56.956Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "3",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 3,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Cluster Home",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:38:56.964Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:38:56.963Z",
-            "referrer": "",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:38:56.964Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-1",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 4,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Cluster Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:47.303Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:47.303Z",
-            "referrer": "",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:47.303Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "/home/naturals",
-            "action": "redirect click",
-            "content_id": "3",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 5,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.002Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.002Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.002Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 6,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall 1",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.010Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.009Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.010Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "6",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 7,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall 2",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.021Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.021Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.021Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "7",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 8,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.030Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.029Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.030Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 9,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.043Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.042Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.043Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 10,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.048Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.048Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.048Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 11,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Store Home",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:50.151Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:50.150Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:50.151Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-2",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 12,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:55.456Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:55.455Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:55.456Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 13,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:40:56.708Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:40:56.708Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:40:56.708Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 14,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:00.865Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:00.864Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:00.864Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 15,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:02.139Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:02.138Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:02.139Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 16,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:06.276Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:06.276Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:06.276Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 17,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:07.561Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:07.561Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:07.561Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 18,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:11.687Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:11.687Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:11.687Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 19,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:12.992Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:12.991Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:12.992Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 20,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:17.115Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:17.115Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:17.115Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 21,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:18.415Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:18.415Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:18.415Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 22,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:22.542Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:22.542Z",
-            "referrer": "http://0.0.0.0:8081/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:22.542Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 23,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Store Info",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:23.487Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:23.487Z",
-            "referrer": "http://0.0.0.0:8081/home/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:23.487Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-3",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 24,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Info on Naturals",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Info",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:41:23.692Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:41:23.691Z",
-            "referrer": "http://0.0.0.0:8081/home/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:41:23.692Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "11",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 25,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.712Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.712Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.712Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 26,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Store Home",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.719Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.718Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.719Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-2",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 27,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Bridal Collection",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.726Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.726Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.726Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "9",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 28,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall 1",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.735Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.734Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.734Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "6",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 29,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.737Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.737Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.737Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "Slide",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 30,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall 2",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.759Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.758Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.759Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "7",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 31,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Cfc all the way",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Store Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:30.813Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Slide Show",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:30.813Z",
-            "referrer": "http://0.0.0.0:8081/si/2/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:30.813Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "12",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 32,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Cluster Home",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:31.613Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:31.612Z",
-            "referrer": "http://0.0.0.0:8081/home/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:31.612Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-1",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 33,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Starbucks wall",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Cluster Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:31.738Z",
-            "content_owner_brand_name": "Starbucks",
-            "content_owner_brand_id": 1,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:31.737Z",
-            "referrer": "http://0.0.0.0:8081/home/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:31.738Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "2",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 34,
-        "model": "core.log",
-        "fields": {
-            "content_name": "Naturals wall",
-            "page_title": "Brand Club | Naturals",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "Cluster Home",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:31.746Z",
-            "content_owner_brand_name": "Naturals",
-            "content_owner_brand_id": 2,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "Wallpaper",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:31.745Z",
-            "referrer": "http://0.0.0.0:8081/home/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:31.746Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "card in view",
-            "content_id": "3",
-            "location_brand_name": "Naturals"
-        }
-    },
-    {
-        "pk": 35,
-        "model": "core.log",
-        "fields": {
-            "content_name": "",
-            "page_title": "Cluster Info",
-            "location_cluster_id": 1,
-            "location_store_id": 2,
-            "user_device_height": 751,
-            "content_location": "",
-            "mobile_model": "",
-            "access_date": "2014-02-20T06:42:35.283Z",
-            "content_owner_brand_name": "",
-            "content_owner_brand_id": 0,
-            "location_cluster_name": "Kormangala Bangalore",
-            "state": "Karnataka",
-            "user_unique_id": "bc_J1bSpS8GWR",
-            "user_device_width": 1439,
-            "mac_address": "",
-            "user_ip_address": "",
-            "location_brand_id": 2,
-            "city": "Bangalore",
-            "location_store_name": "Naturals Kormangala",
-            "content_type": "",
-            "mobile_make": "",
-            "created": "2014-02-20T06:42:35.282Z",
-            "referrer": "http://0.0.0.0:8081/naturals/",
-            "location_device_id": 121,
-            "modified": "2014-02-20T06:42:35.283Z",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36",
-            "redirect_url": "",
-            "action": "page load",
-            "content_id": "-4",
-            "location_brand_name": "Naturals"
-        }
     },
     {
         "pk": 1,
@@ -3050,138 +1803,273 @@
         }
     },
     {
-        "pk": 82,
+        "pk": 97,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "add_web",
+            "name": "Can add web",
+            "content_type": 33
+        }
+    },
+    {
+        "pk": 98,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "change_web",
+            "name": "Can change web",
+            "content_type": 33
+        }
+    },
+    {
+        "pk": 99,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "delete_web",
+            "name": "Can delete web",
+            "content_type": 33
+        }
+    },
+    {
+        "pk": 100,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "add_webcontent",
+            "name": "Can add web content",
+            "content_type": 34
+        }
+    },
+    {
+        "pk": 101,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "change_webcontent",
+            "name": "Can change web content",
+            "content_type": 34
+        }
+    },
+    {
+        "pk": 102,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "delete_webcontent",
+            "name": "Can delete web content",
+            "content_type": 34
+        }
+    },
+    {
+        "pk": 103,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "add_offer",
+            "name": "Can add offer",
+            "content_type": 35
+        }
+    },
+    {
+        "pk": 104,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "change_offer",
+            "name": "Can change offer",
+            "content_type": 35
+        }
+    },
+    {
+        "pk": 105,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "delete_offer",
+            "name": "Can delete offer",
+            "content_type": 35
+        }
+    },
+    {
+        "pk": 106,
         "model": "auth.permission",
         "fields": {
             "codename": "add_image",
             "name": "Can add image",
-            "content_type": 28
+            "content_type": 36
         }
     },
     {
-        "pk": 83,
+        "pk": 107,
         "model": "auth.permission",
         "fields": {
             "codename": "change_image",
             "name": "Can change image",
-            "content_type": 28
+            "content_type": 36
         }
     },
     {
-        "pk": 84,
+        "pk": 108,
         "model": "auth.permission",
         "fields": {
             "codename": "delete_image",
             "name": "Can delete image",
-            "content_type": 28
+            "content_type": 36
         }
     },
     {
-        "pk": 85,
+        "pk": 109,
         "model": "auth.permission",
         "fields": {
             "codename": "add_slideshowimage",
             "name": "Can add slide show image",
-            "content_type": 29
+            "content_type": 37
         }
     },
     {
-        "pk": 86,
+        "pk": 110,
         "model": "auth.permission",
         "fields": {
             "codename": "change_slideshowimage",
             "name": "Can change slide show image",
-            "content_type": 29
+            "content_type": 37
         }
     },
     {
-        "pk": 87,
+        "pk": 111,
         "model": "auth.permission",
         "fields": {
             "codename": "delete_slideshowimage",
             "name": "Can delete slide show image",
-            "content_type": 29
+            "content_type": 37
         }
     },
     {
-        "pk": 88,
+        "pk": 112,
         "model": "auth.permission",
         "fields": {
             "codename": "add_slideshow",
             "name": "Can add slide show",
-            "content_type": 30
+            "content_type": 38
         }
     },
     {
-        "pk": 89,
+        "pk": 113,
         "model": "auth.permission",
         "fields": {
             "codename": "change_slideshow",
             "name": "Can change slide show",
-            "content_type": 30
+            "content_type": 38
         }
     },
     {
-        "pk": 90,
+        "pk": 114,
         "model": "auth.permission",
         "fields": {
             "codename": "delete_slideshow",
             "name": "Can delete slide show",
-            "content_type": 30
+            "content_type": 38
         }
     },
     {
-        "pk": 91,
+        "pk": 115,
         "model": "auth.permission",
         "fields": {
             "codename": "add_offerdownloadinfo",
             "name": "Can add offer download info",
-            "content_type": 31
+            "content_type": 39
         }
     },
     {
-        "pk": 92,
+        "pk": 116,
         "model": "auth.permission",
         "fields": {
             "codename": "change_offerdownloadinfo",
             "name": "Can change offer download info",
-            "content_type": 31
+            "content_type": 39
         }
     },
     {
-        "pk": 93,
+        "pk": 117,
         "model": "auth.permission",
         "fields": {
             "codename": "delete_offerdownloadinfo",
             "name": "Can delete offer download info",
-            "content_type": 31
+            "content_type": 39
         }
     },
     {
-        "pk": 94,
+        "pk": 118,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "add_freeinternet",
+            "name": "Can add free internet",
+            "content_type": 40
+        }
+    },
+    {
+        "pk": 119,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "change_freeinternet",
+            "name": "Can change free internet",
+            "content_type": 40
+        }
+    },
+    {
+        "pk": 120,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "delete_freeinternet",
+            "name": "Can delete free internet",
+            "content_type": 40
+        }
+    },
+    {
+        "pk": 121,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "add_freeinternetlog",
+            "name": "Can add free internet log",
+            "content_type": 41
+        }
+    },
+    {
+        "pk": 122,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "change_freeinternetlog",
+            "name": "Can change free internet log",
+            "content_type": 41
+        }
+    },
+    {
+        "pk": 123,
+        "model": "auth.permission",
+        "fields": {
+            "codename": "delete_freeinternetlog",
+            "name": "Can delete free internet log",
+            "content_type": 41
+        }
+    },
+    {
+        "pk": 124,
         "model": "auth.permission",
         "fields": {
             "codename": "add_log",
             "name": "Can add log",
-            "content_type": 32
+            "content_type": 42
         }
     },
     {
-        "pk": 95,
+        "pk": 125,
         "model": "auth.permission",
         "fields": {
             "codename": "change_log",
             "name": "Can change log",
-            "content_type": 32
+            "content_type": 42
         }
     },
     {
-        "pk": 96,
+        "pk": 126,
         "model": "auth.permission",
         "fields": {
             "codename": "delete_log",
             "name": "Can delete log",
-            "content_type": 32
+            "content_type": 42
         }
     },
     {
@@ -3194,7 +2082,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2014-02-20T06:36:59.264Z",
+            "last_login": "2014-03-11T05:25:58.067Z",
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$12000$kSGYtxH2Ke8a$FNfkn7pb1AYb6goBEgcsAEBRCopT51MUw0huYq22Gx0=",
@@ -3202,784 +2090,5 @@
             "date_joined": "2014-01-09T10:45:56.828Z"
         }
     },
-    {
-        "pk": 1,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T10:50:12.858Z",
-            "object_repr": "Bangalore",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 10
-        }
-    },
-    {
-        "pk": 2,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T10:50:22.934Z",
-            "object_repr": "Karnataka",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 9
-        }
-    },
-    {
-        "pk": 3,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T10:50:40.507Z",
-            "object_repr": "Kormangala Bangalore",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 13
-        }
-    },
-    {
-        "pk": 4,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T10:50:44.587Z",
-            "object_repr": "Starbucks",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 12
-        }
-    },
-    {
-        "pk": 5,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T10:52:41.042Z",
-            "object_repr": "Naturals",
-            "object_id": "2",
-            "change_message": "",
-            "user": 1,
-            "content_type": 12
-        }
-    },
-    {
-        "pk": 6,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-09T10:53:26.921Z",
-            "object_repr": "Naturals Kormangala",
-            "object_id": "2",
-            "change_message": "Added device \"121\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 7,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T11:49:10.049Z",
-            "object_repr": "Wallpaper",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 17
-        }
-    },
-    {
-        "pk": 8,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T11:49:17.779Z",
-            "object_repr": "Atms nearby",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 9,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-09T11:49:33.458Z",
-            "object_repr": "Kormangala Bangalore",
-            "object_id": "1",
-            "change_message": "Changed content.",
-            "user": 1,
-            "content_type": 13
-        }
-    },
-    {
-        "pk": 10,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-09T11:54:08.331Z",
-            "object_repr": "Atms nearby",
-            "object_id": "1",
-            "change_message": "Changed content_location.",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 11,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:32:09.025Z",
-            "object_repr": "Starbucks wall",
-            "object_id": "2",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 12,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:34:43.009Z",
-            "object_repr": "Naturals wall",
-            "object_id": "3",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 13,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:38:18.308Z",
-            "object_repr": "Starbucks wall 1",
-            "object_id": "4",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 14,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:38:53.013Z",
-            "object_repr": "Starbucks wall 2",
-            "object_id": "5",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 15,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:39:29.343Z",
-            "object_repr": "Naturals wall 1",
-            "object_id": "6",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 16,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:39:50.156Z",
-            "object_repr": "Naturals wall 2",
-            "object_id": "7",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 17,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:41:27.054Z",
-            "object_repr": "Slide Show",
-            "object_id": "2",
-            "change_message": "",
-            "user": 1,
-            "content_type": 17
-        }
-    },
-    {
-        "pk": 18,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:41:39.882Z",
-            "object_repr": "Entrance 1",
-            "object_id": "1",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 19,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:41:50.471Z",
-            "object_repr": "Entrance 2",
-            "object_id": "2",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 20,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:42:00.991Z",
-            "object_repr": "Entrance 3",
-            "object_id": "3",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 21,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:42:17.233Z",
-            "object_repr": "Entrance 4",
-            "object_id": "4",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 22,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:42:28.535Z",
-            "object_repr": "Entrance 5",
-            "object_id": "5",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 23,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:44:09.488Z",
-            "object_repr": "Starbucks Entrances",
-            "object_id": "8",
-            "change_message": "",
-            "user": 1,
-            "content_type": 27
-        }
-    },
-    {
-        "pk": 24,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:44:46.286Z",
-            "object_repr": "Bride 1",
-            "object_id": "6",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 25,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:44:58.104Z",
-            "object_repr": "Bride 2",
-            "object_id": "7",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 26,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:45:16.236Z",
-            "object_repr": "Bride 3",
-            "object_id": "8",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 27,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:45:28.574Z",
-            "object_repr": "Bride 4",
-            "object_id": "9",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 28,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:45:42.952Z",
-            "object_repr": "Bride 5",
-            "object_id": "10",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 29,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-09T12:47:51.463Z",
-            "object_repr": "Bridal Collection",
-            "object_id": "9",
-            "change_message": "",
-            "user": 1,
-            "content_type": 27
-        }
-    },
-    {
-        "pk": 30,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T05:24:45.509Z",
-            "object_repr": "Info on Starbucks",
-            "object_id": "10",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 31,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T05:25:31.202Z",
-            "object_repr": "Starbucks Kormangala",
-            "object_id": "1",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 32,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T05:26:38.083Z",
-            "object_repr": "Info on Naturals",
-            "object_id": "11",
-            "change_message": "",
-            "user": 1,
-            "content_type": 22
-        }
-    },
-    {
-        "pk": 33,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T05:27:36.723Z",
-            "object_repr": "Naturals Kormangala",
-            "object_id": "2",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\". Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 34,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:12:43.110Z",
-            "object_repr": "Naturals Kormangala",
-            "object_id": "2",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 35,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:12:54.908Z",
-            "object_repr": "Starbucks Kormangala",
-            "object_id": "1",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 36,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T06:35:00.215Z",
-            "object_repr": "Oscar",
-            "object_id": "11",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 37,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T06:35:09.591Z",
-            "object_repr": "Mata",
-            "object_id": "12",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 38,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T06:35:21.242Z",
-            "object_repr": "Hazard",
-            "object_id": "13",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 39,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T06:35:31.592Z",
-            "object_repr": "Torres",
-            "object_id": "14",
-            "change_message": "",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 40,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-01-10T06:35:39.713Z",
-            "object_repr": "Cfc all the way",
-            "object_id": "12",
-            "change_message": "",
-            "user": 1,
-            "content_type": 27
-        }
-    },
-    {
-        "pk": 41,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:35:56.814Z",
-            "object_repr": "Starbucks Kormangala",
-            "object_id": "1",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 42,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:36:11.661Z",
-            "object_repr": "Naturals Kormangala",
-            "object_id": "2",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 43,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:36:28.697Z",
-            "object_repr": "Torres",
-            "object_id": "14",
-            "change_message": "Changed target_url.",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 44,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-01-10T06:38:42.593Z",
-            "object_repr": "Bride 1",
-            "object_id": "6",
-            "change_message": "Changed target_url.",
-            "user": 1,
-            "content_type": 25
-        }
-    },
-    {
-        "pk": 45,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:16.374Z",
-            "object_repr": "Cfc all the way",
-            "object_id": "12",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 46,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:24.874Z",
-            "object_repr": "Info on Naturals",
-            "object_id": "11",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 47,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:32.429Z",
-            "object_repr": "Info on Starbucks",
-            "object_id": "10",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 48,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:39.912Z",
-            "object_repr": "Bridal Collection",
-            "object_id": "9",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 49,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:49.543Z",
-            "object_repr": "Starbucks Entrances",
-            "object_id": "8",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 50,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:37:57.515Z",
-            "object_repr": "Naturals wall 2",
-            "object_id": "7",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 51,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:08.231Z",
-            "object_repr": "Naturals wall 1",
-            "object_id": "6",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 52,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:16.540Z",
-            "object_repr": "Starbucks wall 2",
-            "object_id": "5",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 53,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:23.554Z",
-            "object_repr": "Starbucks wall 1",
-            "object_id": "4",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 54,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:34.614Z",
-            "object_repr": "Naturals wall",
-            "object_id": "3",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 55,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:43.739Z",
-            "object_repr": "Starbucks wall",
-            "object_id": "2",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 56,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:38:52.122Z",
-            "object_repr": "Atms nearby",
-            "object_id": "1",
-            "change_message": "Changed end_date.",
-            "user": 1,
-            "content_type": 20
-        }
-    },
-    {
-        "pk": 57,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-02-20T06:44:10.236Z",
-            "object_repr": "Video",
-            "object_id": "3",
-            "change_message": "",
-            "user": 1,
-            "content_type": 17
-        }
-    },
-    {
-        "pk": 58,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 1,
-            "action_time": "2014-02-20T06:44:53.972Z",
-            "object_repr": "Some video",
-            "object_id": "13",
-            "change_message": "",
-            "user": 1,
-            "content_type": 23
-        }
-    },
-    {
-        "pk": 59,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:45:15.715Z",
-            "object_repr": "Naturals Kormangala",
-            "object_id": "2",
-            "change_message": "Added ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\".",
-            "user": 1,
-            "content_type": 14
-        }
-    },
-    {
-        "pk": 60,
-        "model": "admin.logentry",
-        "fields": {
-            "action_flag": 2,
-            "action_time": "2014-02-20T06:45:26.033Z",
-            "object_repr": "Starbucks Kormangala",
-            "object_id": "1",
-            "change_message": "Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Changed order for ordered store content \"OrderedStoreContent object\". Added device \"3456\".",
-            "user": 1,
-            "content_type": 14
-        }
-    }
+
 ]
