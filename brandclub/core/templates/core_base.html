@@ -53,8 +53,8 @@
 {% block navbar_bottom %}
     {% block navbar_redirect_to_cluster %}
         <div class="navbar navbar-fixed-bottom">
-            <a href="#" onclick="window.history.back();"
-                    style="text-align: center; text-decoration: no-underline;">
+            <a onclick="window.history.back(); return false;"
+                    style="text-align: center; text-decoration: no-underline; cursor: pointer;">
                 {% if to == "store" %}
                     <h4>Back to the store!</h4>
                 {% else %}
