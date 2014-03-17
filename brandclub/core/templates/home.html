@@ -24,14 +24,14 @@
                      data-log-content-type="{{ content.content_type }}"
                      data-log-content-id="{{ content.id }}"
                      data-content-distance="{{ content.distance_from_home_store }}">
-                    <div class="row info-panel">
+                    <div class="img-frame">
+                        <div class="row info-panel">
                             <div class="icons col-xs-8">
                                 <h5>{{ content.name }}</h5>
                             </div>
                             <div class="col-xs-4">
                             </div>
                         </div>
-                    <div class="img-frame">
                         <div class="image-wrapper">
                                 <a class="content-link img-preview"
                                    onclick="logAndRedirect(this, '/home/'+'{{ content.own_store.slug_name }}')"
