@@ -69,7 +69,6 @@
                     var paid = -1;
                     if ($elem.attr('data-content-paid-status') == 'False')
                         paid = 1;
-                    console.log(paid * parseFloat( $elem.attr('data-content-distance') ));
                     return paid * parseFloat( $elem.attr('data-content-distance') );
                 },
                 paid: function($elem)   {
