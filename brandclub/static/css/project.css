@@ -223,5 +223,19 @@ img.image {
 }
 
 
+.slideshow-template-description-table {
+    display: table;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
 
+.slideshow-template-description-table p {
+    display: table-cell;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
 
+.slideshow-template-description-table div {
+    display: table-cell;
+}
