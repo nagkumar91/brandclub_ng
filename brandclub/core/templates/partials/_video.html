@@ -5,6 +5,11 @@
      data-log-content-type="{{ content.content_type }}"
      data-log-content-id="{{ content.id }}">
     <div class="img-frame">
+        <div class="row info-panel">
+            <div class="icons col-xs-8">
+                <h5>{{ content.name }}</h5>
+            </div>
+        </div>
         <div class="image-wrapper">
             <a class="content-link img-preview "
                href="#">
@@ -27,12 +32,6 @@
                     </object>
                 </video>
             </a>
-        </div>
-        <div class="row info-panel">
-            <div class="icons col-xs-8">
-                <h5>{{ content.name }}</h5>
-            </div>
-
         </div>
 
         <p>{{ content.short_description }}</p>

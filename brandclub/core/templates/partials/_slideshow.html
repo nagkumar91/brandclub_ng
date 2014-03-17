@@ -5,6 +5,11 @@
      data-log-content-id="{{ content.id }}">
     <div class="img-frame">
         <div class="image-wrapper">
+        <div class="row info-panel">
+            <div class="icons col-xs-8">
+                <h5>{{ content.name }}</h5>
+            </div>
+        </div>
             <div id="ss-container-{{ content.id }}" data-slideshow-id="{{ content.id }}" data-log-content-id="{{ content.id }}"
                  class="slideshow">
                 <div id="slide-show-carousel-{{ content.id }}"
@@ -22,16 +27,12 @@
                 </div>
             </div>
         </div>
-        <div class="row info-panel">
-            <div class="icons col-xs-8">
-                <h5>{{ content.name }}</h5>
-            </div>
+        <div>
+            <p class="col-xs-10">{{ content.short_description }}</p>
             <div class="icons pull-right col-xs-2">
-                <a class="glyphicon glyphicon-fullscreen"
-                   href="/slideshow/{{ content.id }}"></a>
+                    <a class="glyphicon glyphicon-fullscreen"
+                       href="/slideshow/{{ content.id }}"></a>
             </div>
         </div>
-
-        <p>{{ content.short_description }}</p>
     </div>
 </div>
