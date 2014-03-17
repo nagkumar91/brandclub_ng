@@ -25,6 +25,8 @@ function validate_free_internet_form()  {
                         console.log(data['success']);
                         if(data['success']){
                             var success_html = '<h6>Enjoy Free Internet.</h6>';
+                            var user_unique_id = readCookie("user_unique_id");
+                            call_log(-7, window.log_info.home_device_id, user_unique_id, "Free Internet", "submit button click", "");
                             $("#error-message-container").append(success_html);
                             $.ajax({
                                 type: 'POST',
