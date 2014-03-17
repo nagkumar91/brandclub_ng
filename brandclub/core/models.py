@@ -60,6 +60,7 @@ class Brand(CachingMixin, TimeStampedModel):
     slug_name = models.SlugField(max_length=100, unique=True)
     footfall = models.IntegerField(null=True, default=0)
     description = models.TextField(null=True, blank=True)
+    paid = models.BooleanField(default=True)
     active = models.BooleanField(default=True)
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
@@ -118,6 +119,7 @@ class Cluster(CachingMixin, TimeStampedModel):
             dist -= dist % -10
             setattr(content, 'distance_from_home_store', int(dist))
             setattr(content, 'own_store', stores_in_cluster[0])
+            setattr(content, 'paid', content_owner.brand.paid)
         return contents
 
     def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):

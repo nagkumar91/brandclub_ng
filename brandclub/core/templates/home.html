@@ -23,7 +23,8 @@
                      data-log-content-name="{{ content.name }}"
                      data-log-content-type="{{ content.content_type }}"
                      data-log-content-id="{{ content.id }}"
-                     data-content-distance="{{ content.distance_from_home_store }}">
+                     data-content-distance="{{ content.distance_from_home_store }}"
+                     data-content-paid-status={{ content.paid }}>
                     <div class="img-frame">
                         <div class="row info-panel">
                             <div class="icons col-xs-8">
@@ -58,15 +59,28 @@
     <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
     <script>
-    $('.masonry').isotope({
-        itemSelector : '.brandclub-widget',
-        layoutMode : 'fitRows',
-        sortBy: 'distance',
-        getSortData : {
-            distance : function ( $elem ) {
-                return parseFloat( $elem.attr('data-content-distance') );
+    $(document).ready(function(){
+        $('.masonry').isotope({
+            itemSelector : '.brandclub-widget',
+            layoutMode : 'fitRows',
+            sortBy: 'distance',
+            getSortData : {
+                distance : function ( $elem ) {
+                    var paid = -1;
+                    if ($elem.attr('data-content-paid-status') == 'False')
+                        paid = 1;
+                    console.log(paid * parseFloat( $elem.attr('data-content-distance') ));
+                    return paid * parseFloat( $elem.attr('data-content-distance') );
+                },
+                paid: function($elem)   {
+                    if ($elem.attr('data-content-paid-status') == 'False')
+                        return 'z';
+                    else
+                        return 'a';
+{#                    return ($elem.attr('data-content-paid-status'));#}
+                }
             }
-        }
+        });
     });
     </script>
     <script>
