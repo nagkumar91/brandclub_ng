@@ -77,6 +77,13 @@ class Brand(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return "%s - (%d)" % (self.name, self.pk)
 
+    def save(self, *args, **kwargs):
+        stores = self.stores.all()
+        for st in stores:
+            st.active = self.active
+            st.save()
+        super(TimeStampedModel, self).save(*args, **kwargs)
+
 
 class Cluster(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
