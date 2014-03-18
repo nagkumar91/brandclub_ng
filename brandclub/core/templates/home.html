@@ -69,7 +69,10 @@
                             var paid = -1;
                             if ($elem.attr('data-content-paid-status') == 'False')
                                 paid = 1;
-                            return paid * parseFloat($elem.attr('data-content-distance'));
+                            var number = paid * parseFloat($elem.attr('data-content-distance'));
+                            if((parseFloat($elem.attr('data-content-distance')))==0 && paid==-1)
+                                return -Number.MAX_VALUE;
+                            return number;
                         },
                         paid: function ($elem) {
                             if ($elem.attr('data-content-paid-status') == 'False')
