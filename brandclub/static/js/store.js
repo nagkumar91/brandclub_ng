@@ -14,8 +14,8 @@ $(function($) {
             fullScreen:true,
             preloadRange: 100,
             onslidecomplete: function(){
-                var user_unique_id = readCookie("user_unique_id");
-                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Slide", '');
+//                var user_unique_id = readCookie("user_unique_id");
+//                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Slide", '');
             }
         });
 
