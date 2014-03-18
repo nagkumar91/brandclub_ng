@@ -15,8 +15,8 @@
 {% endblock %}
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
-{#  style="margin-bottom: 40px;"  #}
-        <div class="row masonry" >
+        {#  style="margin-bottom: 40px;"  #}
+        <div class="row masonry">
             {% for content in contents %}
                 <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget"
                      data-log-brand-name="{{ content.own_store.brand.name }}"
@@ -34,15 +34,15 @@
                             </div>
                         </div>
                         <div class="image-wrapper">
-                                <a class="content-link img-preview"
-                                   onclick="logAndRedirect(this, '/home/'+'{{ content.own_store.slug_name }}')"
-                                   data-log-brand-name="{{ content.own_store.brand.name }}"
-                                   data-log-content-name="{{ content.name }}"
-                                   data-log-content-type="{{ content.content_type }}"
-                                   data-log-content-id="{{ content.id }}">
-                            <img class="img-responsive image"
-                                 src="{{ content.thumbnail_url |default_if_none:'#' }}"
-                                 alt="{{ c.name }}"/>
+                            <a class="content-link img-preview"
+                               onclick="logAndRedirect(this, '/home/'+'{{ content.own_store.slug_name }}')"
+                               data-log-brand-name="{{ content.own_store.brand.name }}"
+                               data-log-content-name="{{ content.name }}"
+                               data-log-content-type="{{ content.content_type }}"
+                               data-log-content-id="{{ content.id }}">
+                                <img class="img-responsive image"
+                                     src="{{ content.thumbnail_url |default_if_none:'#' }}"
+                                     alt="{{ c.name }}"/>
                             </a>
                         </div>
                         <p>{{ content.short_description }}</p>
@@ -59,33 +59,32 @@
     <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
     <script>
-    $(document).ready(function(){
-        $('.masonry').isotope({
-            itemSelector : '.brandclub-widget',
-            layoutMode : 'fitRows',
-            sortBy: 'distance',
-            getSortData : {
-                distance : function ( $elem ) {
-                    var paid = -1;
-                    if ($elem.attr('data-content-paid-status') == 'False')
-                        paid = 1;
-                    return paid * parseFloat( $elem.attr('data-content-distance') );
-                },
-                paid: function($elem)   {
-                    if ($elem.attr('data-content-paid-status') == 'False')
-                        return 'z';
-                    else
-                        return 'a';
-{#                    return ($elem.attr('data-content-paid-status'));#}
-                }
-            }
+        imagesLoaded( $('.masonry'), function( instance ) {
+            $('.masonry').fadeIn(1000).isotope({
+                    itemSelector: '.brandclub-widget',
+                    layoutMode: 'fitRows',
+                    sortBy: 'distance',
+                    getSortData: {
+                        distance: function ($elem) {
+                            var paid = -1;
+                            if ($elem.attr('data-content-paid-status') == 'False')
+                                paid = 1;
+                            return paid * parseFloat($elem.attr('data-content-distance'));
+                        },
+                        paid: function ($elem) {
+                            if ($elem.attr('data-content-paid-status') == 'False')
+                                return 'z';
+                            else
+                                return 'a';
+                        }
+                    }
+                });
         });
-    });
     </script>
     <script>
-    $(document).ready(function(){
-        var user_unique_id = readCookie("user_unique_id");
-        call_log(-1, window.log_info.home_device_id, user_unique_id, "Cluster Home", "page load", "");
-    });
+        $(document).ready(function () {
+            var user_unique_id = readCookie("user_unique_id");
+            call_log(-1, window.log_info.home_device_id, user_unique_id, "Cluster Home", "page load", "");
+        });
     </script>
 {% endblock %}
