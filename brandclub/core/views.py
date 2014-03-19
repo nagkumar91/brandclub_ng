@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 import json
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .logging import log_data
 from django.views.decorators.csrf import csrf_exempt
@@ -285,7 +286,8 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    log_bc_data.delay(post_params=request.POST, date_time=datetime.datetime.now(),
+    log_bc_data.delay(post_params=request.POST, date_time=timezone.make_aware(datetime.datetime.now(),
+                                                                              timezone.get_default_timezone()),
                       mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
                       user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})

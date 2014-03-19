@@ -73,3 +73,4 @@ CREATE_STORE_MAPS = True
 CACHE_TIME_OUT = 0
 REPORT_DOWNLOAD_PATH = "/data/ckeditor/reporting/downloads"
 LOG_SAVE_PATH = "/data/ckeditor/reporting/logs"
+TIME_ZONE = 'Asia/Calcutta'
