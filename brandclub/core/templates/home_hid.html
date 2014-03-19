@@ -71,7 +71,7 @@
             contentPanel.click(function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var target = $(".content-link", contentPanel);
+                var target = $(".content-link", this);
                 var contentType = target.attr('data-log-content-type');
                 var deviceId = target.attr('data-device-id');
                 if (contentType == 'Url') {
