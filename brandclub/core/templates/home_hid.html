@@ -24,6 +24,15 @@
                      data-log-content-id="{{ content.id }}">
                     <div class="img-frame">
                         <div class="image-wrapper">
+                                {% if content.content_type == 'Url' %}
+                                    <a class="content-link img-preview"
+                                       href="/redirect?href={{ content.url | urlencode }}">
+                                        <img
+                                                class="img-responsive image"
+                                                src="{{ content.thumbnail.url }}"
+                                                alt="{{ c.name }}"/>
+                                    </a>
+                                {% else %}
                                 <a class="content-link img-preview"
                                    onclick="logAndRedirect(this, '/sh/'+'{{ content.device_id}}')"
                                    data-log-brand-name="{{ content.own_store.brand.name }}"
@@ -34,6 +43,7 @@
                                  src="{{ content.thumbnail_url |default_if_none:'#' }}"
                                  alt="{{ c.name }}"/>
                             </a>
+                            {% endif %}
                         </div>
                         <div class="row info-panel">
                             <div class="icons col-xs-8">
@@ -63,7 +73,7 @@
             $container.imagesLoaded(function () {
                 $container.masonry({
                     itemSelector: '.brandclub-widget',
-                    columnWidth: '.brandclub-widget',
+                    columnWidth: '.brandclub-widget'
                 })
             });
         }(jQuery))
