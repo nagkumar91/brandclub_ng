@@ -26,26 +26,17 @@
                      data-content-distance="{{ content.distance_from_home_store }}">
                     <div class="img-frame">
                         <div class="image-wrapper">
-                                {% if content.content_type == 'Url' %}
-                                    <a class="content-link img-preview"
-                                       href="/redirect?href={{ content.url | urlencode }}">
-                                        <img
-                                                class="img-responsive image"
-                                                src="{{ content.thumbnail.url }}"
-                                                alt="{{ c.name }}"/>
-                                    </a>
-                                {% else %}
                                 <a class="content-link img-preview"
-                                   onclick="logAndRedirect(this, '/sh/'+'{{ content.device_id}}')"
                                    data-log-brand-name="{{ content.own_store.brand.name }}"
                                    data-log-content-name="{{ content.name }}"
                                    data-log-content-type="{{ content.content_type }}"
-                                   data-log-content-id="{{ content.id }}">
+                                   data-log-content-id="{{ content.id }}"
+                                   data-device-id="{{ content.device_id }}"
+                                   data-redirect-url="{{ content.url|urlencode }}">
                             <img class="img-responsive image"
                                  src="{{ content.thumbnail_url |default_if_none:'#' }}"
                                  alt="{{ c.name }}"/>
                             </a>
-                            {% endif %}
                         </div>
                         <div class="row info-panel">
                             <div class="icons col-xs-8">
@@ -80,6 +71,21 @@
             }
         }
     });
+
+            var contentPanel = $(".content-panel");
+            contentPanel.click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var target = $(".content-link", this);
+                var contentType = target.attr('data-log-content-type');
+                var deviceId = target.attr('data-device-id');
+                if (contentType == 'Url') {
+                    logAndRedirect(contentType, "/redirect?href="+target.attr('data-redirect-url'));
+                } else {
+                    logAndRedirect(contentType, "/sh/"+deviceId);
+                }
+            });
+
     </script>
     <script>
     $(document).ready(function(){
