@@ -13,7 +13,7 @@ content_type_mapping = {
 
 def log_data(**kwargs):
     post_params = kwargs['post_params']
-    date_time = kwargs.get('date_time', '')
+    date_time = kwargs.get('date_time_custom', '')
     if date_time == '':
         date_time = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     mac_address = kwargs.get('mac_address', '')
