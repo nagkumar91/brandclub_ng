@@ -324,7 +324,7 @@ def save_file(csv_file, device_id):
     return True
 
 
-def free_internet_confirm(request):
+def free_internet_confirm(request, content_id):
     dev_id = request.device_id
     device = get_object_or_None(Device, device_id=dev_id)
     store = device.store
@@ -332,7 +332,7 @@ def free_internet_confirm(request):
     redirect = "/%s/" % store.slug_name
     to = "store"
     context_instance = RequestContext(request,
-                                      {"redirect": redirect, "to": to, "brand": brand})
+                                      {"redirect": redirect, "to": to, "brand": brand, "content_id": content_id})
     return render_to_response("free_internet.html", context_instance)
 
 
