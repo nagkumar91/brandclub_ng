@@ -64,6 +64,16 @@ class BrandAdmin(BrandClubAdmin):
     ]
     form = BrandAdminForm
     filter_horizontal = ('competitors', )
+    actions = ['remove_all_associated_content']
+
+    def remove_all_associated_content(self, request, queryset):
+        for brand in queryset:
+            stores = brand.stores.all()
+            for st in stores:
+                contents = OrderedStoreContent.objects.filter(store=st)
+                for c in contents:
+                    c.delete()
+        self.message_user(request, "Successfully removed all the related contents.")
 
 
 class ClusterAdmin(admin.ModelAdmin):
