@@ -58,11 +58,11 @@
     {% block navbar_redirect_to_cluster %}
         <div class="navbar navbar-fixed-bottom">
                 {% if to == "store" %}
-                    <a onclick='call_log(-2, window.log_info.home_device_id, readCookie("user_unique_id"), "Store Home", "page load", "");window.history.back(); return false;'
+                    <a onclick='log_and_back(-2, window.log_info.home_device_id, "Store Home", "page load");'
                        style="text-align: center; text-decoration: no-underline; cursor: pointer;">
                     <h4>Back to the store!</h4>
                 {% else %}
-                    <a onclick='call_log(-1, window.log_info.home_device_id, readCookie("user_unique_id"), "Cluster Home", "page load", "");window.history.back(); return false;'
+                    <a onclick='log_and_back(-1, window.log_info.home_device_id, "Cluster Home", "page load");'
                        style="text-align: center; text-decoration: no-underline; cursor: pointer;">
                     <h4>More stores around you!</h4>
                 {% endif %}
@@ -78,8 +78,14 @@
     {% tracking_code %}
     <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/click.log.js' %}"></script>
-
     <script src="{% static 'js/call_log.js' %}"></script>
+    <script>
+        function log_and_back(content_id, device_id, page_name, user_action) {
+            call_log(content_id, device_id, readCookie("user_unique_id"), page_name, user_action, "");
+            setTimeout(window.history.back(), 500);
+            return false;
+        }
+    </script>
 {% block extra_js %}{% endblock %}
     <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>
 </body>
