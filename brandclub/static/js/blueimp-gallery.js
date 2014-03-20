@@ -842,7 +842,7 @@
                 var i = this.index;
                 var href = $(this.list[i]).data("target-url");
                 if(typeof href !== 'undefined' && href !== '') {
-                    window.location.href = href;
+                    logAndRedirect(this, href);
                 }
                 this.toggleControls();
             }

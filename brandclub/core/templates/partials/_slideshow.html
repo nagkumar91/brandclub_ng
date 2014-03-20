@@ -22,7 +22,11 @@
                 </div>
                 <div class="links">
                     {% for i in content.image.all %}
-                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
+                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
+                            data-log-brand-name="{{ content.own_store.brand.name }}"
+                            data-log-content-name="{{ content.name }}"
+                            data-log-content-type="{{ content.content_type }}"
+                            data-log-content-id="{{ content.id }}"></a>
                     {% endfor %}
                 </div>
             </div>
