@@ -16,6 +16,7 @@ def log_data(**kwargs):
     date_time = kwargs.get('date_time', '')
     if date_time == '':
         date_time = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+    mac_address = kwargs.get('mac_address', '')
     device = get_object_or_None(Device, device_id=post_params['device_id'])
     home_store = device.store
     home_brand = home_store.brand
@@ -40,7 +41,7 @@ def log_data(**kwargs):
             content_owner_brand_id = content_owner_brand.id
             content_owner_brand_name = content_owner_brand.name
 
-    log_info = dict(mac_address=kwargs['mac_address'],
+    log_info = dict(mac_address=mac_address,
         access_date=date_time,
         content_id=post_params['content_id'],
         content_name=content_name,
