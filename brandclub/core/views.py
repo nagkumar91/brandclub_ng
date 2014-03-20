@@ -290,6 +290,10 @@ def call_log(request):
                                                                               timezone.get_default_timezone()),
                       mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
                       user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data(post_params=request.POST, date_time=timezone.make_aware(datetime.datetime.now(),
+    #                                                                           timezone.get_default_timezone()),
+    #                   mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
+    #                   user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -353,8 +357,8 @@ def authorize_free_internet(request):
 
 
 def verify_log(request):
-    logs = Log.objects.all().order_by("-access_date")
-    logs = list(logs)
+    logs = Log.objects.all().order_by("-access_date")[:10]
+    # logs = list(logs)
     context_instance = RequestContext(request,
                                       {"logs": logs})
     return render_to_response("verify_log.html", context_instance)

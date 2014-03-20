@@ -10,6 +10,8 @@
         <table class="table-striped table">
             <thead>
                 <tr>
+                    <th>Sl No</th>
+                    <th>Access date</th>
                     <th>mac_address</th>
                     <th>content_id</th>
                     <th>content_name</th>
@@ -31,6 +33,8 @@
             <tbody>
                 {% for l in logs %}
                 <tr>
+                    <td>{{ l.id }}</td>
+                    <td>{{ l.access_date }}</td>
                     <td>{{ l.mac_address}}</td>
                     <td>{{ l.content_id}}</td>
                     <td>{{ l.content_name}}</td>

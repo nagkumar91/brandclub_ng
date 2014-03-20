@@ -37,6 +37,7 @@ def log_data(**kwargs):
             content_owner_brand_name = content_owner_brand.name
 
     log_info = dict(mac_address=kwargs['mac_address'],
+        access_date=post_params['date_time'],
         content_id=post_params['content_id'],
         content_name=content_name,
         content_type=content_type,
