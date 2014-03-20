@@ -1,3 +1,4 @@
+from time import timezone
 from annoying.functions import get_object_or_None
 import datetime
 from .models import Device, Content, Log
@@ -12,6 +13,9 @@ content_type_mapping = {
 
 def log_data(**kwargs):
     post_params = kwargs['post_params']
+    date_time = kwargs.get('date_time', '')
+    if date_time == '':
+        date_time = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     device = get_object_or_None(Device, device_id=post_params['device_id'])
     home_store = device.store
     home_brand = home_store.brand
@@ -37,7 +41,7 @@ def log_data(**kwargs):
             content_owner_brand_name = content_owner_brand.name
 
     log_info = dict(mac_address=kwargs['mac_address'],
-        access_date=post_params['date_time'],
+        access_date=date_time,
         content_id=post_params['content_id'],
         content_name=content_name,
         content_type=content_type,
