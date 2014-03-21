@@ -123,21 +123,20 @@ def slideshow(request, ssid):
 def wallpaper_fullscreen(request, wid):
     wallpaper = get_object_or_404(Wallpaper, id=wid)
     if wallpaper is not None:
+        location = wallpaper.content_location
         store = wallpaper.store.all()
         if store.exists():
             store = store[0]
             brand = store.brand
             redirect = "/home/%s/" % store.slug_name
-            to = "store"
         else:
             device_id = request.device_id
             device = Device.objects.select_related("store").get(device_id=device_id)
             store = device.store
             brand = store.brand
             redirect = "/%s/" % store.slug_name
-            to = "store"
         context_instance = RequestContext(request,
-                                          {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
+                                          {'content': wallpaper, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("wallpaper_fullscreen.html", context_instance)
     return "Wallpaper not found"
 
@@ -145,21 +144,20 @@ def wallpaper_fullscreen(request, wid):
 def web_fullscreen(request, wid):
     web = get_object_or_404(Web, id=wid)
     if web is not None:
+        location = web.content_location
         store = web.store.all()
         if store.exists():
             store = store[0]
             brand = store.brand
             redirect = "/home/%s/" % store.slug_name
-            to = "store"
         else:
             device_id = request.device_id
             device = Device.objects.select_related("store").get(device_id=device_id)
             store = device.store
             brand = store.brand
             redirect = "/%s/" % store.slug_name
-            to = "store"
         context_instance = RequestContext(request,
-                                              {'content': web, "redirect": redirect, "to": to, "brand": brand})
+                                              {'content': web, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("web_template.html", context_instance)
     return "Wallpaper not found"
 
