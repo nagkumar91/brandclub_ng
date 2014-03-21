@@ -1,4 +1,4 @@
-from time import timezone
+from django.utils import timezone
 from annoying.functions import get_object_or_None
 import datetime
 from .models import Device, Content, Log
@@ -29,12 +29,12 @@ def log_data(**kwargs):
     content_owner_brand_id = 0
     content_owner_brand_name = ''
     content = get_object_or_None(Content, pk=post_params['content_id'])
-    if content is not None and int(content.content_location) is not 3:
+    if content is not None:
         content_name = content.name
         content_location_int = int(content.content_location)
         content_location = content_type_mapping[content_location_int]
         content_type = content.content_type.name
-        if content.store:
+        if content.store and int(content.content_location) is not 3:
             content_owner_store = content.store.all()[:1]
             content_owner_store = content_owner_store[0]
             content_owner_brand = content_owner_store.brand
