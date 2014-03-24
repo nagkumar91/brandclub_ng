@@ -165,27 +165,33 @@ class Cluster(CachingMixin, TimeStampedModel):
         lon = to_degrees(lon)
         return lat, lon
 
-    def create_atm_for_cluster(self, image_file):
+    def create_wallpaper_for_cluster_info(self, image_file, img_type):
         wallpaper_ctype, flag = ContentType.objects.get_or_create(name="Wallpaper")
-        widget_name = "ATMs in %s" % self.name
-        atm_wall = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
+        widget_name = "%ss in %s" % (img_type.title().replace('_', ' '), self.name)
+        wall_obj = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
                                             thumbnail=image_file, content_type=wallpaper_ctype, file=image_file)
-        atm_wall.save()
-        self.content.add(atm_wall)
+        self.content.add(wall_obj)
         self.save()
 
-    def _create_map_of_all_atms(self):
-        if self.map_name is not None:
-            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', self.map_name)
-            if file_name is not None:
-                os.remove(file_name)
-            widget_name = "ATMs in %s" % self.name
+    def _create_static_map(self, img_type):
+        widget_name = "%ss in %s" % (img_type.title().replace('_', ' '), self.name)
+        try:
+            if self.map_name is not None:
+                file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type, self.map_name)
+                if file_name is not None:
+                    os.remove(file_name)
+                obj = Wallpaper.objects.all().filter(name=widget_name).delete()
+                obj.save()
+        except OSError:
             obj = Wallpaper.objects.all().filter(name=widget_name).delete()
+            dir = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type)
+            if not os.path.exists(dir):
+                os.makedirs(dir)
 
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
               'key=%s&location=%s,%s' \
-              '&radius=2000&sensor=false&types=atm&' % (settings.GOOGLE_STATIC_MAP_KEY, center_lat, center_lon)
+              '&radius=2000&sensor=false&types=%s&' % (settings.GOOGLE_STATIC_MAP_KEY, center_lat, center_lon, img_type)
         r = requests.get(url, stream=True)
         bank_lat_long = []
         if r.status_code == 200:
@@ -202,17 +208,17 @@ class Cluster(CachingMixin, TimeStampedModel):
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
             name = u"%s.png" % uuid.uuid4()
-            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_atms')
+            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_%s' % img_type)
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', name)
+            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%s' % img_type, name)
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
             self.map_name = name
             self.save()
-            self.create_atm_for_cluster(file_name)
+            self.create_wallpaper_for_cluster_info(file_name, img_type)
 
 
 class Store(CachingMixin, TimeStampedModel):
