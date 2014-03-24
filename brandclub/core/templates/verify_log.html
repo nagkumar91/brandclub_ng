@@ -24,10 +24,8 @@
                     <th>location_cluster_name</th>
                     <th>page_title</th>
                     <th>user_unique_id</th>
-                    <th>user_ip_address</th>
-                    <th>referrer</th>
+                    <th>redirect url</th>
                     <th>action</th>
-                    <th>user_agent</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,10 +45,8 @@
                     <td>{{ l.location_cluster_name}}</td>
                     <td>{{ l.page_title}}</td>
                     <td>{{ l.user_unique_id}}</td>
-                    <td>{{ l.user_ip_address}}</td>
-                    <td>{{ l.referrer}}</td>
+                    <td>{{ l.redirect_url}}</td>
                     <td>{{ l.action}}</td>
-                    <td>{{ l.user_agent}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

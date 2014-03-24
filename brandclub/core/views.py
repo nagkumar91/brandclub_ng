@@ -15,7 +15,7 @@ from .helpers import id_generator
 
 from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
-    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog
+    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -116,7 +116,9 @@ def redirect_to_outside(request):
 
 def slideshow(request, ssid):
     slides = get_object_or_None(SlideShow, id=ssid)
-    context_instance = RequestContext(request, {'content': slides})
+    osc = OrderedStoreContent.objects.filter(content=slides)[:1]
+    osc = osc[0]
+    context_instance = RequestContext(request, {'content': slides, 'owner_brand': osc.store.brand.name})
     return render_to_response('slide_show.html', context_instance)
 
 
