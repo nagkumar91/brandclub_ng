@@ -180,14 +180,10 @@ class Cluster(CachingMixin, TimeStampedModel):
                 file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type, self.map_name)
                 if file_name is not None:
                     os.remove(file_name)
-                obj = Wallpaper.objects.all().filter(name=widget_name).delete()
-                obj.save()
         except OSError:
-            obj = Wallpaper.objects.all().filter(name=widget_name).delete()
-            dir = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type)
-            if not os.path.exists(dir):
-                os.makedirs(dir)
+            pass
 
+        obj = Wallpaper.objects.all().filter(name=widget_name).delete()
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
               'key=%s&location=%s,%s' \
@@ -208,11 +204,11 @@ class Cluster(CachingMixin, TimeStampedModel):
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
             name = u"%s.png" % uuid.uuid4()
-            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_%s' % img_type)
+            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type)
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%s' % img_type, name)
+            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type, name)
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
