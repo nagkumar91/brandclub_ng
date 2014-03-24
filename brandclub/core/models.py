@@ -184,8 +184,8 @@ class Cluster(CachingMixin, TimeStampedModel):
 
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
-              'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
-              '&radius=2000&sensor=false&types=atm&' % (center_lat, center_lon)
+              'key=%s&location=%s,%s' \
+              '&radius=2000&sensor=false&types=atm&' % (settings.GOOGLE_STATIC_MAP_KEY, center_lat, center_lon)
         r = requests.get(url, stream=True)
         bank_lat_long = []
         if r.status_code == 200:

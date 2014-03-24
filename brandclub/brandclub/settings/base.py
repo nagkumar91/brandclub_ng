@@ -340,3 +340,4 @@ CONTENT_ID_MAPPING = {-1: "Cluster Home",
 CONTENT_ID_ARRAY = [-1, -2, -3, -4, -5, -6]
 LOG_SAVE_PATH = "/tmp/bc_logs_csv/"
 AWS_BUCKET_NAME = 'tib.bcng.content'
+GOOGLE_STATIC_MAP_KEY = 'AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8'
