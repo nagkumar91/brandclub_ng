@@ -75,3 +75,6 @@ REPORT_DOWNLOAD_PATH = "/data/ckeditor/reporting/downloads"
 LOG_SAVE_PATH = "/data/ckeditor/reporting/logs"
 TIME_ZONE = 'Asia/Calcutta'
 MEDIA_ROOT = '/bclub/media/'
+MAILING_LIST = 'nagkumar@telibrahma.com, prakash@telibrahma.com'
+MAILGUN_API_KEY = 'key-1-j3498psszetjazh3-e1o5c6qgn60v4'
+MAILGUN_HOST = 'https://api.mailgun.net/v2/sandbox28548.mailgun.org/messages'

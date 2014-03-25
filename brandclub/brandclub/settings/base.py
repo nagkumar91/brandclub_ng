@@ -341,3 +341,6 @@ CONTENT_ID_ARRAY = [-1, -2, -3, -4, -5, -6]
 LOG_SAVE_PATH = "/tmp/bc_logs_csv/"
 AWS_BUCKET_NAME = 'tib.bcng.content'
 GOOGLE_STATIC_MAP_KEY = 'AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8'
+MAILGUN_API_KEY = 'key-3ax6xnjp29jd6fds4gc373sgvjxteol0'
+MAILGUN_HOST = 'https://api.mailgun.net/v2/sandbox53047.mailgun.org/messages'
+MAILING_LIST = 'santosh.s@telibrahma.com, santhosh@telibrahma.com, nagkumar@telibrahma.com, brandclub@telibrahma.com'
