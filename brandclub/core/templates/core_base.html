@@ -94,7 +94,9 @@
     <script>
         function log_and_back(content_id, device_id, page_name, user_action) {
             call_log(content_id, device_id, readCookie("user_unique_id"), page_name, user_action, "");
-            setTimeout(window.history.back(), 500);
+            setTimeout(function(){
+                window.history.back()
+            }, 600);
             return false;
         }
     </script>
