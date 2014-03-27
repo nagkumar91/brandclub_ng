@@ -23,47 +23,36 @@
              data-log-content-name="{{ content.name }}"
              data-log-content-type="{{ content.content_type }}"
              data-log-content-id="{{ content.id }}"
-             data-content-distance="{{ content.distance_from_home_store }}"
-             data-content-paid-status={{ content.paid
-        }}>
-        <div class="img-frame">
-            <div class="image-wrapper content-panel">
-                <a class="content-link img-preview"
-                   data-log-brand-name="{{ content.own_store.brand.name }}"
-                   data-log-content-name="{{ content.name }}"
-                   data-log-content-type="{{ content.content_type }}"
-                   data-log-content-id="{{ content.id }}"
-                   data-device-id="{{ content.device_id }}"
-                   data-redirect-url="{{ content.url|urlencode }}">
-                    <img class="img-responsive image"
-                         src="{{ content.thumbnail_url |default_if_none:'#' }}"
-                         alt="{{ c.name }}"/>
-                </a>
-            </div>
-            <div class="row info-panel">
-                <div class="icons col-xs-8">
-                    <h5>{{ content.name }}</h5>
+             data-content-distance="{{ content.distance_from_home_store }}">
+            <div class="img-frame">
+                <div class="image-wrapper content-panel">
+                    <a class="content-link img-preview"
+                       data-log-brand-name="{{ content.own_store.brand.name }}"
+                       data-log-content-name="{{ content.name }}"
+                       data-log-content-type="{{ content.content_type }}"
+                       data-log-content-id="{{ content.id }}"
+                       data-device-id="{{ content.device_id }}"
+                       data-redirect-url="{{ content.url|urlencode }}"
+                       data-from-box-url="/home/{{ content.own_store.slug_name }}/">
+                        <img class="img-responsive image"
+                             src="{{ content.thumbnail_url |default_if_none:'#' }}"
+                             alt="{{ c.name }}"/>
+                    </a>
                 </div>
-                <div class="col-xs-4">
+                <div class="row info-panel">
+                    <div class="icons col-xs-8">
+                        <h5>{{ content.name }}</h5>
+                    </div>
+                    <div class="col-xs-4">
+
+                    </div>
                 </div>
+
+                <p>{{ content.short_description }}</p>
             </div>
-            <div class="image-wrapper">
-                <a class="content-link img-preview"
-                   onclick="logAndRedirect(this, '/home/'+'{{ content.own_store.slug_name }}')"
-                   data-log-brand-name="{{ content.own_store.brand.name }}"
-                   data-log-content-name="{{ content.name }}"
-                   data-log-content-type="{{ content.content_type }}"
-                   data-log-content-id="{{ content.id }}">
-                    <img class="img-responsive image"
-                         src="{{ content.thumbnail_url |default_if_none:'#' }}"
-                         alt="{{ c.name }}"/>
-                </a>
-            </div>
-            <p>{{ content.short_description }}</p>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 </div>
 {% endblock %}
 {% block navbar_bottom %}
@@ -73,30 +62,17 @@
 <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
 <script>
-    imagesLoaded($('.masonry'), function (instance) {
-        $('.masonry').fadeIn(1000).isotope({
-            itemSelector: '.brandclub-widget',
-            layoutMode: 'fitRows',
-            sortBy: 'distance',
-            getSortData: {
-                distance: function ($elem) {
-                    var paid = -1;
-                    if ($elem.attr('data-content-paid-status') == 'False')
-                        paid = 1;
-                    var number = paid * parseFloat($elem.attr('data-content-distance'));
-                    if ((parseFloat($elem.attr('data-content-distance'))) == 0 && paid == -1)
-                        return -Number.MAX_VALUE;
-                    return number;
-                },
-                paid: function ($elem) {
-                    if ($elem.attr('data-content-paid-status') == 'False')
-                        return 'z';
-                    else
-                        return 'a';
-                }
+    $('.masonry').isotope({
+        itemSelector: '.brandclub-widget',
+        layoutMode: 'fitRows',
+        sortBy: 'distance',
+        getSortData: {
+            distance: function ($elem) {
+                return parseFloat($elem.attr('data-content-distance'));
             }
-        });
+        }
     });
+
     var contentPanel = $(".content-panel");
     contentPanel.click(function (e) {
         e.preventDefault();
@@ -116,6 +92,7 @@
             }
         }
     });
+
 </script>
 <script>
     $(document).ready(function () {
