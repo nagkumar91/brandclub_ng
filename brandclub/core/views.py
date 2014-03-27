@@ -57,7 +57,7 @@ def home_cluster_hid(request, hid=""):
             setattr(c, "device_id", content_device[0].device_id)
         context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
-        return render_to_response('home_hid.html', context_instance)
+        return render_to_response('home.html', context_instance)
     context_instance = RequestContext(request, {'device': device})
     return render_to_response('default.html', context_instance)
 
