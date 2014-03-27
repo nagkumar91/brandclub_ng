@@ -2,6 +2,7 @@ from annoying.functions import get_object_or_None
 from caching.base import CachingMixin, CachingManager
 import datetime
 from django.core.cache import cache
+from django.db.models import Q
 from math import cos, sin, atan2, sqrt
 from urllib import urlencode
 import uuid
@@ -18,6 +19,9 @@ import requests
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
     ContentTypeRestrictedFileField
 from south.modelsinspector import add_introspection_rules
+from django_earthdistance.expressions import DistanceExpression
+from django_earthdistance.functions import CubeDistance, LlToEarth
+from djorm_expressions.models import ExpressionManager
 
 
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
@@ -217,6 +221,24 @@ class Cluster(CachingMixin, TimeStampedModel):
             self.create_wallpaper_for_cluster_info(file_name, img_type)
 
 
+class StoreManager(ExpressionManager):
+    def get_stores_in_radius(self, lat, lng, radius=2500):
+        latitude = float(lat)
+        longitude = float(lng)
+        stores = Store.objects.filter(~Q(brand_id=53)).annotate_functions(
+            distance=CubeDistance(
+                LlToEarth([latitude, longitude]), LlToEarth(['latitude', 'longitude'])
+            )
+        ).where(
+            DistanceExpression(['latitude', 'longitude']).in_distance(radius, [latitude, longitude])
+        ).order_by('distance')
+
+        if len(stores) >= 1:
+            return stores[0]
+        return None
+
+
+
 class Store(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     slug_name = models.SlugField(max_length=100, default="")
@@ -237,7 +259,7 @@ class Store(CachingMixin, TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
-    objects = CachingManager()
+    objects = StoreManager()
 
     def get_distance_from(self, new_store):
         r = 6371
@@ -251,6 +273,7 @@ class Store(CachingMixin, TimeStampedModel):
 
     def create_slug(self):
         return slugify(self.name)
+
 
     def get_content_for_store(self, device_id=None):
         cache_key = "Store-Home-%s" % self.id

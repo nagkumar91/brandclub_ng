@@ -19,3 +19,4 @@ boto
 django-tastypie
 celery
 django-celery
+django-earthdistance

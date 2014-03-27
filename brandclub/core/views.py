@@ -364,3 +364,17 @@ def verify_log(request):
     context_instance = RequestContext(request,
                                       {"logs": logs})
     return render_to_response("verify_log.html", context_instance)
+
+
+def get_stores_within_range(request, latitude, longitude, radius):
+    store = Store.objects.get_stores_in_radius(latitude, longitude)
+
+    default_device = settings.DEFAULT_DEVICE_ID
+    if store:
+        devices = store.devices.all()
+        if len(devices) > 0:
+            return HttpResponse(devices[0].device_id, content_type='text/plain')
+    return  HttpResponse(default_device, content_type='text/plain')
+
+
+
