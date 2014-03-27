@@ -1,19 +1,9 @@
-import csv
 import datetime
-from django.conf import settings
 from django.core.management import BaseCommand
-import os
 import sys
-from core.models import Device, Brand, Store, Content
+from core.models import Content
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
 import requests
-
-if "mailer" in settings.INSTALLED_APPS:
-    from mailer import send_mail
-else:
-    from django.core.mail import send_mail
-
 content_type_mapping = {
     1: 'Store Home',
     2: 'Cluster Home',
