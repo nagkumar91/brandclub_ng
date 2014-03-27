@@ -14,8 +14,8 @@ $(function($) {
             fullScreen:true,
             preloadRange: 100,
             onslidecomplete: function(){
-                var user_unique_id = readCookie("user_unique_id");
-                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Slide", '');
+//                var user_unique_id = readCookie("user_unique_id");
+//                call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Slide", '');
             }
         });
 
@@ -23,12 +23,18 @@ $(function($) {
     $(document).ready(function(){
         var videos = $('video');
         $(videos).each(function(index){
-            videos[index].addEventListener('play', video_play_listener, false)
+            videos[index].addEventListener('play', video_play_listener, false);
+            videos[index].addEventListener('pause', video_pause_listener, false);
         });
     });
     function video_play_listener(){
         var content_id = $(this).attr('data-log-content-id');
         var user_unique_id = readCookie("user_unique_id");
         call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Video Play", '');
+    }
+    function video_pause_listener(){
+        var content_id = $(this).attr('data-log-content-id');
+        var user_unique_id = readCookie("user_unique_id");
+        call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "Video Pause", '');
     }
 }(jQuery));

@@ -110,3 +110,4 @@ REPORT_DOWNLOAD_PATH = os.path.join(MEDIA_ROOT, 'reports')
 
 AWS_BUCKET_NAME = 'tib.bcng.content'
 
+TIME_ZONE = 'Asia/Calcutta'

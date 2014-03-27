@@ -109,8 +109,8 @@ class Command(BaseCommand):
             f.write(response.content)
             f.close()
 
-    def _generate_free_internet(self, store_id, cluster_id, device_id, static_dir):
-        page = "/free_internet_confirm/"
+    def _generate_free_internet(self, content_id, cluster_id, device_id, static_dir):
+        page = "/free_internet_confirm/%s/" % content_id
         response = self.generate_response(cluster_id, device_id, page)
         output_file = "%s/free_internet_confirm" % static_dir
         with open(output_file, 'w') as f:

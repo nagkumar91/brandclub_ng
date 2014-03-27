@@ -102,6 +102,5 @@ AWS_ACCESS_KEY = 'AKIAIOHZ3UXUTZ6EETWA'
 AWS_SECRET_KEY = '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'
 AWS_BUCKET_NAME = 'test.bcng.content'
 DEBUG = True
-
-
-
+TIME_ZONE = 'Asia/Calcutta'
+MAILING_LIST = 'sunil@telibrahma.com, nagkumar@telibrahma.com'

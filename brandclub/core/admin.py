@@ -70,22 +70,93 @@ class ClusterAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', )
     filter_horizontal = ('content', )
     search_fields = ('name',)
-    actions = ['create_atm_map_for_cluster']
+    actions = ['create_atm_map_for_cluster',
+               'create_airport_map_for_cluster',
+               'create_amusement_park_for_cluster',
+               'create_bank_map_for_cluster',
+               'create_bus_station_map_for_cluster',
+               'create_embassy_map_for_cluster',
+               'create_fire_station_map_for_cluster',
+               'create_gas_station_map_for_cluster',
+               'create_hospital_map_for_cluster',
+               'create_parking_map_for_cluster',
+               'create_stadium_map_for_cluster',
+               'create_subway_station_map_for_cluster',
+               'create_taxi_stand_map_for_cluster',
+               'create_train_station_map_for_cluster']
     inlines = [
         StoreInlineAdmin
     ]
 
     def create_atm_map_for_cluster(self, request, queryset):
         for c in queryset:
-            c._create_map_of_all_atms()
+            c._create_static_map('atm')
         self.message_user(request, "Successfully created the map image.")
 
-    actions = ['generate_atm_images']
+    def create_airport_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('airport')
+        self.message_user(request, "Successfully created the map image.")
 
-    def generate_atm_images(self, request, queryset):
-        for clust in queryset:
-            clust._create_map_of_all_atms()
-        self.message_user(request, "Successfully generated images.")
+    def create_amusement_park_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('amusement_park')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_bank_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('bank')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_bus_station_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('bus_station')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_embassy_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('embassy')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_fire_station_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('fire_station')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_gas_station_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('gas_station')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_hospital_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('hospital')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_parking_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('parking')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_stadium_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('stadium')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_subway_station_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('subway_station')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_taxi_stand_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('taxi_stand')
+        self.message_user(request, "Successfully created the map image.")
+
+    def create_train_station_map_for_cluster(self, request, queryset):
+        for c in queryset:
+            c._create_static_map('train_station')
+        self.message_user(request, "Successfully created the map image.")
 
 
 class DeviceAdmin(admin.ModelAdmin):

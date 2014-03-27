@@ -10,9 +10,10 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/blueimp-gallery.css' %}"/>
     <style>
-        .blueimp-gallery, .blueimp-gallery > .slides > .slide > .slide-content  {
+        .blueimp-gallery, .blueimp-gallery > .slides > .slide > .slide-content {
             position: absolute;
         }
+
         .blueimp-gallery > .slides {
             background: black;
         }
@@ -30,12 +31,15 @@
         <a class="play-pause"></a>
         <a class="close">x</a>
     </div>
-        <div id="links" data-log-content-id="{{ content.id }}">
-            {% for i in content.image.all %}
-                    <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
-                       title="{{ i.caption }}"></a>
-            {% endfor %}
-        </div>
+    <div id="links" data-log-content-id="{{ content.id }}">
+        {% for i in content.image.all %}
+            <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
+               title="{{ i.caption }}" data-log-content-id="{{ content.id }}"
+               data-log-content-name="{{ content.name }}"
+               data-log-content-type="{{ content.content_type }}"
+               data-log-brand-name="{{ owner_brand }}"></a>
+        {% endfor %}
+    </div>
 {% endblock %}
 {% block navbar_bottom %}
 {% endblock %}
@@ -44,7 +48,7 @@
     <script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>
     {% block logging %}
         <script>
-            $(document).ready(function(){
+            $(document).ready(function () {
                 var user_unique_id = readCookie("user_unique_id");
                 call_log({{ content.id }}, window.log_info.home_device_id, user_unique_id, "Slide Show Fullscreen", "page load", "");
             });

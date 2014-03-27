@@ -1,9 +1,12 @@
 function logAndRedirect(tag, redirect_url)   {
+    console.log("Log and redirect function. Redirect URL is " + redirect_url);
+    console.log("tag is");
+    console.log(tag);
     var $this = $(tag);
-    var content_name = $this.data("log-content-name");
-    var content_type = $this.data("log-content-type");
-    var content_owner = $this.data("log-brand-name");
-    var content_id = $this.data("log-content-id");
+    var content_name = $this.attr("data-log-content-name");
+    var content_type = $this.attr("data-log-content-type");
+    var content_owner = $this.attr("data-log-brand-name");
+    var content_id = $this.attr("data-log-content-id");
     var user_unique_id = readCookie("user_unique_id");
     call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "redirect click", redirect_url);
     _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);

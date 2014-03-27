@@ -2,6 +2,7 @@ from annoying.functions import get_object_or_None
 from caching.base import CachingMixin, CachingManager
 import datetime
 from django.core.cache import cache
+from django.db.models import Q
 from math import cos, sin, atan2, sqrt
 from urllib import urlencode
 import uuid
@@ -18,6 +19,9 @@ import requests
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
     ContentTypeRestrictedFileField
 from south.modelsinspector import add_introspection_rules
+from django_earthdistance.expressions import DistanceExpression
+from django_earthdistance.functions import CubeDistance, LlToEarth
+from djorm_expressions.models import ExpressionManager
 
 
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
@@ -60,6 +64,7 @@ class Brand(CachingMixin, TimeStampedModel):
     slug_name = models.SlugField(max_length=100, unique=True)
     footfall = models.IntegerField(null=True, default=0)
     description = models.TextField(null=True, blank=True)
+    paid = models.BooleanField(default=True)
     active = models.BooleanField(default=True)
     logo = models.ImageField(upload_to=upload_and_rename_thumbnail)
     bg_image = models.ImageField(upload_to="brand_background", blank=True, null=True)
@@ -125,6 +130,7 @@ class Cluster(CachingMixin, TimeStampedModel):
             dist -= dist % -10
             setattr(content, 'distance_from_home_store', int(dist))
             setattr(content, 'own_store', stores_in_cluster[0])
+            setattr(content, 'paid', content_owner.brand.paid)
         return contents
 
     def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
@@ -170,27 +176,29 @@ class Cluster(CachingMixin, TimeStampedModel):
         lon = to_degrees(lon)
         return lat, lon
 
-    def create_atm_for_cluster(self, image_file):
+    def create_wallpaper_for_cluster_info(self, image_file, img_type):
         wallpaper_ctype, flag = ContentType.objects.get_or_create(name="Wallpaper")
-        widget_name = "ATMs in %s" % self.name
-        atm_wall = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
+        widget_name = "%ss in %s" % (img_type.title().replace('_', ' '), self.name)
+        wall_obj = Wallpaper.objects.create(name=widget_name, short_description=widget_name, content_location="3",
                                             thumbnail=image_file, content_type=wallpaper_ctype, file=image_file)
-        atm_wall.save()
-        self.content.add(atm_wall)
+        self.content.add(wall_obj)
         self.save()
 
-    def _create_map_of_all_atms(self):
-        if self.map_name is not None:
-            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', self.map_name)
-            if file_name is not None:
-                os.remove(file_name)
-            widget_name = "ATMs in %s" % self.name
-            obj = Wallpaper.objects.all().filter(name=widget_name).delete()
+    def _create_static_map(self, img_type):
+        widget_name = "%ss in %s" % (img_type.title().replace('_', ' '), self.name)
+        try:
+            if self.map_name is not None:
+                file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type, self.map_name)
+                if file_name is not None:
+                    os.remove(file_name)
+        except OSError:
+            pass
 
+        obj = Wallpaper.objects.all().filter(name=widget_name).delete()
         center_lat, center_lon = self._find_center_of_cluster()
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' \
-              'key=AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8&location=%s,%s' \
-              '&radius=2000&sensor=false&types=atm&' % (center_lat, center_lon)
+              'key=%s&location=%s,%s' \
+              '&radius=2000&sensor=false&types=%s&' % (settings.GOOGLE_STATIC_MAP_KEY, center_lat, center_lon, img_type)
         r = requests.get(url, stream=True)
         bank_lat_long = []
         if r.status_code == 200:
@@ -207,17 +215,35 @@ class Cluster(CachingMixin, TimeStampedModel):
         r = requests.get(map_image_url, stream=True)
         if r.status_code == 200:
             name = u"%s.png" % uuid.uuid4()
-            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_atms')
+            directory = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type)
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_atms', name)
+            file_name = os.path.join(settings.MEDIA_ROOT, 'cluster_%ss' % img_type, name)
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(1024):
                     f.write(chunk)
             self.map_name = name
             self.save()
-            self.create_atm_for_cluster(file_name)
+            self.create_wallpaper_for_cluster_info(file_name, img_type)
+
+
+class StoreManager(ExpressionManager):
+    def get_stores_in_radius(self, lat, lng, radius=2500):
+        latitude = float(lat)
+        longitude = float(lng)
+        stores = Store.objects.filter(~Q(brand_id=53)).annotate_functions(
+            distance=CubeDistance(
+                LlToEarth([latitude, longitude]), LlToEarth(['latitude', 'longitude'])
+            )
+        ).where(
+            DistanceExpression(['latitude', 'longitude']).in_distance(radius, [latitude, longitude])
+        ).order_by('distance')
+
+        if len(stores) >= 1:
+            return stores[0]
+        return None
+
 
 
 class Store(CachingMixin, TimeStampedModel):
@@ -240,7 +266,7 @@ class Store(CachingMixin, TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
 
-    objects = CachingManager()
+    objects = StoreManager()
 
     def get_distance_from(self, new_store):
         r = 6371
@@ -254,6 +280,7 @@ class Store(CachingMixin, TimeStampedModel):
 
     def create_slug(self):
         return slugify(self.name)
+
 
     def get_content_for_store(self, device_id=None):
         cache_key = "Store-Home-%s" % self.id

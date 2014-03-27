@@ -1,3 +1,4 @@
+from django.utils import timezone
 from annoying.functions import get_object_or_None
 import datetime
 from .models import Device, Content, Log
@@ -12,6 +13,10 @@ content_type_mapping = {
 
 def log_data(**kwargs):
     post_params = kwargs['post_params']
+    date_time = kwargs.get('date_time_custom', '')
+    if date_time == '':
+        date_time = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+    mac_address = kwargs.get('mac_address', '')
     device = get_object_or_None(Device, device_id=post_params['device_id'])
     home_store = device.store
     home_brand = home_store.brand
@@ -24,19 +29,20 @@ def log_data(**kwargs):
     content_owner_brand_id = 0
     content_owner_brand_name = ''
     content = get_object_or_None(Content, pk=post_params['content_id'])
-    if content is not None and int(content.content_location) is not 3:
+    if content is not None:
         content_name = content.name
         content_location_int = int(content.content_location)
         content_location = content_type_mapping[content_location_int]
         content_type = content.content_type.name
-        if content.store:
+        if content.store and int(content.content_location) is not 3:
             content_owner_store = content.store.all()[:1]
             content_owner_store = content_owner_store[0]
             content_owner_brand = content_owner_store.brand
             content_owner_brand_id = content_owner_brand.id
             content_owner_brand_name = content_owner_brand.name
 
-    log_info = dict(mac_address=kwargs['mac_address'],
+    log_info = dict(mac_address=mac_address,
+        access_date=date_time,
         content_id=post_params['content_id'],
         content_name=content_name,
         content_type=content_type,

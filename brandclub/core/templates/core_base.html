@@ -5,9 +5,13 @@
 <head>
     <meta charset="utf-8">
     <title>Brand Club {% block title %} | Home{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui" id="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}"/>
     {% block project_css %}
@@ -53,11 +57,25 @@
 {% block navbar_bottom %}
     {% block navbar_redirect_to_cluster %}
         <div class="navbar navbar-fixed-bottom">
-            <a href="{{ redirect }}"
-                    style="text-align: center; text-decoration: no-underline;">
                 {% if to == "store" %}
+                    <a onclick='log_and_back(-2, window.log_info.home_device_id, "Store Home", "page load");'
+                       style="text-align: center; text-decoration: no-underline; cursor: pointer;">
                     <h4>Back to the store!</h4>
+                {% elif to == "Store Home" %}
+                    <a onclick='log_and_back(-2, window.log_info.home_device_id, "Store Home", "page load");'
+                       style="text-align: center; text-decoration: no-underline; cursor: pointer;">
+                    <h4>Back to the store!</h4>
+                {% elif to == "Store Info" %}
+                    <a onclick='log_and_back(-3, window.log_info.home_device_id, "Store Info", "page load");'
+                       style="text-align: center; text-decoration: no-underline; cursor: pointer;">
+                    <h4>Back to store info!</h4>
+                {% elif to == "Cluster Info" %}
+                    <a onclick='log_and_back(-4, window.log_info.home_device_id, "Cluster Info", "page load");'
+                       style="text-align: center; text-decoration: no-underline; cursor: pointer;">
+                    <h4>Back to cluster info!</h4>
                 {% else %}
+                    <a onclick='log_and_back(-1, window.log_info.home_device_id, "Cluster Home", "page load");'
+                       style="text-align: center; text-decoration: no-underline; cursor: pointer;">
                     <h4>More stores around you!</h4>
                 {% endif %}
             </a>
@@ -71,10 +89,18 @@
     <script type="text/javascript" src="{% static 'js/user_id_cookie.js' %}"></script>
     {% tracking_code %}
     <script type="text/javascript" src="{% static 'js/jquery.inview.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/click.log.js' %}"></script>
-
     <script src="{% static 'js/call_log.js' %}"></script>
+    <script>
+        function log_and_back(content_id, device_id, page_name, user_action) {
+            call_log(content_id, device_id, readCookie("user_unique_id"), page_name, user_action, "");
+            setTimeout(function(){
+                window.history.back()
+            }, 600);
+            return false;
+        }
+    </script>
 {% block extra_js %}{% endblock %}
+    <script type="text/javascript" src="{% static 'js/inview.logging.js' %}"></script>
 </body>
 </html>

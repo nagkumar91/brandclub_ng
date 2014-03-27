@@ -5,6 +5,11 @@
      data-log-content-id="{{ content.id }}">
     <div class="img-frame">
         <div class="image-wrapper">
+        <div class="info-panel">
+{#            <div class="icons col-xs-8">#}
+                <h5>{{ content.name }}</h5>
+{#            </div>#}
+        </div>
             <div id="ss-container-{{ content.id }}" data-slideshow-id="{{ content.id }}" data-log-content-id="{{ content.id }}"
                  class="slideshow">
                 <div id="slide-show-carousel-{{ content.id }}"
@@ -17,21 +22,21 @@
                 </div>
                 <div class="links">
                     {% for i in content.image.all %}
-                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"></a>
+                        <a href="{{ i.image.url }}" data-target-url="{{ i.target_url }}"
+                            data-log-brand-name="{{ content.own_store.brand.name }}"
+                            data-log-content-name="{{ content.name }}"
+                            data-log-content-type="{{ content.content_type }}"
+                            data-log-content-id="{{ content.id }}"></a>
                     {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="row info-panel">
-            <div class="icons col-xs-8">
-                <h5>{{ content.name }}</h5>
-            </div>
+        <div class="slideshow-template-description-table">
+            <p class="col-xs-8">{{ content.short_description }}</p>
             <div class="icons pull-right col-xs-2">
-                <a class="glyphicon glyphicon-fullscreen"
-                   href="/slideshow/{{ content.id }}"></a>
+                    <a class="glyphicon glyphicon-fullscreen"
+                       href="/slideshow/{{ content.id }}"></a>
             </div>
         </div>
-
-        <p>{{ content.short_description }}</p>
     </div>
 </div>

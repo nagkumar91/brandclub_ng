@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 import json
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .logging import log_data
 from django.views.decorators.csrf import csrf_exempt
@@ -14,7 +15,7 @@ from .helpers import id_generator
 
 from .forms import FeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
-    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog
+    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -115,28 +116,29 @@ def redirect_to_outside(request):
 
 def slideshow(request, ssid):
     slides = get_object_or_None(SlideShow, id=ssid)
-    context_instance = RequestContext(request, {'content': slides})
+    osc = OrderedStoreContent.objects.filter(content=slides)[:1]
+    osc = osc[0]
+    context_instance = RequestContext(request, {'content': slides, 'owner_brand': osc.store.brand.name})
     return render_to_response('slide_show.html', context_instance)
 
 
 def wallpaper_fullscreen(request, wid):
     wallpaper = get_object_or_404(Wallpaper, id=wid)
     if wallpaper is not None:
+        location = wallpaper.content_location
         store = wallpaper.store.all()
         if store.exists():
             store = store[0]
             brand = store.brand
             redirect = "/home/%s/" % store.slug_name
-            to = "store"
         else:
             device_id = request.device_id
             device = Device.objects.select_related("store").get(device_id=device_id)
             store = device.store
             brand = store.brand
             redirect = "/%s/" % store.slug_name
-            to = "store"
         context_instance = RequestContext(request,
-                                          {'content': wallpaper, "redirect": redirect, "to": to, "brand": brand})
+                                          {'content': wallpaper, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("wallpaper_fullscreen.html", context_instance)
     return "Wallpaper not found"
 
@@ -144,21 +146,20 @@ def wallpaper_fullscreen(request, wid):
 def web_fullscreen(request, wid):
     web = get_object_or_404(Web, id=wid)
     if web is not None:
+        location = web.content_location
         store = web.store.all()
         if store.exists():
             store = store[0]
             brand = store.brand
             redirect = "/home/%s/" % store.slug_name
-            to = "store"
         else:
             device_id = request.device_id
             device = Device.objects.select_related("store").get(device_id=device_id)
             store = device.store
             brand = store.brand
             redirect = "/%s/" % store.slug_name
-            to = "store"
         context_instance = RequestContext(request,
-                                              {'content': web, "redirect": redirect, "to": to, "brand": brand})
+                                              {'content': web, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("web_template.html", context_instance)
     return "Wallpaper not found"
 
@@ -285,9 +286,16 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    log_bc_data.delay(post_params=request.POST, date_time=datetime.datetime.now(),
-                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''), user_agent=request.META['HTTP_USER_AGENT'],
+    log_bc_data.delay(post_params=request.POST,
+                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                      user_agent=request.META['HTTP_USER_AGENT'],
                       user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data(post_params=request.POST,
+    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    #             user_agent=request.META['HTTP_USER_AGENT'],
+    #             user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -318,7 +326,7 @@ def save_file(csv_file, device_id):
     return True
 
 
-def free_internet_confirm(request):
+def free_internet_confirm(request, content_id):
     dev_id = request.device_id
     device = get_object_or_None(Device, device_id=dev_id)
     store = device.store
@@ -326,7 +334,7 @@ def free_internet_confirm(request):
     redirect = "/%s/" % store.slug_name
     to = "store"
     context_instance = RequestContext(request,
-                                      {"redirect": redirect, "to": to, "brand": brand})
+                                      {"redirect": redirect, "to": to, "brand": brand, "content_id": content_id})
     return render_to_response("free_internet.html", context_instance)
 
 
@@ -351,8 +359,22 @@ def authorize_free_internet(request):
 
 
 def verify_log(request):
-    logs = Log.objects.all().order_by("-access_date")
-    logs = list(logs)
+    logs = Log.objects.all().order_by("-id")[:10]
+    # logs = list(logs)
     context_instance = RequestContext(request,
                                       {"logs": logs})
     return render_to_response("verify_log.html", context_instance)
+
+
+def get_stores_within_range(request, latitude, longitude, radius):
+    store = Store.objects.get_stores_in_radius(latitude, longitude)
+
+    default_device = settings.DEFAULT_DEVICE_ID
+    if store:
+        devices = store.devices.all()
+        if len(devices) > 0:
+            return HttpResponse(devices[0].device_id, content_type='text/plain')
+    return  HttpResponse(default_device, content_type='text/plain')
+
+
+
