@@ -244,17 +244,28 @@ def offer(request, offer_id):
     offer_obj = get_object_or_None(Offer, id=offer_id)
     if offer_obj is not None:
         store = offer_obj.store.all()
-        if store is not None:
+        if store:
+            print "Store not none"
             store = store[0]
             brand = store.brand
             redirect = "/home/%s" % store.slug_name
             to = "store"
-            context_instance = RequestContext(request,
-                                              {'content': offer_obj, "redirect": redirect,
-                                               "to": to, "brand": brand}
-            )
-            return render_to_response("offer_fullscreen.html", context_instance)
-        return "Offer not assigned to any store"
+        else:
+            print request.device_id
+            device = Device.objects.get(device_id=request.device_id)
+            print device.store
+            device_store = device.store
+            if device_store is not None:
+                store = device_store
+                print type(store)
+                brand = store.brand
+                redirect = "/home/%s" % store.slug_name
+                to = "store"
+        context_instance = RequestContext(request,
+                                          {'content': offer_obj, "redirect": redirect,
+                                           "to": to, "brand": brand}
+        )
+        return render_to_response("offer_fullscreen.html", context_instance)
     return "Offer not found"
 
 
@@ -377,6 +388,3 @@ def get_stores_within_range(request, latitude, longitude, radius):
         if len(devices) > 0:
             return HttpResponse(json.dumps({"device": devices[0].device_id}), content_type="application/json")
     return HttpResponse(json.dumps({"device": default_device}), content_type="application/json")
-
-
-
