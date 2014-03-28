@@ -50,14 +50,17 @@ def home_cluster_hid(request, hid=""):
         home_cluster = device.store.cluster
         all_contents = home_cluster.get_all_home_content(device_id)
         home_brand = device.store.brand
+        contents_to_be_displayed = []
         for c in all_contents:
             content_store = c.store.all()[:1]
             content_store = content_store[0]
             content_device = content_store.devices.all()[:1]
-            setattr(c, "device_id", content_device[0].device_id)
-        context = {'contents': all_contents, 'cluster': home_cluster, 'brand': home_brand}
+            if content_device:
+                setattr(c, "device_id", content_device[0].device_id)
+                contents_to_be_displayed.append(c)
+        context = {'contents': contents_to_be_displayed, 'cluster': home_cluster, 'brand': home_brand}
         context_instance = RequestContext(request, context)
-        return render_to_response('home_hid.html', context_instance)
+        return render_to_response('home.html', context_instance)
     context_instance = RequestContext(request, {'device': device})
     return render_to_response('default.html', context_instance)
 
@@ -368,13 +371,12 @@ def verify_log(request):
 
 def get_stores_within_range(request, latitude, longitude, radius):
     store = Store.objects.get_stores_in_radius(latitude, longitude)
-
     default_device = settings.DEFAULT_DEVICE_ID
     if store:
         devices = store.devices.all()
         if len(devices) > 0:
-            return HttpResponse(devices[0].device_id, content_type='text/plain')
-    return  HttpResponse(default_device, content_type='text/plain')
+            return HttpResponse(json.dumps({"device": devices[0].device_id}), content_type="application/json")
+    return HttpResponse(json.dumps({"device": default_device}), content_type="application/json")
 
 
 
