@@ -375,7 +375,7 @@ def get_stores_within_range(request, latitude, longitude, radius):
     if store:
         devices = store.devices.all()
         if len(devices) > 0:
-            return HttpResponse(json.dumps.({"device": devices[0].device_id}), content_type="application/json")
+            return HttpResponse(json.dumps({"device": devices[0].device_id}), content_type="application/json")
     return HttpResponse(json.dumps({"device": default_device}), content_type="application/json")
 
 
