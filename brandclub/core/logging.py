@@ -36,10 +36,14 @@ def log_data(**kwargs):
         content_type = content.content_type.name
         if content.store and int(content.content_location) is not 3:
             content_owner_store = content.store.all()[:1]
-            content_owner_store = content_owner_store[0]
-            content_owner_brand = content_owner_store.brand
-            content_owner_brand_id = content_owner_brand.id
-            content_owner_brand_name = content_owner_brand.name
+            print "fix this %s %s" % (content_name, content.id)
+            try:
+                content_owner_store = content_owner_store[0]
+                content_owner_brand = content_owner_store.brand
+                content_owner_brand_id = content_owner_brand.id
+                content_owner_brand_name = content_owner_brand.name
+            except IndexError:
+                pass
 
     log_info = dict(mac_address=mac_address,
         access_date=date_time,
