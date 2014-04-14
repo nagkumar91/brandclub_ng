@@ -63,11 +63,11 @@
     <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
     <script>
         var container = $(".masonry");
-        
+        //container.hide();
         container.imagesLoaded(function () {
             var isotope = $(".masonry").isotope({
                 itemSelector: '.brandclub-widget',
-                layoutMode: 'fitRows',
+                layoutMode: 'masonry',
                 sortBy: 'distance',
                 getSortData: {
                     distance: function ($elem) {
@@ -75,6 +75,8 @@
                     }
                 }
             });
+
+            console.log(isotope);
         });
 
         var contentPanel = $(".content-panel");
