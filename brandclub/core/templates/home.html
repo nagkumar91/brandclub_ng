@@ -62,19 +62,19 @@
     <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
     <script>
-        var container = $(".masonry").isotope({
-            itemSelector: '.brandclub-widget',
-            layoutMode: 'fitRows',
-            sortBy: 'distance',
-            getSortData: {
-                distance: function ($elem) {
-                    return parseFloat($elem.attr('data-content-distance'));
-                }
-            }
-        });
-
+        var container = $(".masonry");
+        
         container.imagesLoaded(function () {
-            container.isotope('layout');
+            var isotope = $(".masonry").isotope({
+                itemSelector: '.brandclub-widget',
+                layoutMode: 'fitRows',
+                sortBy: 'distance',
+                getSortData: {
+                    distance: function ($elem) {
+                        return parseFloat($elem.attr('data-content-distance'));
+                    }
+                }
+            });
         });
 
         var contentPanel = $(".content-panel");
