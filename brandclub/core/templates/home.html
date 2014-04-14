@@ -16,7 +16,7 @@
 {% block content %}
     <div class="container list-unstyled" id="home-widget-list">
         {# style="margin-bottom: 40px;" #}
-        <div class="row masonry">
+        <div class="row masonry" style="display:none">
             {% for content in contents %}
                 <div class="col-lg-4 col-xs-12 col-sm-6 brandclub-widget"
                      data-log-brand-name="{{ content.own_store.brand.name }}"
