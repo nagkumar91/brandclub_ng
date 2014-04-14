@@ -63,8 +63,9 @@
 <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
 <script>
     var container = $(".masonry");
+    container.hide();
     container.imagesLoaded(function() {
-        $('.masonry').isotope({
+        container.isotope({
             itemSelector: '.brandclub-widget',
             layoutMode: 'fitRows',
             sortBy: 'distance',
@@ -74,6 +75,12 @@
                 }
             }
         });
+
+        container.isotope('on','layoutComplete', function(){
+           container.fadeIn();
+        });
+
+
     });
 
     var contentPanel = $(".content-panel");
