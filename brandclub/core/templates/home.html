@@ -63,7 +63,9 @@
     <script type="text/javascript" src="{% static 'js/jquery.isotope.min.js' %}"></script>
     <script>
         var container = $(".masonry");
+        container.hide();
         container.imagesLoaded(function () {
+            container.fadeIn();
             var isotope = $(".masonry").isotope({
                 itemSelector: '.brandclub-widget',
                 layoutMode: 'fitRows',
