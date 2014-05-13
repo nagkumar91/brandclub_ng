@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url, include
 from tastypie.api import Api
 from .api import *
+import forms_builder.forms.urls
 
 v1_api = Api(api_name='v1')
 v1_api.register(ContentTypeResource())
@@ -45,6 +46,7 @@ urlpatterns = patterns('',
                        url(r'verify_log/$', 'core.views.verify_log'),
                        url(r'authorize_free_internet/$', 'core.views.authorize_free_internet'),
                        url(r'upload_log', 'core.views.upload_log'),
+                       url(r'^forms/', include(forms_builder.forms.urls)),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )
