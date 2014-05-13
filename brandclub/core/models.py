@@ -258,6 +258,8 @@ class Store(CachingMixin, TimeStampedModel):
     mail_id = models.EmailField(max_length=50, null=True, blank=True)
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
+    has_custom_form = models.BooleanField(default=False)
+    custom_form_slug = models.CharField(max_length=1000,null=True, blank=True)
 
     objects = StoreManager()
 
