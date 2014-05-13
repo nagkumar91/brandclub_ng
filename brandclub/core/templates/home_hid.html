@@ -31,17 +31,20 @@
                             </div>
                         </div>
                     <div class="img-frame">
-                        <div class="image-wrapper">
-                                <a class="content-link img-preview"
-                                   onclick="logAndRedirect(this, '/sh/'+'{{ content.device_id}}')"
-                                   data-log-brand-name="{{ content.own_store.brand.name }}"
-                                   data-log-content-name="{{ content.name }}"
-                                   data-log-content-type="{{ content.content_type }}"
-                                   data-log-content-id="{{ content.id }}">
-                            <img class="img-responsive image"
-                                 src="{{ content.thumbnail_url |default_if_none:'#' }}"
-                                 alt="{{ c.name }}"/>
+                        <div class="image-wrapper content-panel">
+                            <a class="content-link img-preview" href=""
+                               data-log-brand-name="{{ content.own_store.brand.name }}"
+                               data-log-content-name="{{ content.name }}"
+                               data-log-content-type="{{ content.content_type }}"
+                               data-log-content-id="{{ content.id }}"
+                               data-device-id="{{ content.device_id }}"
+                               data-redirect-url="{{ content.url|urlencode }}"
+                               data-from-box-url="/home/{{ content.own_store.slug_name }}/">
+                               <img class="img-responsive image"
+                                     src="{{ content.thumbnail_url |default_if_none:'#' }}"
+                                     alt="{{ c.name }}"/>
                             </a>
+
                         </div>
 
                         <p>{{ content.short_description }}</p>
@@ -63,8 +66,28 @@
             $container.imagesLoaded(function () {
                 $container.masonry({
                     itemSelector: '.brandclub-widget',
-                    columnWidth: '.brandclub-widget',
+                    columnWidth: '.brandclub-widget'
                 })
+            });
+
+            var contentPanel = $(".content-panel");
+            contentPanel.click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var target = $(".content-link", this);
+                var contentType = target.attr('data-log-content-type');
+                var deviceId = target.attr('data-device-id');
+                var from_device_url = target.attr('data-from-box-url');
+                if (contentType == 'Url') {
+                    logAndRedirect(contentType, "/redirect?href="+target.attr('data-redirect-url'));
+                } else  {
+                    if(deviceId)    {
+                        logAndRedirect(contentType, "/sh/"+deviceId);
+                    }
+                    else    {
+                        logAndRedirect(contentType, from_device_url);
+                    }
+                }
             });
         }(jQuery))
     </script>

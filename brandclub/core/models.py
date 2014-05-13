@@ -82,6 +82,13 @@ class Brand(CachingMixin, TimeStampedModel):
     def __unicode__(self):
         return "%s - (%d)" % (self.name, self.pk)
 
+    def save(self, *args, **kwargs):
+        stores = self.stores.all()
+        for st in stores:
+            st.active = self.active
+            st.save()
+        super(TimeStampedModel, self).save(*args, **kwargs)
+
 
 class Cluster(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100, unique=True)
@@ -218,7 +225,8 @@ class Cluster(CachingMixin, TimeStampedModel):
                     f.write(chunk)
             self.map_name = name
             self.save()
-            self.create_wallpaper_for_cluster_info(file_name, img_type)
+            file_relative_name = os.path.join(settings.MEDIA_URL, 'cluster_%ss' % img_type, name)
+            self.create_wallpaper_for_cluster_info(file_relative_name, img_type)
 
 
 class StoreManager(ExpressionManager):

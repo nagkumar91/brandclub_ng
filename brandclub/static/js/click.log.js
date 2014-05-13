@@ -9,6 +9,7 @@ function logAndRedirect(tag, redirect_url)   {
     var content_id = $this.attr("data-log-content-id");
     var user_unique_id = readCookie("user_unique_id");
     call_log(content_id, window.log_info.home_device_id, user_unique_id, document.title, "redirect click", redirect_url);
+    /*
     _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
     _paq.push(["setCookieDomain", window.log_info.cookie_domain]);
     _paq.push(["setDomains", [window.log_info.cookie_domain]]);
@@ -25,7 +26,7 @@ function logAndRedirect(tag, redirect_url)   {
     _paq.push(["appendToTrackingUrl", 'city='+window.log_info.home_city_name]);
     _paq.push(["appendToTrackingUrl", 'country=in']);
     _paq.push(["trackPageView"]);
-    _paq.push(["enableLinkTracking"]);
+    _paq.push(["enableLinkTracking"]);*/
     setTimeout(function(){
         window.location.href = redirect_url;
     }, 600);
