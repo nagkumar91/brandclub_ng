@@ -22,9 +22,45 @@ from south.modelsinspector import add_introspection_rules
 from django_earthdistance.expressions import DistanceExpression
 from django_earthdistance.functions import CubeDistance, LlToEarth
 from djorm_expressions.models import ExpressionManager
-
+from django import forms
 
 add_introspection_rules([], ["^core\.helpers\.ContentTypeRestrictedFileField"])
+
+RECOMMENDATION_OPTION_CHOICES = (
+    ('0', 0),
+    ('1', 1),
+    ('2', 2),
+    ('3', 3),
+    ('4', 4)
+)
+
+PRODUCT_RANGE_OPTIONS = (
+    ('Yes', 'Yes'),
+    ('No', 'No'),
+    ('Not Sure', 'Not Sure'),
+)
+
+STAFF_OPTIONS = (
+    ('Yes', 'Yes'),
+    ('No', 'No'),
+    ('Not Particularly', 'Not Particularly'),
+)
+
+OVERALL_EXPERIENCE_OPTIONS = (
+    ('Very Bad', 'Very Bad'),
+    ('Bad', 'Bad'),
+    ('Neutral', 'Neutral'),
+    ('Good', 'Good'),
+    ('Excellent', 'Excellent'),
+)
+
+SHOPPING_LENGTH_OPTIONS = (
+    ('First Time', 'First Time'),
+    ('Less Than 3 Months', 'Less Than 3 Months'),
+    ('One Year', 'One Year'),
+    ('3 Years', '3 Years'),
+    ('Five Years', 'Five Years'),
+)
 
 
 def to_radians(degrees):
@@ -368,6 +404,16 @@ class StoreFeedback(TimeStampedModel):
 
     def __unicode__(self):
         return "Feedback from %s for %s " % (self.name, self.store.name)
+
+
+class CustomStoreFeedback(TimeStampedModel):
+    recommendation_options = models.CharField(max_length=2, choices=RECOMMENDATION_OPTION_CHOICES)
+    product_range_options = models.CharField(max_length=20, choices=PRODUCT_RANGE_OPTIONS)
+    staff_options = models.CharField(max_length=20, choices=STAFF_OPTIONS)
+    overall_experience = models.CharField(max_length=20, choices=OVERALL_EXPERIENCE_OPTIONS)
+    how_long_have_you_been_shopping = models.CharField(max_length=20, choices=SHOPPING_LENGTH_OPTIONS)
+    any_other_feedback = models.TextField(null=True, blank=True)
+    store = models.ForeignKey(Store, related_name="custom_feedback")
 
 
 class Device(CachingMixin, TimeStampedModel):

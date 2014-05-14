@@ -18,39 +18,25 @@
                 margin-bottom: 45px;
             }
             .container  {
-                margin: 10px;
+                margin: 20px;
+            }
+            .radio  {
+                margin-left: 2%;
+                display: inline-block;
             }
         </style>
 {% endblock %}
 {% block store_details %}
 {% endblock %}
 {% block content %}
-    <div class="container"
-    {% if store.has_custom_form %}
-        style="margin-top: 80px; margin-bottom: 80px">
-        <style>
-        ul
-{
-    list-style-type: none;
-}
-        li{
-            display: inline;
-            margin-left: 3%;
-        }
-        li label    {
-            margin-top: 5px;
-        }
-        </style>
-           {% render_built_form slug=custom_form_name %}
-    {% else %}
-        >
-        <form action="/feedback/{{ store.id }}/" class="form-horizontal" role="form" method="post">
+    <div class="container">
+            <form action="/feedback/{{ store.id }}/" class="form-horizontal" role="form" method="post">
                 {% csrf_token %}
                     {{form | crispy}}
                 <input type="hidden" name="store" id="store" value="{{ store.id }}"/>
                 <input type="submit" style="margin-bottom: 5%"/>
-        </form>
-    {% endif %}
+            </form>
+
 
 
     </div>

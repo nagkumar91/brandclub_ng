@@ -13,7 +13,7 @@ from .logging import log_data
 from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
 
-from .forms import FeedbackForm
+from .forms import FeedbackForm, CustomFeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
     NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent
 from .tasks import log_bc_data
@@ -178,15 +178,21 @@ def store_feedback(request, store_id):
     to = "store"
     form = FeedbackForm()
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            form.instance.store = store
-            form.save()
-            return HttpResponseRedirect("/home/%s/" % store.slug_name)
-    custom_form_name = None
+        if store.has_custom_form:
+            form = CustomFeedbackForm(request.POST)
+            if form.is_valid():
+                form.instance.store = store
+                form.save()
+                return HttpResponseRedirect("/home/%s/" % store.slug_name)
+        else:
+            form = FeedbackForm(request.POST)
+            if form.is_valid():
+                form.instance.store = store
+                form.save()
+                return HttpResponseRedirect("/home/%s/" % store.slug_name)
     if store.has_custom_form:
-        custom_form_name = store.custom_form_slug
-    context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to, "custom_form_name": custom_form_name}
+        form = CustomFeedbackForm()
+    context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to}
     return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
 
