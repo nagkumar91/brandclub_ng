@@ -413,6 +413,8 @@ class CustomStoreFeedback(TimeStampedModel):
     overall_experience = models.CharField(max_length=20, choices=OVERALL_EXPERIENCE_OPTIONS)
     how_long_have_you_been_shopping = models.CharField(max_length=20, choices=SHOPPING_LENGTH_OPTIONS)
     any_other_feedback = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
     store = models.ForeignKey(Store, related_name="custom_feedback")
 
 

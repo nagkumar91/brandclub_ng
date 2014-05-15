@@ -15,7 +15,7 @@ from .helpers import id_generator
 
 from .forms import FeedbackForm, CustomFeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
-    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent
+    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -200,6 +200,12 @@ def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     context_instance = RequestContext(request, {"feedback": feedback})
     return render_to_response("all_feedback.html", context_instance)
+
+
+def display_custom_feedback(request):
+    feedback = CustomStoreFeedback.objects.all()
+    context_instance = RequestContext(request, {"feedback": feedback})
+    return render_to_response("custom_feedback.html", context_instance)
 
 
 def display_offers(request):

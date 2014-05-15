@@ -46,23 +46,25 @@ class FeedbackForm(forms.ModelForm):
 
 
 class CustomFeedbackForm(forms.ModelForm):
-    recommendation_options = forms.ChoiceField(widget=forms.RadioSelect(), choices=RECOMMENDATION_OPTION_CHOICES,
+    recommendation_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=RECOMMENDATION_OPTION_CHOICES, initial='4',
                                                label='How likely is it that you would recommend appleofmyi to a friend or colleague?')
-    product_range_options = forms.ChoiceField(widget=forms.RadioSelect(), choices=PRODUCT_RANGE_OPTIONS,
+    product_range_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=PRODUCT_RANGE_OPTIONS, initial='Yes',
                                               label='Did you find our product range to be useful, fun and exciting?')
-    staff_options = forms.ChoiceField(widget=forms.RadioSelect(), choices=STAFF_OPTIONS,
+    staff_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=STAFF_OPTIONS, initial='Yes',
                                       label='Do you find our staff to be helpful and courteous?')
-    overall_experience = forms.ChoiceField(widget=forms.RadioSelect(), choices=OVERALL_EXPERIENCE_OPTIONS,
+    overall_experience = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=OVERALL_EXPERIENCE_OPTIONS, initial='Excellent',
                                            label='What has been your overall experience with this visit to appleofmyi?')
-    how_long_have_you_been_shopping = forms.ChoiceField(widget=forms.RadioSelect(), choices=SHOPPING_LENGTH_OPTIONS,
+    how_long_have_you_been_shopping = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=SHOPPING_LENGTH_OPTIONS, initial='First Time',
                                                         label='How long have you been shopping at appleofmyi?')
     any_other_feedback = forms.CharField(required=False)
+    name = forms.CharField(required=True)
+    phone_number = forms.NumberInput()
 
 
     class Meta:
         model = CustomStoreFeedback
         fields = ('recommendation_options', 'product_range_options', 'staff_options', 'overall_experience',
-                  'how_long_have_you_been_shopping', 'any_other_feedback')
+                  'how_long_have_you_been_shopping', 'any_other_feedback', 'name', 'phone_number')
         # widgets = {
         #     'recommendation_options': forms.RadioSelect(choices=RECOMMENDATION_OPTION_CHOICES),
         # }
