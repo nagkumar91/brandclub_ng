@@ -3,6 +3,7 @@ import os
 from annoying.functions import get_object_or_None
 import datetime
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
@@ -195,13 +196,13 @@ def store_feedback(request, store_id):
     context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to}
     return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
-
+@login_required
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     context_instance = RequestContext(request, {"feedback": feedback})
     return render_to_response("all_feedback.html", context_instance)
 
-
+@login_required
 def display_custom_feedback(request):
     feedback = CustomStoreFeedback.objects.all()
     context_instance = RequestContext(request, {"feedback": feedback})

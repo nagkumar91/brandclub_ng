@@ -6,6 +6,8 @@ from sys import path
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
+from django.core.urlresolvers import reverse_lazy
+
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 
 # Absolute filesystem path to the top-level project folder:
@@ -347,3 +349,4 @@ MAILGUN_API_KEY = 'key-1-j3498psszetjazh3-e1o5c6qgn60v4'
 MAILGUN_HOST = 'https://api.mailgun.net/v2/sandbox28548.mailgun.org/messages'
 MAILING_LIST = 'santosh.s@telibrahma.com, santhosh@telibrahma.com, nagkumar@telibrahma.com, brandclub@telibrahma.com'
 FORMS_BUILDER_LABEL_MAX_LENGTH = 100
+LOGIN_URL = '/admin/'
