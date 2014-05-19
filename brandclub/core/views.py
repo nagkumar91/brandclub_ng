@@ -3,6 +3,7 @@ import os
 from annoying.functions import get_object_or_None
 import datetime
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
@@ -13,9 +14,9 @@ from .logging import log_data
 from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
 
-from .forms import FeedbackForm
+from .forms import FeedbackForm, CustomFeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
-    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent
+    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -178,19 +179,34 @@ def store_feedback(request, store_id):
     to = "store"
     form = FeedbackForm()
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            form.instance.store = store
-            form.save()
-            return HttpResponseRedirect("/home/%s/" % store.slug_name)
+        if store.has_custom_form:
+            form = CustomFeedbackForm(request.POST)
+            if form.is_valid():
+                form.instance.store = store
+                form.save()
+                return HttpResponseRedirect("/home/%s/" % store.slug_name)
+        else:
+            form = FeedbackForm(request.POST)
+            if form.is_valid():
+                form.instance.store = store
+                form.save()
+                return HttpResponseRedirect("/home/%s/" % store.slug_name)
+    if store.has_custom_form:
+        form = CustomFeedbackForm()
     context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to}
     return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
-
+@login_required
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     context_instance = RequestContext(request, {"feedback": feedback})
     return render_to_response("all_feedback.html", context_instance)
+
+@login_required
+def display_custom_feedback(request):
+    feedback = CustomStoreFeedback.objects.all()
+    context_instance = RequestContext(request, {"feedback": feedback})
+    return render_to_response("custom_feedback.html", context_instance)
 
 
 def display_offers(request):

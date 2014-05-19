@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url, include
 from tastypie.api import Api
 from .api import *
+import forms_builder.forms.urls
 
 v1_api = Api(api_name='v1')
 v1_api.register(ContentTypeResource())
@@ -27,6 +28,7 @@ urlpatterns = patterns('',
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),
                        url(r'feedback/(?P<store_id>\d+)/$', 'core.views.store_feedback'),
                        url(r'all_feedback/$', 'core.views.display_feedback'),
+                       url(r'custom_feedback/$', 'core.views.display_custom_feedback'),
                        url(r'offers/$', 'core.views.display_offers'),
                        url(r'offer/(?P<offer_id>\d+)/$', 'core.views.offer'),
                        url(r'navmenu/(?P<navmenu_id>\d+)/$', 'core.views.navmenu'),
@@ -45,6 +47,7 @@ urlpatterns = patterns('',
                        url(r'verify_log/$', 'core.views.verify_log'),
                        url(r'authorize_free_internet/$', 'core.views.authorize_free_internet'),
                        url(r'upload_log', 'core.views.upload_log'),
+                       url(r'^forms/', include(forms_builder.forms.urls)),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
 )

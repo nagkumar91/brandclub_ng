@@ -1,0 +1,52 @@
+{% extends "core_base.html" %}
+{% load staticfiles %}
+{% block store_details %}
+{% endblock %}
+{% block content %}
+        <div class="container" style="width:90%; margin:0 auto;">
+            <table class="table" border>
+            <thead>
+            <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Phone Number
+                    </th>
+                    <th>
+                        recommendation_options
+                    </th>
+                    <th>
+                        product_range_options
+                    </th>
+                    <th>
+                        staff_options
+                    </th>
+                    <th>
+                        overall_experience
+                    </th>
+                    <th>
+                        how_long_have_you_been_shopping
+                    </th>
+                    <th>
+                        any_other_feedback
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for f in feedback %}
+                <tr>
+                    <td>{{ f.name }}</td>
+                    <td>{{ f.phone_number }}</td>
+                    <td>{{ f.recommendation_options }}</td>
+                    <td>{{ f.product_range_options}}</td>
+                    <td>{{ f.staff_options }}</td>
+                    <td>{{ f.overall_experience }}</td>
+                    <td>{{ f.how_long_have_you_been_shopping }}</td>
+                    <td>{{ f.any_other_feedback }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+{% endblock %}

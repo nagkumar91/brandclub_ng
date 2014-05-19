@@ -15,7 +15,7 @@ django-annoying
 django-crispy-forms
 django-cache-machine
 boto
-
+django-forms-builder
 django-tastypie
 celery
 django-celery

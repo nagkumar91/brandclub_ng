@@ -6,6 +6,8 @@ from sys import path
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
+from django.core.urlresolvers import reverse_lazy
+
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 
 # Absolute filesystem path to the top-level project folder:
@@ -139,6 +141,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'core.proc.brandclub_processor',
     'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
@@ -205,6 +208,7 @@ THIRD_PARTY_APPS = (
     'pipeline',
     'crispy_forms',
     'djcelery',
+    'forms_builder.forms',
 )
 
 # Apps specific for this project go here.
@@ -344,3 +348,5 @@ GOOGLE_STATIC_MAP_KEY = 'AIzaSyBOtLGz2PvdRmqZBIVA4fj9VKhk3nyjpk8'
 MAILGUN_API_KEY = 'key-1-j3498psszetjazh3-e1o5c6qgn60v4'
 MAILGUN_HOST = 'https://api.mailgun.net/v2/sandbox28548.mailgun.org/messages'
 MAILING_LIST = 'santosh.s@telibrahma.com, santhosh@telibrahma.com, nagkumar@telibrahma.com, brandclub@telibrahma.com'
+FORMS_BUILDER_LABEL_MAX_LENGTH = 100
+LOGIN_URL = '/admin/'
