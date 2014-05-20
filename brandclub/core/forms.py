@@ -47,7 +47,8 @@ class FeedbackForm(forms.ModelForm):
 
 class CustomFeedbackForm(forms.ModelForm):
     recommendation_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=RECOMMENDATION_OPTION_CHOICES, initial='4',
-                                               label='How likely is it that you would recommend appleofmyi to a friend or colleague?')
+                                               label='How likely is it that you would recommend appleofmyi to a friend or colleague?',
+                                               help_text='( 0 - Not at all likely & 4 - Extremely likely )')
     product_range_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=PRODUCT_RANGE_OPTIONS, initial='Yes',
                                               label='Did you find our product range to be useful, fun and exciting?')
     staff_options = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'custom-radio'}), choices=STAFF_OPTIONS, initial='Yes',
