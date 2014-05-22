@@ -20,3 +20,6 @@ django-tastypie
 celery
 django-celery
 django-earthdistance
+git+git://github.com/ojii/pymaging.git#egg=pymaging
+git+git://github.com/ojii/pymaging-png.git#egg=pymaging-png
+qrcode

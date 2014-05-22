@@ -15,9 +15,10 @@ import json
 # Create your models here.
 from django.utils.text import slugify
 from model_utils.models import TimeStampedModel
+import qrcode
 import requests
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
-    ContentTypeRestrictedFileField
+    ContentTypeRestrictedFileField, id_generator
 from south.modelsinspector import add_introspection_rules
 from django_earthdistance.expressions import DistanceExpression
 from django_earthdistance.functions import CubeDistance, LlToEarth
@@ -282,7 +283,6 @@ class StoreManager(ExpressionManager):
         return None
 
 
-
 class Store(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     slug_name = models.SlugField(max_length=100, default="")
@@ -303,9 +303,21 @@ class Store(CachingMixin, TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
     has_custom_form = models.BooleanField(default=False)
-    custom_form_slug = models.CharField(max_length=1000,null=True, blank=True)
+    custom_form_slug = models.CharField(max_length=1000, null=True, blank=True)
+    username = models.CharField(max_length=100, null=True, blank=True)
+    password = models.CharField(max_length=100, null=True, blank=True)
+    auth_key = models.CharField(max_length=100, null=True, blank=True)
 
     objects = StoreManager()
+
+    def reset_user_credentials(self):
+        self.username = self.create_slug()
+        self.password = id_generator(size=8)
+        self.save()
+
+    def create_auth_key(self):
+        self.auth_key = id_generator(size=20)
+        self.save()
 
     def get_distance_from(self, new_store):
         r = 6371
@@ -374,6 +386,12 @@ class Store(CachingMixin, TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        older_obj = get_object_or_None(Store, pk=self.pk)
+        if older_obj:
+            if older_obj.username != self.username:
+                self.auth_key = ""
+            if older_obj.password != self.password:
+                self.auth_key = ""
         if settings.CREATE_STORE_MAPS is True:
             self._save_map_image()
         if self.brand.active is False:
@@ -668,3 +686,50 @@ class Log(TimeStampedModel):
     access_date = models.DateTimeField(default=datetime.datetime.now, blank=True)
     city = models.CharField(max_length=200, blank=True, null=True)
     state = models.CharField(max_length=200, blank=True, null=True)
+
+
+class BrandClubUser(TimeStampedModel):
+    user_id = models.CharField(max_length=100, unique=True, primary_key=True)
+    mac_id = models.CharField(max_length=100, null=True, blank=True)
+    user_unique_id = models.CharField(max_length=100, unique=True)
+    coupon_current_value = models.IntegerField(default=0)
+    loyalty_points = models.IntegerField(default=0)
+    qr_code = models.CharField(max_length=250, null=True, blank=True)
+    last_updated_time = models.DateTimeField(null=True, blank=True)
+    coupon_generated_at = models.ForeignKey(Store, related_name='coupon_user')
+
+    def _create_qr_for_user(self):
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10, border=4)
+        link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
+        data = {
+            "a": 1,
+            "l": link
+        }
+        qr.add_data(data)
+        qr.make(fit=True)
+        img = qr.make_image()
+        img_name = "%s.png" % self.user_id
+        directory = os.path.join(settings.MEDIA_ROOT, 'user_qr')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        file_name = os.path.join(settings.MEDIA_ROOT, 'user_qr', img_name)
+        file_path = os.path.join(settings.MEDIA_URL, 'user_qr', img_name)
+        with open(file_name, 'wb') as f:
+            img.save(f, "PNG")
+        self.qr_code = file_path
+
+    def redeemed_coupon_at(self, store):
+        self.coupon_current_value = settings.DEFAULT_COUPON_VALUE
+        self.loyalty_points += settings.DEFAULT_LOYALTY_INCREMENT
+        self.coupon_generated_at = store
+        self.last_updated_time = datetime.datetime.now()
+        self.save()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.user_id == "":
+            self.coupon_current_value = settings.DEFAULT_COUPON_VALUE
+            self.user_id = id_generator()
+        if self.qr_code is None:
+            self._create_qr_for_user()
+        super(BrandClubUser, self).save()

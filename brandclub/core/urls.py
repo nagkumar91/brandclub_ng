@@ -23,6 +23,8 @@ v1_api.register(BrandResource())
 urlpatterns = patterns('',
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^store_find/(?P<latitude>\d+\.\d+)/(?P<longitude>\d+\.\d+)/(?P<radius>\d+)/$', 'core.views.get_stores_within_range'),
+                       url(r'store_authenticate/(?P<user_name>[\-\w]+)/(?P<password>[\-\w]+)/$', 'core.views.store_authenticate'),
+                       url(r'verify_user/(?P<user_id>[\-\w]+)/(?P<auth_key>[\-\w]+)/$', 'core.views.coupon_redemption'),
                        url(r'^redirect/$', 'core.views.redirect_to_outside'),
                        url(r'^contents_dir/(?P<device_id>\d+)/$', 'core.views.contents_loc_view'),
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),

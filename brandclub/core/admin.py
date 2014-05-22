@@ -30,12 +30,19 @@ class OrderContentStoreInline(admin.TabularInline):
 class StoreAdmin(BrandClubAdmin):
     list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'store_device')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
+    actions = ['reset_user_credentials_to_default']
     list_filter = ('city', 'brand__name', 'cluster')
     save_as = True
     inlines = [
         OrderContentStoreInline,
         DeviceInlineAdmin
     ]
+
+    def reset_user_credentials_to_default(self, request, queryset):
+        for s in queryset:
+            s.reset_user_credentials()
+            s.save()
+        self.message_user(request, "Credentials reset to default.")
 
     def store_device(self, obj):
         return ",".join(["%s" % d.device_id for d in obj.devices.all()])
