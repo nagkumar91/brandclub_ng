@@ -325,16 +325,16 @@ def navmenu(request, navmenu_id):
 @csrf_exempt
 def call_log(request):
     create_bc_user(request)
-    log_bc_data.delay(post_params=request.POST,
-                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                      user_agent=request.META['HTTP_USER_AGENT'],
-                      user_ip_address=request.META['REMOTE_ADDR'])
-    # log_bc_data(post_params=request.POST,
-    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    #             user_agent=request.META['HTTP_USER_AGENT'],
-    #             user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data.delay(post_params=request.POST,
+    #                   date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    #                   mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    #                   user_agent=request.META['HTTP_USER_AGENT'],
+    #                   user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data(post_params=request.POST,
+                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                user_agent=request.META['HTTP_USER_AGENT'],
+                user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -442,7 +442,7 @@ def coupon_redemption(request, user_id, auth_key):
 def create_bc_user(request):
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.POST.get('user_unique_id', '')
-    device_id = request.POST.get('device_id', '')
+    device_id = request.POST.get('device_id', settings.DEFAULT_DEVICE_ID)
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
     store = device.store
@@ -456,10 +456,22 @@ def create_bc_user(request):
             if user_obj is not None:
                 return
     except ObjectDoesNotExist:
-        user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
-        user_obj.save()
+        try:
+            user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
+            user_obj.save()
+        except IntegrityError:
+            pass
 
-    except IntegrityError:
-        pass
 
-        # return HttpResponse(json.dumps({"a":True}), content_type="application/json")
+def display_qr(request):
+    mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
+    user_unique_id = request.COOKIES.get('unique_id', '')
+    print user_unique_id
+    if mac_address is not '':
+        bcu = BrandClubUser.objects.get(mac_id=mac_address, user_id=user_unique_id)
+        context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
+        return render_to_response("display_qr_code.html", context_instance)
+    else:
+        bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
+        context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
+        return render_to_response("display_qr_code.html", context_instance)
