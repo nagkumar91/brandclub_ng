@@ -432,23 +432,11 @@ def coupon_redemption(request, user_id, auth_key):
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
             if user_obj.coupon_generated_at == store:
-                return HttpResponse(json.dumps({
-                    "success": False,
-                    "message": "User got the code at the same store"
-                }), content_type="application/json")
+                return HttpResponse("This coupon is not valid at this store.")
             user_obj.redeemed_coupon_at(store)
-            return HttpResponse(json.dumps({
-                "success": True,
-                "value": user_obj.coupon_current_value,
-            }), content_type="application/json")
-        return HttpResponse(json.dumps({
-            "success": False,
-            "message": "Invalid auth code. Please login again"
-        }), content_type="application/json")
-    return HttpResponse(json.dumps({
-        "success": False,
-        "message": "Invalid QR code. Please ask user to refresh the page"
-    }), content_type="application/json")
+            return HttpResponse("This user is entitled to get INR %s off" % user_obj.coupon_current_value)
+        return HttpResponse("Your session has expired. Please reinstall the app.")
+    return HttpResponse("Please ask the customer to refresh the page and try again.")
 
 
 def create_bc_user(request):
