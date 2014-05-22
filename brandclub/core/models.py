@@ -699,11 +699,11 @@ class BrandClubUser(TimeStampedModel):
     coupon_generated_at = models.ForeignKey(Store, related_name='coupon_user')
 
     def _create_qr_for_user(self):
-        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10, border=4)
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
         data = {
             "a": 1,
-            "l": link
+            "c": self.user_id
         }
         qr.add_data(data)
         qr.make(fit=True)
