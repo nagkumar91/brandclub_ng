@@ -733,3 +733,16 @@ class BrandClubUser(TimeStampedModel):
         if self.qr_code is None:
             self._create_qr_for_user()
         super(BrandClubUser, self).save()
+
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.user_id, self.mac_id, self.user_unique_id)
+
+
+class BrandClubRedemptionLog(TimeStampedModel):
+    bc_user = models.ForeignKey(BrandClubUser, null=True, blank=True)
+    store = models.ForeignKey(Store, null=True, blank=True)
+    cluster = models.ForeignKey(Cluster, null=True, blank=True)
+    log_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.bc_user, self.store, self.cluster)

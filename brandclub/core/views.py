@@ -19,7 +19,7 @@ from .helpers import id_generator
 from .forms import FeedbackForm, CustomFeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
     NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback, \
-    BrandClubUser
+    BrandClubUser, BrandClubRedemptionLog
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -325,16 +325,16 @@ def navmenu(request, navmenu_id):
 @csrf_exempt
 def call_log(request):
     create_bc_user(request)
-    # log_bc_data.delay(post_params=request.POST,
-    #                   date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    #                   mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    #                   user_agent=request.META['HTTP_USER_AGENT'],
-    #                   user_ip_address=request.META['REMOTE_ADDR'])
-    log_bc_data(post_params=request.POST,
-                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                user_agent=request.META['HTTP_USER_AGENT'],
-                user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data.delay(post_params=request.POST,
+                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                      user_agent=request.META['HTTP_USER_AGENT'],
+                      user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data(post_params=request.POST,
+    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    #             user_agent=request.META['HTTP_USER_AGENT'],
+    #             user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -434,6 +434,8 @@ def coupon_redemption(request, user_id, auth_key):
             if user_obj.coupon_generated_at == store:
                 return HttpResponse("This coupon is not valid at this store.")
             user_obj.redeemed_coupon_at(store)
+            bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
+            bcr_log.save()
             return HttpResponse("This user is entitled to get INR %s off" % user_obj.coupon_current_value)
         return HttpResponse("Your session has expired. Please reinstall the app.")
     return HttpResponse("Please ask the customer to refresh the page and try again.")
