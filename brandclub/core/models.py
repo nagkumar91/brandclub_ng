@@ -703,7 +703,7 @@ class BrandClubUser(TimeStampedModel):
         link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
         data = {
             "a": 1,
-            "c": self.user_id
+            "value": self.user_id
         }
         qr.add_data(data)
         qr.make(fit=True)
