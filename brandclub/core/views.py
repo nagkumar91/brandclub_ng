@@ -1,4 +1,5 @@
 from datetime import time
+import logging
 import os
 from annoying.functions import get_object_or_None
 import datetime
@@ -21,6 +22,7 @@ from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wal
     NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback, \
     BrandClubUser, BrandClubRedemptionLog
 from .tasks import log_bc_data
+logger = logging.getLogger(__name__)
 
 content_type_mapping = {
     1: 'Store Home',
@@ -452,19 +454,19 @@ def create_bc_user(request):
         if mac_address is not '' and user_unique_id is not '':
             user_obj = BrandClubUser.objects.get(mac_id=mac_address)
             if user_obj is not None:
-                print "BCU exists"
+                logger.debug("BCU exists")
                 return
         else:
             user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
             if user_obj is not None:
-                print "BCU exists"
+                logger.debug("BCU exists")
                 return
     except ObjectDoesNotExist:
         try:
-            print "Creating BCU"
+            logger.debug("Creating BCU")
             user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
             user_obj.save()
-            print "%s-%s-%s" % (user_obj.user_id, user_obj.mac_id, user_obj.user_unique_id)
+            logger.debug("%s-%s-%s" % (user_obj.user_id, user_obj.mac_id, user_obj.user_unique_id))
         except IntegrityError:
             pass
 
