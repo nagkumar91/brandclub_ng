@@ -470,7 +470,7 @@ def display_qr(request):
     user_unique_id = request.COOKIES.get('unique_id', '')
     print user_unique_id
     if mac_address is not '':
-        bcu = BrandClubUser.objects.get(mac_id=mac_address, user_id=user_unique_id)
+        bcu = BrandClubUser.objects.get(mac_id=mac_address)
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
         return render_to_response("display_qr_code.html", context_instance)
     else:
