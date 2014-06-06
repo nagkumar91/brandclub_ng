@@ -37,7 +37,7 @@
                                data-log-content-id="{{ content.id }}"
                                data-device-id="{{ content.device_id }}"
                                data-redirect-url="{{ content.url|urlencode }}"
-                               data-from-box-url="/home/{{ content.own_store.slug_name }}/">
+                               data-from-box-url="/home/{{ content.own_store.slug_name }}">
                                 <img class="img-responsive image"
                                      src="{{ content.thumbnail_url |default_if_none:'#' }}"
                                      alt="{{ c.name }}"/>

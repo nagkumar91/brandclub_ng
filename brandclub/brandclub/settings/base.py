@@ -354,4 +354,3 @@ LOGIN_URL = '/admin/'
 API_URL_DOMAIN='http://brandclub.mobi/'
 DEFAULT_COUPON_VALUE = 50
 DEFAULT_LOYALTY_INCREMENT = 10
-SECRET_KEY = "faywgfiruwbvuaorwnvoirjgfoirwbauogf"
