@@ -705,6 +705,7 @@ class BrandClubUser(TimeStampedModel):
             "a": 1,
             "c": self.user_id
         }
+        data = json.dumps(data)
         qr.add_data(data)
         qr.make(fit=True)
         img = qr.make_image()
