@@ -450,7 +450,7 @@ def create_bc_user(request):
     store = device.store
     try:
         if mac_address is not '' and user_unique_id is not '':
-            user_obj = BrandClubUser.objects.get(mac_id=mac_address, user_unique_id=user_unique_id)
+            user_obj = BrandClubUser.objects.get(mac_id=mac_address)
             if user_obj is not None:
                 return
         else:
