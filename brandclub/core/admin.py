@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
     State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
-    FreeInternet, FreeInternetLog
+    FreeInternet, FreeInternetLog, BrandClubUser
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -411,6 +411,7 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
+admin.site.register(BrandClubUser)
 admin.site.register(Content, ContentNonEditableAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)
 admin.site.register(FreeInternet, FreeInternetAdmin)
