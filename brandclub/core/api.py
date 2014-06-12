@@ -332,7 +332,7 @@ class CustomAppPreferenceResource(ModelResource):
 
 
 class AppUserPreferenceCategoryCustomResource(ModelResource):
-    category_preference = fields.ToManyField(CustomAppPreferenceResource, 'categories',null=True,  full=True)
+    category_preference = fields.ToManyField(CustomAppPreferenceResource, 'category_preference', null=True,  full=True)
 
     class Meta:
         resource_name = 'custom_app_user_preferences'
