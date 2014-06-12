@@ -16,6 +16,11 @@ v1_api.register(StoreContentResource())
 v1_api.register(ClusterResource())
 v1_api.register(DeviceResource())
 v1_api.register(BrandResource())
+v1_api.register(AppPreferenceResource())
+v1_api.register(AppUserPreferenceCategoryResource())
+v1_api.register(BrandClubAppUserResource())
+v1_api.register(CustomAppPreferenceResource())
+v1_api.register(AppUserPreferenceCategoryCustomResource())
 
 
 

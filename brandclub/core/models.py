@@ -688,6 +688,46 @@ class Log(TimeStampedModel):
     state = models.CharField(max_length=200, blank=True, null=True)
 
 
+class AppUserPreferenceCategory(models.Model):
+    name = models.CharField(max_length=100, primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class AppPreference(models.Model):
+    name = models.CharField(max_length=100, primary_key=True)
+    category = models.ForeignKey(AppUserPreferenceCategory, null=True, blank=True, related_name='category_preference')
+    thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class BrandClubAppUser(TimeStampedModel):
+    device_id = models.CharField(max_length=500, blank=True, null=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    fb_id = models.CharField(max_length=150, null=True, blank=True)
+    email_id = models.EmailField(max_length=100, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    imei = models.CharField(max_length=50, null=True, blank=True)
+    app_version = models.CharField(max_length=10, null=True, blank=True)
+    language = models.CharField(max_length=100, blank=True, null=True)
+    mobile_make = models.CharField(max_length=100, blank=True, null=True)
+    mobile_model = models.CharField(max_length=100, blank=True, null=True)
+    profile_pic = models.CharField(max_length=500, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    mobile_number = models.CharField(max_length=10, blank=True, null=True)
+    registration_id = models.CharField(max_length=500, null=True, blank=True)
+    enable_notifications = models.BooleanField(default=True)
+    preferences = models.ManyToManyField(AppPreference, null=True, blank=True, related_name='bc_app_user')
+
+    def __unicode__(self):
+        return "%s %s" % (self.first_name, self.device_id)
+
+
 class BrandClubUser(TimeStampedModel):
     user_id = models.CharField(max_length=100, unique=True, primary_key=True)
     mac_id = models.CharField(max_length=100, null=True, blank=True)
