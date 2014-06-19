@@ -269,19 +269,15 @@ def offer(request, offer_id):
     if offer_obj is not None:
         store = offer_obj.store.all()
         if store:
-            print "Store not none"
             store = store[0]
             brand = store.brand
             redirect = "/home/%s" % store.slug_name
             to = "store"
         else:
-            print request.device_id
             device = Device.objects.get(device_id=request.device_id)
-            print device.store
             device_store = device.store
             if device_store is not None:
                 store = device_store
-                print type(store)
                 brand = store.brand
                 redirect = "/home/%s" % store.slug_name
                 to = "store"
@@ -442,13 +438,8 @@ def coupon_redemption(request, user_id, auth_key):
 
 
 def create_bc_user(request):
-    print "In create bc user"
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.POST.get('user_unique_id', '')
-    print "Mac"
-    print mac_address
-    print "uuid"
-    print user_unique_id
     device_id = request.POST.get('device_id', settings.DEFAULT_DEVICE_ID)
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
@@ -463,27 +454,20 @@ def create_bc_user(request):
         else:
             user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
             if user_obj is not None:
-                print "BCU exists"
                 return
     except ObjectDoesNotExist:
         try:
             if user_unique_id is "":
                 user_unique_id = id_generator()
             user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
-            print user_obj
             user_obj.save()
         except IntegrityError:
             pass
 
 
 def display_qr(request):
-    print "In display QR"
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.COOKIES.get('user_unique_id', '')
-    print "Mac"
-    print mac_address
-    print "uuid"
-    print user_unique_id
     if mac_address is not '':
         bcu = BrandClubUser.objects.get(mac_id=mac_address)
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
@@ -492,7 +476,6 @@ def display_qr(request):
                 "qr_link": bcu.qr_code,
                 "header": "Flash this QR to avail discount",
                 "desc": "Get a chance to win amazing prizes",
-                "uuid": bcu.user_unique_id
             }), content_type="application/json")
     else:
         bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
@@ -502,5 +485,4 @@ def display_qr(request):
                 "qr_link": bcu.qr_code,
                 "header": "Flash this QR to avail discount",
                 "desc": "Get a chance to win amazing prizes",
-                "uuid": bcu.user_unique_id
             }), content_type="application/json")
