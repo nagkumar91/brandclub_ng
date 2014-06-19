@@ -325,16 +325,16 @@ def navmenu(request, navmenu_id):
 @csrf_exempt
 def call_log(request):
     create_bc_user(request)
-    log_bc_data.delay(post_params=request.POST,
-                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                      user_agent=request.META['HTTP_USER_AGENT'],
-                      user_ip_address=request.META['REMOTE_ADDR'])
-    # log_bc_data(post_params=request.POST,
-    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    #             user_agent=request.META['HTTP_USER_AGENT'],
-    #             user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data.delay(post_params=request.POST,
+    #                   date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    #                   mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    #                   user_agent=request.META['HTTP_USER_AGENT'],
+    #                   user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data(post_params=request.POST,
+                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                user_agent=request.META['HTTP_USER_AGENT'],
+                user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -442,8 +442,13 @@ def coupon_redemption(request, user_id, auth_key):
 
 
 def create_bc_user(request):
+    print "In create bc user"
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.POST.get('user_unique_id', '')
+    print "Mac"
+    print mac_address
+    print "uuid"
+    print user_unique_id
     device_id = request.POST.get('device_id', settings.DEFAULT_DEVICE_ID)
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
@@ -452,7 +457,8 @@ def create_bc_user(request):
         if mac_address is not '' and user_unique_id is not '':
             user_obj = BrandClubUser.objects.get(mac_id=mac_address)
             if user_obj is not None:
-                print "BCU exists"
+                user_obj.user_unique_id = user_unique_id
+                user_obj.save()
                 return
         else:
             user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
@@ -461,23 +467,40 @@ def create_bc_user(request):
                 return
     except ObjectDoesNotExist:
         try:
-            print "Creating BCU"
+            if user_unique_id is "":
+                user_unique_id = id_generator()
             user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
+            print user_obj
             user_obj.save()
-            print "%s-%s-%s" % (user_obj.user_id, user_obj.mac_id, user_obj.user_unique_id)
         except IntegrityError:
             pass
 
 
 def display_qr(request):
+    print "In display QR"
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
-    user_unique_id = request.COOKIES.get('unique_id', '')
+    user_unique_id = request.COOKIES.get('user_unique_id', '')
+    print "Mac"
+    print mac_address
+    print "uuid"
     print user_unique_id
     if mac_address is not '':
         bcu = BrandClubUser.objects.get(mac_id=mac_address)
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
-        return render_to_response("display_qr_code.html", context_instance)
+        return HttpResponse(json.dumps(
+            {
+                "qr_link": bcu.qr_code,
+                "header": "Flash this QR to avail discount",
+                "desc": "Get a chance to win amazing prizes",
+                "uuid": bcu.user_unique_id
+            }), content_type="application/json")
     else:
         bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
-        return render_to_response("display_qr_code.html", context_instance)
+        return HttpResponse(json.dumps(
+            {
+                "qr_link": bcu.qr_code,
+                "header": "Flash this QR to avail discount",
+                "desc": "Get a chance to win amazing prizes",
+                "uuid": bcu.user_unique_id
+            }), content_type="application/json")

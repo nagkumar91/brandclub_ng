@@ -151,13 +151,14 @@ class Cluster(CachingMixin, TimeStampedModel):
             filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
             filter(store__in=(self.stores.exclude(active=False))). \
             order_by('store__brand__id').distinct('store__brand__id')
-        return all_contents.select_subclasses()
+        return all_contents
 
     def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
         all_contents = self.get_all_home_content_queryset(device_id)
         contents = list(all_contents)
+
         for index, content in enumerate(contents):
             stores = content.store.all()
             stores_in_cluster = Store.objects.filter(cluster_id=self.id, brand=stores[0].brand)
@@ -168,7 +169,18 @@ class Cluster(CachingMixin, TimeStampedModel):
             setattr(content, 'distance_from_home_store', int(dist))
             setattr(content, 'own_store', stores_in_cluster[0])
             setattr(content, 'paid', content_owner.brand.paid)
-        return contents
+            setattr(content, 'redirect_url', "/home/%s" % content.own_store.slug_name)
+        ctype_coupon = get_object_or_None(ContentType, name="Offer")
+        coupons_in_cluster = self.content.filter(content_type=ctype_coupon).select_subclasses()
+        coupons_in_cluster = list(coupons_in_cluster)
+        for index, content in enumerate(coupons_in_cluster):
+            setattr(content, 'distance_from_home_store', 0)
+            setattr(content, 'is_coupon', True)
+            setattr(content, 'redirect_url', "/offer/%s" % content.id)
+            setattr(content, 'paid', True)
+        for o in contents:
+            coupons_in_cluster.append(o)
+        return coupons_in_cluster
 
     def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
@@ -491,7 +503,8 @@ class Content(CachingMixin, TimeStampedModel):
                                             ("1", "Store Home"),
                                             ("2", "Cluster Home"),
                                             ("3", "Cluster Info"),
-                                            ("4", "Store Info")
+                                            ("4", "Store Info"),
+                                            ("5", "User QR")
                                         ],
                                         default="1"
     )
