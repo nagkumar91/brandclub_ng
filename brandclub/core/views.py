@@ -493,13 +493,18 @@ def coupon_redemption(request, user_id, auth_key):
                 )
                 log = Log(**log_info)
                 log.save()
-                return HttpResponse("This coupon is not valid at this store.")
+                # return HttpResponse("This coupon is not valid at this store.")
+                context_instance = RequestContext(request, {"valid": False})
+                return render_to_response("point_scan_result.html", context_instance)
             user_obj.redeemed_coupon_at(store)
             bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
             bcr_log.save()
-            return HttpResponse("This user is entitled to get INR %s off" % user_obj.coupon_current_value)
-        return HttpResponse("Your session has expired. Please reinstall the app.")
-    return HttpResponse("Please ask the customer to refresh the page and try again.")
+            context_instance = RequestContext(request, {"valid": True})
+            return render_to_response("point_scan_result.html", context_instance)
+        context_instance = RequestContext(request, {"valid": False})
+        return render_to_response("point_scan_result.html", context_instance)
+    context_instance = RequestContext(request, {"valid": False})
+    return render_to_response("point_scan_result.html", context_instance)
 
 
 def qr_valid_in_store(request):

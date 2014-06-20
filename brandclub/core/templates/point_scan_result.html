@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui" id="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+        {% if valid %}
+            <img src="{% static 'img/point_valid.png' %}" alt="" style="max-width: 100%; height: auto;display: block"/>
+        {% else %}
+            <img src="{% static 'img/point_invalid.png' %}" alt="" style="max-width: 100%; height: auto;display: block"/>
+        {% endif %}
+</body>
+</html>
