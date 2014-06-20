@@ -427,6 +427,7 @@ def coupon_redemption(request, user_id, auth_key):
     if user_obj is not None:
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
+            device_id = 121
             if user_obj.coupon_generated_at == store:
                 log_info = dict(
                     mac_address=user_obj.mac_id,
@@ -469,7 +470,6 @@ def coupon_redemption(request, user_id, auth_key):
             user_obj.redeemed_coupon_at(store)
             bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
             bcr_log.save()
-            device_id = 121
             log_info = dict(
                 mac_address=user_obj.mac_id,
                 access_date=datetime.datetime.now(),
