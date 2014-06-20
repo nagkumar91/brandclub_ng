@@ -427,44 +427,6 @@ def coupon_redemption(request, user_id, auth_key):
     if user_obj is not None:
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
-            # device = store.devices.all()
-            # try:
-            #     device = device[0]
-            #     device_id = device.device_id
-            # except IndexError:
-            device_id = 121
-            log_info = dict(
-                mac_address=user_obj.mac_id,
-                access_date=datetime.datetime.now(),
-                content_id=-5,
-                content_name="Brandclub coupon",
-                content_type="Offer",
-                content_location="Cluster Home",
-                content_owner_brand_id=-5,
-                content_owner_brand_name="Offer",
-                location_device_id=device_id,
-                location_store_name=store.name,
-                location_store_id=store.id,
-                location_brand_id=store.brand.id,
-                location_brand_name=store.brand.name,
-                location_cluster_id=store.cluster.id,
-                location_cluster_name=store.cluster.name,
-                user_agent="",
-                mobile_make='',
-                mobile_model='',
-                user_unique_id=user_obj.user_unique_id,
-                user_ip_address="",
-                user_device_width=0,
-                user_device_height=0,
-                page_title="Offer",
-                referrer="",
-                redirect_url="",
-                action="Offer redeemed",
-                city=store.city.name,
-                state=store.state.name
-            )
-            log = Log(**log_info)
-            log.save()
             if user_obj.coupon_generated_at == store:
                 log_info = dict(
                     mac_address=user_obj.mac_id,
@@ -507,6 +469,39 @@ def coupon_redemption(request, user_id, auth_key):
             user_obj.redeemed_coupon_at(store)
             bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
             bcr_log.save()
+            device_id = 121
+            log_info = dict(
+                mac_address=user_obj.mac_id,
+                access_date=datetime.datetime.now(),
+                content_id=-5,
+                content_name="Brandclub coupon",
+                content_type="Offer",
+                content_location="Cluster Home",
+                content_owner_brand_id=-5,
+                content_owner_brand_name="Offer",
+                location_device_id=device_id,
+                location_store_name=store.name,
+                location_store_id=store.id,
+                location_brand_id=store.brand.id,
+                location_brand_name=store.brand.name,
+                location_cluster_id=store.cluster.id,
+                location_cluster_name=store.cluster.name,
+                user_agent="",
+                mobile_make='',
+                mobile_model='',
+                user_unique_id=user_obj.user_unique_id,
+                user_ip_address="",
+                user_device_width=0,
+                user_device_height=0,
+                page_title="Offer",
+                referrer="",
+                redirect_url="",
+                action="Offer redeemed",
+                city=store.city.name,
+                state=store.state.name
+            )
+            log = Log(**log_info)
+            log.save()
             context_instance = RequestContext(request, {"valid": True})
             return render_to_response("point_scan_result.html", context_instance)
         context_instance = RequestContext(request, {"valid": False})
