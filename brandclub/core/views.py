@@ -422,6 +422,87 @@ def store_authenticate(request, user_name, password):
     return HttpResponse(json.dumps({"success": False}), content_type="application/json")
 
 
+def qr_fail(request, user_id, auth_key):
+    user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
+    if user_obj is not None:
+        store = get_object_or_None(Store, auth_key=auth_key)
+        device_id = 121
+        log_info = dict(
+            mac_address=user_obj.mac_id,
+            access_date=datetime.datetime.now(),
+            content_id=-5,
+            content_name="Brandclub coupon",
+            content_type="Offer",
+            content_location="Cluster Home",
+            content_owner_brand_id=-5,
+            content_owner_brand_name="Offer",
+            location_device_id=device_id,
+            location_store_name=store.name,
+            location_store_id=store.id,
+            location_brand_id=store.brand.id,
+            location_brand_name=store.brand.name,
+            location_cluster_id=store.cluster.id,
+            location_cluster_name=store.cluster.name,
+            user_agent="",
+            mobile_make='',
+            mobile_model='',
+            user_unique_id=user_obj.user_unique_id,
+            user_ip_address="",
+            user_device_width=0,
+            user_device_height=0,
+            page_title="Offer",
+            referrer="",
+            redirect_url="",
+            action="Offer redemption failed",
+            city=store.city.name,
+            state=store.state.name
+        )
+        log = Log(**log_info)
+        try:
+            log.save()
+        except ValueError:
+            print "value error in saving object"
+
+
+def qr_success(request, user_id, auth_key):
+    user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
+    if user_obj is not None:
+        store = get_object_or_None(Store, auth_key=auth_key)
+        device_id = 121
+        log_info = dict(
+            mac_address=user_obj.mac_id,
+            access_date=datetime.datetime.now(),
+            content_id=-5,
+            content_name="Brandclub coupon",
+            content_type="Offer",
+            content_location="Cluster Home",
+            content_owner_brand_id=-5,
+            content_owner_brand_name="Offer",
+            location_device_id=device_id,
+            location_store_name=store.name,
+            location_store_id=store.id,
+            location_brand_id=store.brand.id,
+            location_brand_name=store.brand.name,
+            location_cluster_id=store.cluster.id,
+            location_cluster_name=store.cluster.name,
+            user_agent="",
+            mobile_make='',
+            mobile_model='',
+            user_unique_id=user_obj.user_unique_id,
+            user_ip_address="",
+            user_device_width=0,
+            user_device_height=0,
+            page_title="Offer",
+            referrer="",
+            redirect_url="",
+            action="Offer redeemed",
+            city=store.city.name,
+            state=store.state.name
+        )
+        log = Log(**log_info)
+        log.save()
+
+
 def coupon_redemption(request, user_id, auth_key):
     user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
     if user_obj is not None:
@@ -429,83 +510,20 @@ def coupon_redemption(request, user_id, auth_key):
         if store is not None:
             device_id = 121
             if user_obj.coupon_generated_at == store:
-                log_info = dict(
-                    mac_address=user_obj.mac_id,
-                    access_date=datetime.datetime.now(),
-                    content_id=-5,
-                    content_name="Brandclub coupon",
-                    content_type="Offer",
-                    content_location="Cluster Home",
-                    content_owner_brand_id=-5,
-                    content_owner_brand_name="Offer",
-                    location_device_id=device_id,
-                    location_store_name=store.name,
-                    location_store_id=store.id,
-                    location_brand_id=store.brand.id,
-                    location_brand_name=store.brand.name,
-                    location_cluster_id=store.cluster.id,
-                    location_cluster_name=store.cluster.name,
-                    user_agent="",
-                    mobile_make='',
-                    mobile_model='',
-                    user_unique_id=user_obj.user_unique_id,
-                    user_ip_address="",
-                    user_device_width=0,
-                    user_device_height=0,
-                    page_title="Offer",
-                    referrer="",
-                    redirect_url="",
-                    action="Offer redemption failed",
-                    city=store.city.name,
-                    state=store.state.name
-                )
-                log = Log(**log_info)
-                try:
-                    log.save()
-                except ValueError:
-                    print "value error in saving object"
-                # return HttpResponse("This coupon is not valid at this store.")
+                qr_fail(request, user_id, auth_key)
                 context_instance = RequestContext(request, {"valid": False})
                 return render_to_response("point_scan_result.html", context_instance)
             user_obj.redeemed_coupon_at(store)
+            user_obj.save()
             bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
             bcr_log.save()
-            log_info = dict(
-                mac_address=user_obj.mac_id,
-                access_date=datetime.datetime.now(),
-                content_id=-5,
-                content_name="Brandclub coupon",
-                content_type="Offer",
-                content_location="Cluster Home",
-                content_owner_brand_id=-5,
-                content_owner_brand_name="Offer",
-                location_device_id=device_id,
-                location_store_name=store.name,
-                location_store_id=store.id,
-                location_brand_id=store.brand.id,
-                location_brand_name=store.brand.name,
-                location_cluster_id=store.cluster.id,
-                location_cluster_name=store.cluster.name,
-                user_agent="",
-                mobile_make='',
-                mobile_model='',
-                user_unique_id=user_obj.user_unique_id,
-                user_ip_address="",
-                user_device_width=0,
-                user_device_height=0,
-                page_title="Offer",
-                referrer="",
-                redirect_url="",
-                action="Offer redeemed",
-                city=store.city.name,
-                state=store.state.name
-            )
-            log = Log(**log_info)
-            log.save()
+            qr_success(request, user_id, auth_key)
             context_instance = RequestContext(request, {"valid": True})
             return render_to_response("point_scan_result.html", context_instance)
+        qr_fail(request, user_id, auth_key)
         context_instance = RequestContext(request, {"valid": False})
         return render_to_response("point_scan_result.html", context_instance)
+    qr_fail(request, user_id, auth_key)
     context_instance = RequestContext(request, {"valid": False})
     return render_to_response("point_scan_result.html", context_instance)
 
@@ -541,7 +559,8 @@ def qr_valid_in_store(request):
                     pass
                 else:
                     stores_to_display.append(s.name)
-            return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}), content_type="application/json")
+            return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}),
+                                content_type="application/json")
         else:
             return HttpResponse(json.dumps({"valid": True}), content_type="application/json")
 
