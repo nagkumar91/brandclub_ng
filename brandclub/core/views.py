@@ -427,12 +427,12 @@ def coupon_redemption(request, user_id, auth_key):
     if user_obj is not None:
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
-            device = store.devices.all()
-            try:
-                device = device[0]
-                device_id = device.device_id
-            except IndexError:
-                device_id = 121
+            # device = store.devices.all()
+            # try:
+            #     device = device[0]
+            #     device_id = device.device_id
+            # except IndexError:
+            device_id = 121
             log_info = dict(
                 mac_address=user_obj.mac_id,
                 access_date=datetime.datetime.now(),
