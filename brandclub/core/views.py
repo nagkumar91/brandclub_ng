@@ -321,16 +321,16 @@ def navmenu(request, navmenu_id):
 @csrf_exempt
 def call_log(request):
     create_bc_user(request)
-    log_bc_data.delay(post_params=request.POST,
-                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                      user_agent=request.META['HTTP_USER_AGENT'],
-                      user_ip_address=request.META['REMOTE_ADDR'])
-    # log_bc_data(post_params=request.POST,
-    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    #             user_agent=request.META['HTTP_USER_AGENT'],
-    #             user_ip_address=request.META['REMOTE_ADDR'])
+    # log_bc_data.delay(post_params=request.POST,
+    # date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    # mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    # user_agent=request.META['HTTP_USER_AGENT'],
+    # user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data(post_params=request.POST,
+                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                user_agent=request.META['HTTP_USER_AGENT'],
+                user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -427,7 +427,72 @@ def coupon_redemption(request, user_id, auth_key):
     if user_obj is not None:
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
+            device = store.devices
+            log_info = dict(
+                mac_address=user_obj.mac_id,
+                access_date=datetime.datetime.now(),
+                content_id=-5,
+                content_name="Brandclub coupon",
+                content_type="Offer",
+                content_location="Cluster Home",
+                content_owner_brand_id=-5,
+                content_owner_brand_name="Offer",
+                location_device_id=device.device_id,
+                location_store_name=store.name,
+                location_store_id=store.id,
+                location_brand_id=store.brand.id,
+                location_brand_name=store.brand.name,
+                location_cluster_id=store.cluster.id,
+                location_cluster_name=store.cluster.name,
+                user_agent="",
+                mobile_make='',
+                mobile_model='',
+                user_unique_id=user_obj.user_unique_id,
+                user_ip_address="",
+                user_device_width="",
+                user_device_height="",
+                page_title="Offer",
+                referrer="",
+                redirect_url="",
+                action="Offer redeemed",
+                city=store.city.name,
+                state=store.state.name
+            )
+            log = Log(**log_info)
+            log.save()
             if user_obj.coupon_generated_at == store:
+                log_info = dict(
+                    mac_address=user_obj.mac_id,
+                    access_date=datetime.datetime.now(),
+                    content_id=-5,
+                    content_name="Brandclub coupon",
+                    content_type="Offer",
+                    content_location="Cluster Home",
+                    content_owner_brand_id=-5,
+                    content_owner_brand_name="Offer",
+                    location_device_id=device.device_id,
+                    location_store_name=store.name,
+                    location_store_id=store.id,
+                    location_brand_id=store.brand.id,
+                    location_brand_name=store.brand.name,
+                    location_cluster_id=store.cluster.id,
+                    location_cluster_name=store.cluster.name,
+                    user_agent="",
+                    mobile_make='',
+                    mobile_model='',
+                    user_unique_id=user_obj.user_unique_id,
+                    user_ip_address="",
+                    user_device_width="",
+                    user_device_height="",
+                    page_title="Offer",
+                    referrer="",
+                    redirect_url="",
+                    action="Offer redemption failed",
+                    city=store.city.name,
+                    state=store.state.name
+                )
+                log = Log(**log_info)
+                log.save()
                 return HttpResponse("This coupon is not valid at this store.")
             user_obj.redeemed_coupon_at(store)
             bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
@@ -435,6 +500,42 @@ def coupon_redemption(request, user_id, auth_key):
             return HttpResponse("This user is entitled to get INR %s off" % user_obj.coupon_current_value)
         return HttpResponse("Your session has expired. Please reinstall the app.")
     return HttpResponse("Please ask the customer to refresh the page and try again.")
+
+
+def qr_valid_in_store(request):
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    store = device.store
+    mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
+    bcu = None
+    if mac_address:
+        bcu = get_object_or_None(BrandClubUser, mac_id=mac_address)
+    else:
+        user_unique_id = request.COOKIES.get('user_unique_id', '')
+        bcu = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id)
+    if bcu is None:
+        clust = store.cluster
+        stores_in_cluster = clust.stores.all()
+        stores_to_display = []
+        for s in stores_in_cluster:
+            if s.pk == store.pk:
+                pass
+            else:
+                stores_to_display.append(s.name)
+        return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}), content_type="application/json")
+    else:
+        if bcu.coupon_generated_at.pk == store.pk:
+            clust = store.cluster
+            stores_in_cluster = clust.stores.all()
+            stores_to_display = []
+            for s in stores_in_cluster:
+                if s.pk == store.pk:
+                    pass
+                else:
+                    stores_to_display.append(s.name)
+            return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"valid": True}), content_type="application/json")
 
 
 def create_bc_user(request):

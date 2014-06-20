@@ -8,6 +8,20 @@
             margin: 0 auto;
             width: 80%;
         }
+        .append-content a   {
+            margin-left: 10px;
+            margin-bottom: 25px;
+        }
+        .append-content {
+            margin-bottom: 75px;
+        }
+        .qr-image{
+            margin-bottom: 25px;
+        }
+        .my-brand-list{
+            margin-bottom: 20px;
+            display: none;
+        }
     </style>
 {% endblock %}
 {% block brand_background %}{% endblock %}
@@ -50,20 +64,50 @@
 
     {% endblock %}
     {% if content.show_qr %}
+        <div class="append-content">
+
+        </div>
         <script>
         //check if user can redeem the code at this store
-
-
-        //user can redeem the code
+        var is_enabled_store = false;
         $.ajax({
             type: "GET",
-            url: "/display_qr/",
+            url: "/qr_valid_in_store/",
             dataType: 'json',
             success: function (data) {
-                var qr_link = data['qr_link'];
-                $('<br /><div class="center-img"><img class="img-responsive" src="'+qr_link+'" /></div>').insertAfter(".offer").addClass("qr-widget");
+                console.log(data);
+                if (data['valid'] == false) {
+                    var stores = data['stores'];
+                    console.log(stores);
+                    var list_html = '<div class="center-img"><a class="btn btn-primary" href="#" onclick="bclub_store_click();">Brandclub Stores</a><ul class="my-brand-list">';
+                    for (i=0;i<stores.length;i++){
+                        list_html += "<li>"+stores[i]+"</li>";
+                        console.log(stores[i]);
+                    }
+                    list_html += "</ul></div>";
+                    $(".append-content").append(list_html);
+                }
             }
         });
+
+        function bclub_store_click(){
+            $(".my-brand-list").toggle();
+        }
+
+        //user can redeem the code
+        setTimeout(function(){
+            $.ajax({
+                type: "GET",
+                url: "/display_qr/",
+                dataType: 'json',
+                success: function (data) {
+                    var qr_link = data['qr_link'];
+                    $(".append-content").append('<div class="center-img"><img class="img-responsive qr-image" src="'+qr_link+'" /></div>');
+
+                }
+            });
+        }, 250);
+
         </script>
     {% endif %}
 {% endblock %}
