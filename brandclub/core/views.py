@@ -454,8 +454,8 @@ def coupon_redemption(request, user_id, auth_key):
                 mobile_model='',
                 user_unique_id=user_obj.user_unique_id,
                 user_ip_address="",
-                user_device_width="",
-                user_device_height="",
+                user_device_width=0,
+                user_device_height=0,
                 page_title="Offer",
                 referrer="",
                 redirect_url="",
@@ -487,8 +487,8 @@ def coupon_redemption(request, user_id, auth_key):
                     mobile_model='',
                     user_unique_id=user_obj.user_unique_id,
                     user_ip_address="",
-                    user_device_width="",
-                    user_device_height="",
+                    user_device_width=0,
+                    user_device_height=0,
                     page_title="Offer",
                     referrer="",
                     redirect_url="",
@@ -497,7 +497,10 @@ def coupon_redemption(request, user_id, auth_key):
                     state=store.state.name
                 )
                 log = Log(**log_info)
-                log.save()
+                try:
+                    log.save()
+                except ValueError:
+                    print "value error in saving object"
                 # return HttpResponse("This coupon is not valid at this store.")
                 context_instance = RequestContext(request, {"valid": False})
                 return render_to_response("point_scan_result.html", context_instance)
