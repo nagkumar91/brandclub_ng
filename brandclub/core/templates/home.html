@@ -104,35 +104,6 @@
         $(document).ready(function () {
             var user_unique_id = readCookie("user_unique_id");
             call_log(-1, window.log_info.home_device_id, user_unique_id, "Cluster Home", "page load", "");
-            var has_offer = false;
-            var offer_widget = "";
-            $(".brandclub-widget").each(function (index, widget) {
-                if ($(widget).attr("data-log-content-type") == "Offer") {
-                    offer_widget = widget;
-                    has_offer = true;
-                }
-            });
-            if (has_offer) {
-                var qr_widget = offer_widget;
-                var html_to_be_appended = $(qr_widget)[0]['outerHTML'];
-                $(offer_widget).addClass("add-after-this");
-                setTimeout(function(){
-                    $.ajax({
-                        type: "GET",
-                        url: "/display_qr/",
-                        dataType: 'json',
-                        success: function (data) {
-                            var qr_link = data['qr_link'];
-                            $(html_to_be_appended).insertAfter(".add-after-this").addClass("qr-widget");
-                            $(".qr-widget a img").attr("src", qr_link);
-                            $(".qr-widget h5")[0].textContent = data['header'];
-                            $(".qr-widget p")[0].textContent = data['desc'];
-                        }
-                    });
-                }, 250);
-
-            }
-
 
         });
     </script>

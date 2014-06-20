@@ -49,4 +49,18 @@
         </script>
 
     {% endblock %}
+    {% if content.show_qr %}
+        <script>
+
+        $.ajax({
+            type: "GET",
+            url: "/display_qr/",
+            dataType: 'json',
+            success: function (data) {
+                var qr_link = data['qr_link'];
+                $('<br /><div class="center-img"><img class="img-responsive" src="'+qr_link+'" /></div>').insertAfter(".offer").addClass("qr-widget");
+            }
+        });
+        </script>
+    {% endif %}
 {% endblock %}

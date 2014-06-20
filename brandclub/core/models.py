@@ -600,6 +600,7 @@ class WebContent(Content):
 
 class Offer(Content):
     authenticate_user = models.BooleanField(default=True)
+    show_qr = models.BooleanField(default=False)
     file = models.ImageField(upload_to=get_content_info_path)
 
     @property
