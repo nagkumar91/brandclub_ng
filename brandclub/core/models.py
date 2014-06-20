@@ -328,8 +328,9 @@ class Store(CachingMixin, TimeStampedModel):
         self.save()
 
     def create_auth_key(self):
-        self.auth_key = id_generator(size=20)
-        self.save()
+        if not self.auth_key:
+            self.auth_key = id_generator(size=20)
+            self.save()
 
     def get_distance_from(self, new_store):
         r = 6371

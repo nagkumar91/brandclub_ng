@@ -51,7 +51,10 @@
     {% endblock %}
     {% if content.show_qr %}
         <script>
+        //check if user can redeem the code at this store
 
+
+        //user can redeem the code
         $.ajax({
             type: "GET",
             url: "/display_qr/",
