@@ -428,6 +428,11 @@ def coupon_redemption(request, user_id, auth_key):
         store = get_object_or_None(Store, auth_key=auth_key)
         if store is not None:
             device = store.devices
+            try:
+                device = device[0]
+                device_id = device.device_id
+            except IndexError:
+                device_id = 121
             log_info = dict(
                 mac_address=user_obj.mac_id,
                 access_date=datetime.datetime.now(),
@@ -437,7 +442,7 @@ def coupon_redemption(request, user_id, auth_key):
                 content_location="Cluster Home",
                 content_owner_brand_id=-5,
                 content_owner_brand_name="Offer",
-                location_device_id=device.device_id,
+                location_device_id=device_id,
                 location_store_name=store.name,
                 location_store_id=store.id,
                 location_brand_id=store.brand.id,
@@ -470,7 +475,7 @@ def coupon_redemption(request, user_id, auth_key):
                     content_location="Cluster Home",
                     content_owner_brand_id=-5,
                     content_owner_brand_name="Offer",
-                    location_device_id=device.device_id,
+                    location_device_id=device_id,
                     location_store_name=store.name,
                     location_store_id=store.id,
                     location_brand_id=store.brand.id,
