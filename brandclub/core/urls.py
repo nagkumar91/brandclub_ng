@@ -16,6 +16,11 @@ v1_api.register(StoreContentResource())
 v1_api.register(ClusterResource())
 v1_api.register(DeviceResource())
 v1_api.register(BrandResource())
+v1_api.register(AppPreferenceResource())
+v1_api.register(AppUserPreferenceCategoryResource())
+v1_api.register(BrandClubAppUserResource())
+v1_api.register(CustomAppPreferenceResource())
+v1_api.register(AppUserPreferenceCategoryCustomResource())
 
 
 
@@ -23,6 +28,9 @@ v1_api.register(BrandResource())
 urlpatterns = patterns('',
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^store_find/(?P<latitude>\d+\.\d+)/(?P<longitude>\d+\.\d+)/(?P<radius>\d+)/$', 'core.views.get_stores_within_range'),
+                       url(r'store_authenticate/(?P<user_name>[\-\w]+)/(?P<password>[\-\w]+)/$', 'core.views.store_authenticate'),
+                       url(r'verify_user/(?P<user_id>[\-\w]+)/(?P<auth_key>[\-\w]+)/$', 'core.views.coupon_redemption'),
+                       url(r'^display_qr/$', 'core.views.display_qr'),
                        url(r'^redirect/$', 'core.views.redirect_to_outside'),
                        url(r'^contents_dir/(?P<device_id>\d+)/$', 'core.views.contents_loc_view'),
                        url(r'home/(?P<slug>[\-\w]+)/$', 'core.views.store_home'),
@@ -34,6 +42,7 @@ urlpatterns = patterns('',
                        url(r'navmenu/(?P<navmenu_id>\d+)/$', 'core.views.navmenu'),
                        url(r'authenticateUserForOffer/$', 'core.views.authenticate_user_for_offer'),
                        url(r'create_user_id/$', 'core.views.create_user_id'),
+                       url(r'qr_valid_in_store/$', 'core.views.qr_valid_in_store'),
                        url(r'slideshow/(?P<ssid>\d+)/$', 'core.views.slideshow'),
                        url(r'wallpaper/(?P<wid>\d+)/$', 'core.views.wallpaper_fullscreen'),
                        url(r'web/(?P<wid>\d+)/$', 'core.views.web_fullscreen'),

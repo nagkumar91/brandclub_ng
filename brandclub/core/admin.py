@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
 from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
     State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
-    FreeInternet, FreeInternetLog
+    FreeInternet, FreeInternetLog, BrandClubUser, AppUserPreferenceCategory, AppPreference, BrandClubAppUser
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -30,12 +30,19 @@ class OrderContentStoreInline(admin.TabularInline):
 class StoreAdmin(BrandClubAdmin):
     list_display = ('name', 'slug_name', 'city', 'state', 'brand', 'cluster', 'store_device')
     search_fields = ('name', 'slug_name', 'city', 'brand__name')
+    actions = ['reset_user_credentials_to_default']
     list_filter = ('city', 'brand__name', 'cluster')
     save_as = True
     inlines = [
         OrderContentStoreInline,
         DeviceInlineAdmin
     ]
+
+    def reset_user_credentials_to_default(self, request, queryset):
+        for s in queryset:
+            s.reset_user_credentials()
+            s.save()
+        self.message_user(request, "Credentials reset to default.")
 
     def store_device(self, obj):
         return ",".join(["%s" % d.device_id for d in obj.devices.all()])
@@ -404,6 +411,10 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(ContentType, ContentTypeAdmin)
 admin.site.register(StoreFeedback, StoreFeedbackAdmin)
 admin.site.register(Offer, OfferAdmin)
+admin.site.register(BrandClubUser)
 admin.site.register(Content, ContentNonEditableAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)
 admin.site.register(FreeInternet, FreeInternetAdmin)
+admin.site.register(AppUserPreferenceCategory)
+admin.site.register(AppPreference)
+admin.site.register(BrandClubAppUser)
