@@ -532,7 +532,7 @@ def qr_valid_in_store(request):
 
 def create_bc_user(request):
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
-    user_unique_id = request.COOKIE.get('user_unique_id', '')
+    user_unique_id = request.COOKIES.get('user_unique_id', '')
     device_id = request.device_id
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
