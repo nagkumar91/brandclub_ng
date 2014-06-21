@@ -10,6 +10,13 @@ import os
 import shutil
 
 
+def print_encoded(text):
+    try:
+        print text
+    except UnicodeEncodeError:
+        pass
+
+
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('-d', dest='device_id', help="The id of the device"),
@@ -19,7 +26,7 @@ class Command(BaseCommand):
         client = Client()
         response = client.get(page, **{'HTTP_X_CLUSTER_ID': cluster_id, 'HTTP_X_DEVICE_ID': device_id,
                                        'HTTP_HOST': settings.BRANDCLUB_HOST})
-        print "Generating %s and got code %d " % (page, response.status_code)
+        print_encoded("Generating %s and got code %d " % (page, response.status_code))
         return response
 
     @staticmethod
@@ -27,8 +34,8 @@ class Command(BaseCommand):
         return {'X_CLUSTER_ID': cluster_id, 'X_DEVICE_ID': device_id, 'HTTP_HOST': settings.BRANDCLUB_HOST}
 
     def _generate_page(self, dir, cluster_id, device_id, store):
-        print "Generating contents for cluster %s and device %s " % (cluster_id, device_id)
-        print "==================================================================="
+        print_encoded("Generating contents for cluster %s and device %s " % (cluster_id, device_id))
+        print_encoded("===================================================================")
         self._generate_main_page(store.slug_name, cluster_id, device_id, dir)
         self._generate_cluster_info(cluster_id, device_id, dir)
         cluster = Cluster.objects.get(pk=cluster_id)
@@ -53,7 +60,7 @@ class Command(BaseCommand):
                     self._generate_navmenu(content.id, cluster_id, device_id, dir)
                 if content.content_type.id == ctype_free_internet.id:
                     self._generate_free_internet(content.id, cluster_id, device_id, dir)
-        print "==================================================================="
+        print_encoded("===================================================================")
 
     def _generate_main_page(self, slug, cluster_id, device_id, static_dir):
         page = "/%s/" % slug
@@ -182,10 +189,10 @@ class Command(BaseCommand):
             conn = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_KEY)
         for store in stores:
             cluster = store.cluster.id
-            print "Store is %s" % store.name
+            print_encoded("Store is %s" % store.name)
             for device in store.devices.all():
                 device_id = "%s" % device.device_id
-                print "Device is %s" % device_id
+                print_encoded("Device is %s" % device_id)
                 static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content", device_id)
                 os.makedirs(static_dir)
                 tar_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, "content", "compressed")
