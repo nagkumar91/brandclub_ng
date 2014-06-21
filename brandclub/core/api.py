@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from tastypie import fields
+from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
 from .models import *
@@ -295,3 +296,44 @@ class StoreContentResource(ModelResource):
     class Meta:
         resource_name = 'store_content'
         queryset = Content.active_objects.select_subclasses()
+
+
+class AppUserPreferenceCategoryResource(ModelResource):
+
+    class Meta:
+        queryset = AppUserPreferenceCategory.objects.all()
+        resource_name = 'app_user_preference_category'
+
+
+class AppPreferenceResource(ModelResource):
+    category = fields.ForeignKey(AppUserPreferenceCategoryResource, 'category', full=True, null=True)
+
+    class Meta:
+        queryset = AppPreference.objects.all()
+        resource_name = 'app_user_preferences'
+
+
+class BrandClubAppUserResource(ModelResource):
+    preferences = fields.ToManyField(AppPreferenceResource, 'preferences', full=True, null=True)
+
+    class Meta:
+        resource_name = 'brand_club_app_user'
+        queryset = BrandClubAppUser.objects.all()
+        allowed_methods = ['get', 'post']
+        authorization = Authorization()
+        always_return_data = True
+
+
+class CustomAppPreferenceResource(ModelResource):
+    class Meta:
+        queryset = AppPreference.objects.all()
+        resource_name = 'custom_' \
+                        'app_user_preferences'
+
+
+class AppUserPreferenceCategoryCustomResource(ModelResource):
+    category_preference = fields.ToManyField(CustomAppPreferenceResource, 'category_preference', null=True,  full=True)
+
+    class Meta:
+        resource_name = 'custom_app_user_preferences'
+        queryset = AppUserPreferenceCategory.objects.all()

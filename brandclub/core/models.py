@@ -15,9 +15,10 @@ import json
 # Create your models here.
 from django.utils.text import slugify
 from model_utils.models import TimeStampedModel
+import qrcode
 import requests
 from .helpers import get_content_info_path, upload_and_rename_images, upload_and_rename_thumbnail, \
-    ContentTypeRestrictedFileField
+    ContentTypeRestrictedFileField, id_generator
 from south.modelsinspector import add_introspection_rules
 from django_earthdistance.expressions import DistanceExpression
 from django_earthdistance.functions import CubeDistance, LlToEarth
@@ -150,13 +151,14 @@ class Cluster(CachingMixin, TimeStampedModel):
             filter(store__in=(self.stores.exclude(brand__in=home_store.brand.competitors.all()))). \
             filter(store__in=(self.stores.exclude(active=False))). \
             order_by('store__brand__id').distinct('store__brand__id')
-        return all_contents.select_subclasses()
+        return all_contents
 
     def get_all_home_content(self, device_id=settings.DEFAULT_DEVICE_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
         home_store = device.store
         all_contents = self.get_all_home_content_queryset(device_id)
         contents = list(all_contents)
+
         for index, content in enumerate(contents):
             stores = content.store.all()
             stores_in_cluster = Store.objects.filter(cluster_id=self.id, brand=stores[0].brand)
@@ -167,7 +169,18 @@ class Cluster(CachingMixin, TimeStampedModel):
             setattr(content, 'distance_from_home_store', int(dist))
             setattr(content, 'own_store', stores_in_cluster[0])
             setattr(content, 'paid', content_owner.brand.paid)
-        return contents
+            setattr(content, 'redirect_url', "/home/%s" % content.own_store.slug_name)
+        ctype_coupon = get_object_or_None(ContentType, name="Offer")
+        coupons_in_cluster = self.content.filter(content_type=ctype_coupon).select_subclasses()
+        coupons_in_cluster = list(coupons_in_cluster)
+        for index, content in enumerate(coupons_in_cluster):
+            setattr(content, 'distance_from_home_store', 0)
+            setattr(content, 'is_coupon', True)
+            setattr(content, 'redirect_url', "/offer/%s" % content.id)
+            setattr(content, 'paid', True)
+        for o in contents:
+            coupons_in_cluster.append(o)
+        return coupons_in_cluster
 
     def get_all_offers(self, device_id=settings.DEFAULT_DEVICE_ID, cluster_id=settings.DEFAULT_CLUSTER_ID):
         device = Device.objects.select_related("store").get(device_id=device_id)
@@ -282,7 +295,6 @@ class StoreManager(ExpressionManager):
         return None
 
 
-
 class Store(CachingMixin, TimeStampedModel):
     name = models.CharField(max_length=100)
     slug_name = models.SlugField(max_length=100, default="")
@@ -303,9 +315,22 @@ class Store(CachingMixin, TimeStampedModel):
     brand = models.ForeignKey(Brand, related_name='stores')
     cluster = models.ForeignKey(Cluster, related_name='stores', null=True)
     has_custom_form = models.BooleanField(default=False)
-    custom_form_slug = models.CharField(max_length=1000,null=True, blank=True)
+    custom_form_slug = models.CharField(max_length=1000, null=True, blank=True)
+    username = models.CharField(max_length=100, null=True, blank=True)
+    password = models.CharField(max_length=100, null=True, blank=True)
+    auth_key = models.CharField(max_length=100, null=True, blank=True)
 
     objects = StoreManager()
+
+    def reset_user_credentials(self):
+        self.username = self.create_slug()
+        self.password = id_generator(size=8)
+        self.save()
+
+    def create_auth_key(self):
+        if not self.auth_key:
+            self.auth_key = id_generator(size=20)
+            self.save()
 
     def get_distance_from(self, new_store):
         r = 6371
@@ -374,6 +399,12 @@ class Store(CachingMixin, TimeStampedModel):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        older_obj = get_object_or_None(Store, pk=self.pk)
+        if older_obj:
+            if older_obj.username != self.username:
+                self.auth_key = ""
+            if older_obj.password != self.password:
+                self.auth_key = ""
         if settings.CREATE_STORE_MAPS is True:
             self._save_map_image()
         if self.brand.active is False:
@@ -473,7 +504,8 @@ class Content(CachingMixin, TimeStampedModel):
                                             ("1", "Store Home"),
                                             ("2", "Cluster Home"),
                                             ("3", "Cluster Info"),
-                                            ("4", "Store Info")
+                                            ("4", "Store Info"),
+                                            ("5", "User QR")
                                         ],
                                         default="1"
     )
@@ -569,6 +601,7 @@ class WebContent(Content):
 
 class Offer(Content):
     authenticate_user = models.BooleanField(default=True)
+    show_qr = models.BooleanField(default=False)
     file = models.ImageField(upload_to=get_content_info_path)
 
     @property
@@ -668,3 +701,104 @@ class Log(TimeStampedModel):
     access_date = models.DateTimeField(default=datetime.datetime.now, blank=True)
     city = models.CharField(max_length=200, blank=True, null=True)
     state = models.CharField(max_length=200, blank=True, null=True)
+
+
+class AppUserPreferenceCategory(models.Model):
+    name = models.CharField(max_length=100, primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class AppPreference(models.Model):
+    name = models.CharField(max_length=100, primary_key=True)
+    category = models.ForeignKey(AppUserPreferenceCategory, null=True, blank=True, related_name='category_preference')
+    thumbnail = models.ImageField(upload_to=upload_and_rename_thumbnail, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class BrandClubAppUser(TimeStampedModel):
+    device_id = models.CharField(max_length=500, blank=True, null=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    fb_id = models.CharField(max_length=150, null=True, blank=True)
+    email_id = models.EmailField(max_length=100, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    imei = models.CharField(max_length=50, null=True, blank=True)
+    app_version = models.CharField(max_length=10, null=True, blank=True)
+    language = models.CharField(max_length=100, blank=True, null=True)
+    mobile_make = models.CharField(max_length=100, blank=True, null=True)
+    mobile_model = models.CharField(max_length=100, blank=True, null=True)
+    profile_pic = models.CharField(max_length=500, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    mobile_number = models.CharField(max_length=10, blank=True, null=True)
+    registration_id = models.CharField(max_length=500, null=True, blank=True)
+    enable_notifications = models.BooleanField(default=True)
+    preferences = models.ManyToManyField(AppPreference, null=True, blank=True, related_name='bc_app_user')
+
+    def __unicode__(self):
+        return "%s %s" % (self.first_name, self.device_id)
+
+
+class BrandClubUser(TimeStampedModel):
+    user_id = models.CharField(max_length=100, unique=True, primary_key=True)
+    mac_id = models.CharField(max_length=100, null=True, blank=True)
+    user_unique_id = models.CharField(max_length=100, unique=True)
+    coupon_current_value = models.IntegerField(default=0)
+    loyalty_points = models.IntegerField(default=0)
+    qr_code = models.CharField(max_length=250, null=True, blank=True)
+    last_updated_time = models.DateTimeField(null=True, blank=True)
+    coupon_generated_at = models.ForeignKey(Store, related_name='coupon_user')
+
+    def _create_qr_for_user(self):
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
+        data = {
+            "a": 1,
+            "c": self.user_id
+        }
+        data = json.dumps(data)
+        qr.add_data(data)
+        qr.make(fit=True)
+        img = qr.make_image()
+        img_name = "%s.png" % self.user_id
+        directory = os.path.join(settings.MEDIA_ROOT, 'user_qr')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        file_name = os.path.join(settings.MEDIA_ROOT, 'user_qr', img_name)
+        file_path = os.path.join(settings.MEDIA_URL, 'user_qr', img_name)
+        with open(file_name, 'wb') as f:
+            img.save(f, "PNG")
+        self.qr_code = file_path
+
+    def redeemed_coupon_at(self, store):
+        self.coupon_current_value = settings.DEFAULT_COUPON_VALUE
+        self.loyalty_points += settings.DEFAULT_LOYALTY_INCREMENT
+        self.coupon_generated_at = store
+        self.last_updated_time = datetime.datetime.now()
+        self.save()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.user_id == "":
+            self.coupon_current_value = settings.DEFAULT_COUPON_VALUE
+            self.user_id = id_generator()
+        if self.qr_code is None:
+            self._create_qr_for_user()
+        super(BrandClubUser, self).save()
+
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.user_id, self.mac_id, self.user_unique_id)
+
+
+class BrandClubRedemptionLog(TimeStampedModel):
+    bc_user = models.ForeignKey(BrandClubUser, null=True, blank=True)
+    store = models.ForeignKey(Store, null=True, blank=True)
+    cluster = models.ForeignKey(Cluster, null=True, blank=True)
+    log_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "%s-%s-%s" % (self.bc_user, self.store, self.cluster)

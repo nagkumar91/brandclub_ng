@@ -26,14 +26,14 @@
                      data-content-distance="{{ content.distance_from_home_store }}">
                     <div class="img-frame">
                         <div class="image-wrapper content-panel">
-                            <a class="content-link img-preview"
+                                <a class="content-link img-preview"
                                data-log-brand-name="{{ content.own_store.brand.name }}"
                                data-log-content-name="{{ content.name }}"
                                data-log-content-type="{{ content.content_type }}"
                                data-log-content-id="{{ content.id }}"
                                data-device-id="{{ content.device_id }}"
                                data-redirect-url="{{ content.url|urlencode }}"
-                               data-from-box-url="/home/{{ content.own_store.slug_name }}/">
+                               data-from-box-url="{{ content.redirect_url }}">
                                 <img class="img-responsive image"
                                      src="{{ content.thumbnail_url |default_if_none:'#' }}"
                                      alt="{{ c.name }}"/>
@@ -98,11 +98,13 @@
             }
         });
 
+
     </script>
     <script>
         $(document).ready(function () {
             var user_unique_id = readCookie("user_unique_id");
             call_log(-1, window.log_info.home_device_id, user_unique_id, "Cluster Home", "page load", "");
+
         });
     </script>
 {% endblock %}

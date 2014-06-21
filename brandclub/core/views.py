@@ -4,9 +4,11 @@ from annoying.functions import get_object_or_None
 import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from django.core.exceptions import ObjectDoesNotExist
 import json
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
@@ -16,7 +18,8 @@ from .helpers import id_generator
 
 from .forms import FeedbackForm, CustomFeedbackForm
 from .models import Brand, Cluster, Store, SlideShow, Device, StoreFeedback, Wallpaper, Offer, OfferDownloadInfo, \
-    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback
+    NavMenu, OrderedNavMenuContent, Content, Web, Log, FreeInternetLog, OrderedStoreContent, CustomStoreFeedback, \
+    BrandClubUser, BrandClubRedemptionLog
 from .tasks import log_bc_data
 
 content_type_mapping = {
@@ -142,7 +145,8 @@ def wallpaper_fullscreen(request, wid):
             brand = store.brand
             redirect = "/%s/" % store.slug_name
         context_instance = RequestContext(request,
-                                          {'content': wallpaper, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
+                                          {'content': wallpaper, "redirect": redirect,
+                                           "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("wallpaper_fullscreen.html", context_instance)
     return "Wallpaper not found"
 
@@ -163,7 +167,8 @@ def web_fullscreen(request, wid):
             brand = store.brand
             redirect = "/%s/" % store.slug_name
         context_instance = RequestContext(request,
-                                              {'content': web, "redirect": redirect, "to": content_type_mapping[int(location)], "brand": brand})
+                                          {'content': web, "redirect": redirect,
+                                           "to": content_type_mapping[int(location)], "brand": brand})
         return render_to_response("web_template.html", context_instance)
     return "Wallpaper not found"
 
@@ -196,11 +201,13 @@ def store_feedback(request, store_id):
     context = {'form': form, 'brand': store.brand, 'store': store, "redirect": redirect, "to": to}
     return render_to_response("store_feedback.html", context_instance=RequestContext(request, context))
 
+
 @login_required
 def display_feedback(request):
     feedback = StoreFeedback.objects.all()
     context_instance = RequestContext(request, {"feedback": feedback})
     return render_to_response("all_feedback.html", context_instance)
+
 
 @login_required
 def display_custom_feedback(request):
@@ -225,6 +232,7 @@ def create_user_id(request):
     user_id += id_generator()
     data = {"user_id": user_id}
     data = json.dumps(data)
+    create_bc_user(request)
     return HttpResponse(data, mimetype='application/json')
 
 
@@ -261,19 +269,15 @@ def offer(request, offer_id):
     if offer_obj is not None:
         store = offer_obj.store.all()
         if store:
-            print "Store not none"
             store = store[0]
             brand = store.brand
             redirect = "/home/%s" % store.slug_name
             to = "store"
         else:
-            print request.device_id
             device = Device.objects.get(device_id=request.device_id)
-            print device.store
             device_store = device.store
             if device_store is not None:
                 store = device_store
-                print type(store)
                 brand = store.brand
                 redirect = "/home/%s" % store.slug_name
                 to = "store"
@@ -316,16 +320,17 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    log_bc_data.delay(post_params=request.POST,
-                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                      user_agent=request.META['HTTP_USER_AGENT'],
-                      user_ip_address=request.META['REMOTE_ADDR'])
-    # log_bc_data(post_params=request.POST,
-    #             date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    #             mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    #             user_agent=request.META['HTTP_USER_AGENT'],
-    #             user_ip_address=request.META['REMOTE_ADDR'])
+    create_bc_user(request)
+    # log_bc_data.delay(post_params=request.POST,
+    # date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+    # mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+    # user_agent=request.META['HTTP_USER_AGENT'],
+    # user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data(post_params=request.POST,
+                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                user_agent=request.META['HTTP_USER_AGENT'],
+                user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -385,7 +390,8 @@ def authorize_free_internet(request):
             fil.save()
             return HttpResponse(json.dumps({'success': True, "log_obj": fil.id}), content_type="application/json")
         return HttpResponse(json.dumps({"success": False, "reason": "Invalid code"}), content_type="application/json")
-    return HttpResponse(json.dumps({"success": False, "reason": "Store doesn't have free internet"}), content_type="application/json")
+    return HttpResponse(json.dumps({"success": False, "reason": "Store doesn't have free internet"}),
+                        content_type="application/json")
 
 
 def verify_log(request):
@@ -404,3 +410,207 @@ def get_stores_within_range(request, latitude, longitude, radius):
         if len(devices) > 0:
             return HttpResponse(json.dumps({"device": devices[0].device_id}), content_type="application/json")
     return HttpResponse(json.dumps({"device": default_device}), content_type="application/json")
+
+
+def store_authenticate(request, user_name, password):
+    store_obj = get_object_or_None(Store, username=user_name, password=password)
+    if store_obj is not None:
+        store_obj.create_auth_key()
+        store_obj.save()
+        return HttpResponse(json.dumps({"auth_key": store_obj.auth_key, "success": True}),
+                            content_type="application/json")
+    return HttpResponse(json.dumps({"success": False}), content_type="application/json")
+
+
+def qr_fail(request, user_id, auth_key):
+    user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
+    if user_obj is not None:
+        store = get_object_or_None(Store, auth_key=auth_key)
+        device_id = 121
+        log_info = dict(
+            mac_address=user_obj.mac_id,
+            access_date=datetime.datetime.now(),
+            content_id=-5,
+            content_name="Brandclub coupon",
+            content_type="Offer",
+            content_location="Cluster Home",
+            content_owner_brand_id=-5,
+            content_owner_brand_name="Offer",
+            location_device_id=device_id,
+            location_store_name=store.name,
+            location_store_id=store.id,
+            location_brand_id=store.brand.id,
+            location_brand_name=store.brand.name,
+            location_cluster_id=store.cluster.id,
+            location_cluster_name=store.cluster.name,
+            user_agent="",
+            mobile_make='',
+            mobile_model='',
+            user_unique_id=user_obj.user_unique_id,
+            user_ip_address="",
+            user_device_width=0,
+            user_device_height=0,
+            page_title="Offer",
+            referrer="",
+            redirect_url="",
+            action="Offer redemption failed",
+            city=store.city.name,
+            state=store.state.name
+        )
+        log = Log(**log_info)
+        try:
+            log.save()
+        except ValueError:
+            print "value error in saving object"
+
+
+def qr_success(request, user_id, auth_key):
+    user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
+    if user_obj is not None:
+        store = get_object_or_None(Store, auth_key=auth_key)
+        device_id = 121
+        log_info = dict(
+            mac_address=user_obj.mac_id,
+            access_date=datetime.datetime.now(),
+            content_id=-5,
+            content_name="Brandclub coupon",
+            content_type="Offer",
+            content_location="Cluster Home",
+            content_owner_brand_id=-5,
+            content_owner_brand_name="Offer",
+            location_device_id=device_id,
+            location_store_name=store.name,
+            location_store_id=store.id,
+            location_brand_id=store.brand.id,
+            location_brand_name=store.brand.name,
+            location_cluster_id=store.cluster.id,
+            location_cluster_name=store.cluster.name,
+            user_agent="",
+            mobile_make='',
+            mobile_model='',
+            user_unique_id=user_obj.user_unique_id,
+            user_ip_address="",
+            user_device_width=0,
+            user_device_height=0,
+            page_title="Offer",
+            referrer="",
+            redirect_url="",
+            action="Offer redeemed",
+            city=store.city.name,
+            state=store.state.name
+        )
+        log = Log(**log_info)
+        log.save()
+
+
+def coupon_redemption(request, user_id, auth_key):
+    user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
+    if user_obj is not None:
+        store = get_object_or_None(Store, auth_key=auth_key)
+        if store is not None:
+            device_id = 121
+            if user_obj.coupon_generated_at == store:
+                qr_fail(request, user_id, auth_key)
+                context_instance = RequestContext(request, {"valid": False})
+                return render_to_response("point_scan_result.html", context_instance)
+            user_obj.redeemed_coupon_at(store)
+            user_obj.save()
+            bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
+            bcr_log.save()
+            qr_success(request, user_id, auth_key)
+            context_instance = RequestContext(request, {"valid": True})
+            return render_to_response("point_scan_result.html", context_instance)
+        qr_fail(request, user_id, auth_key)
+        context_instance = RequestContext(request, {"valid": False})
+        return render_to_response("point_scan_result.html", context_instance)
+    qr_fail(request, user_id, auth_key)
+    context_instance = RequestContext(request, {"valid": False})
+    return render_to_response("point_scan_result.html", context_instance)
+
+
+def qr_valid_in_store(request):
+    device_id = request.device_id
+    device = get_object_or_None(Device, device_id=device_id)
+    store = device.store
+    mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
+    bcu = None
+    if mac_address:
+        bcu = get_object_or_None(BrandClubUser, mac_id=mac_address)
+    else:
+        user_unique_id = request.COOKIES.get('user_unique_id', '')
+        bcu = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id)
+    if bcu is None:
+        clust = store.cluster
+        stores_in_cluster = clust.stores.all()
+        stores_to_display = []
+        for s in stores_in_cluster:
+            if s.pk == store.pk:
+                pass
+            else:
+                stores_to_display.append(s.name)
+        return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}), content_type="application/json")
+    else:
+        if bcu.coupon_generated_at.pk == store.pk:
+            clust = store.cluster
+            stores_in_cluster = clust.stores.all()
+            stores_to_display = []
+            for s in stores_in_cluster:
+                if s.pk == store.pk:
+                    pass
+                else:
+                    stores_to_display.append(s.name)
+            return HttpResponse(json.dumps({"valid": False, "stores": stores_to_display}),
+                                content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"valid": True}), content_type="application/json")
+
+
+def create_bc_user(request):
+    mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
+    user_unique_id = request.POST.get('user_unique_id', '')
+    device_id = request.POST.get('device_id', settings.DEFAULT_DEVICE_ID)
+    user_obj = None
+    device = get_object_or_None(Device, device_id=device_id)
+    store = device.store
+    try:
+        if mac_address is not '' and user_unique_id is not '':
+            user_obj = BrandClubUser.objects.get(mac_id=mac_address)
+            if user_obj is not None:
+                user_obj.user_unique_id = user_unique_id
+                user_obj.save()
+                return
+        else:
+            user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
+            if user_obj is not None:
+                return
+    except ObjectDoesNotExist:
+        try:
+            if user_unique_id is "":
+                user_unique_id = id_generator()
+            user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
+            user_obj.save()
+        except IntegrityError:
+            pass
+
+
+def display_qr(request):
+    mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
+    user_unique_id = request.COOKIES.get('user_unique_id', '')
+    if mac_address is not '':
+        bcu = BrandClubUser.objects.get(mac_id=mac_address)
+        context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
+        return HttpResponse(json.dumps(
+            {
+                "qr_link": bcu.qr_code,
+                "header": "Flash this QR to avail discount",
+                "desc": "Get a chance to win amazing prizes",
+            }), content_type="application/json")
+    else:
+        bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
+        context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
+        return HttpResponse(json.dumps(
+            {
+                "qr_link": bcu.qr_code,
+                "header": "Flash this QR to avail discount",
+                "desc": "Get a chance to win amazing prizes",
+            }), content_type="application/json")

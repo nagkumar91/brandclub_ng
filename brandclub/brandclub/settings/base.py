@@ -350,3 +350,7 @@ MAILGUN_HOST = 'https://api.mailgun.net/v2/sandbox28548.mailgun.org/messages'
 MAILING_LIST = 'santosh.s@telibrahma.com, santhosh@telibrahma.com, nagkumar@telibrahma.com, brandclub@telibrahma.com'
 FORMS_BUILDER_LABEL_MAX_LENGTH = 100
 LOGIN_URL = '/admin/'
+
+API_URL_DOMAIN='http://brandclub.mobi/'
+DEFAULT_COUPON_VALUE = 50
+DEFAULT_LOYALTY_INCREMENT = 10
