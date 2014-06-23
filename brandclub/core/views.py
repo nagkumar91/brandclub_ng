@@ -576,26 +576,35 @@ def create_user(mac_address=None, user_unique_id=None, device_id=None):
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
     store = device.store
-    try:
-        if mac_address is not '' and user_unique_id is not '':
-            user_obj = BrandClubUser.objects.get(mac_id=mac_address)
-            if user_obj is not None:
-                user_obj.user_unique_id = user_unique_id
-                user_obj.save()
-                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
-        else:
-            user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
-            if user_obj is not None:
-                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
-    except ObjectDoesNotExist:
-        try:
-            if user_unique_id is "":
-                user_unique_id = id_generator()
-            user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
-            user_obj.save()
-            return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
-        except IntegrityError:
-            pass
+
+    user = None
+
+    if mac_address and user_unique_id:
+        user = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id, mac_id=mac_address)
+
+    if user is None and mac_address:
+        user = get_object_or_None(BrandClubUser, mac_id=mac_address)
+
+    if user is None and user_unique_id:
+        user = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id)
+
+    if user:
+        if mac_address:
+            user.mac_id = mac_address
+
+        if user_unique_id:
+           user.user_unique_id = user_unique_id
+
+        user.save()
+        return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
+
+    if user is None:
+        if user_unique_id is None:
+            user_unique_id = "bc_%s" % id_generator()
+        user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
+        user_obj.save()
+        return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
+
 
 
 def display_qr(request):
