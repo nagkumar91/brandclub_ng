@@ -28,40 +28,49 @@
             <img class="img-responsive logo" src="{% static 'img/logo.png' %}" alt="Brand Club"/>
         </div>
     </div>
-    <div class="row bc-success hidden">
-        <div class="col-lg-offset-4 col-lg-3">
-            <h3>Thank You.</h3>
-            <h5>The details were successfully submitted</h5>
+    {% if valid %}
+        <div class="row bc-success hidden">
+            <div class="col-lg-offset-4 col-lg-3">
+                <h3>Thank You.</h3>
+                <h5>The details were successfully submitted</h5>
+            </div>
         </div>
-    </div>
-    <div class="row bc-form">
-        <div class="col-lg-offset-4 col-lg-3">
-            <form class="form-horizontal" action="" role="form">
-                <fieldset>
-                    <div class="form-group amount-group">
-                        <label for="amount" class="control-label">Bill Amount</label>
-                        <input name="amount" type="text" class="form-control" id="amount" placeholder="E.g 3000"/>
-                        <span class="help-block">Enter the bill amount of the customer here.</span>
-                    </div>
-                    <div class="form-group phone-group">
-                        <label for="phoneNumber" class="control-label">Customer's Mobile Phone Number</label>
-                        <input name="number" type="text" class="form-control" id="phoneNumber"
-                               placeholder="E.g 9890011001" maxlength="10"/>
-                        <span class="help-block">Enter the customers mobile number here</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="submit_form"></label>
-
-                        <div class="col-md-4">
-                            <button type="button" id="submit_form" name="submit_form" class="btn btn-primary">Submit
-                            </button>
+        <div class="row bc-form">
+            <div class="col-lg-offset-4 col-lg-3">
+                <form class="form-horizontal" action="" role="form">
+                    <fieldset>
+                        <div class="form-group amount-group">
+                            <label for="amount" class="control-label">Bill Amount</label>
+                            <input name="amount" type="text" class="form-control" id="amount" placeholder="E.g 3000"/>
+                            <span class="help-block">Enter the bill amount of the customer here.</span>
                         </div>
-                    </div>
+                        <div class="form-group phone-group">
+                            <label for="phoneNumber" class="control-label">Customer's Mobile Phone Number</label>
+                            <input name="number" type="text" class="form-control" id="phoneNumber"
+                                   placeholder="E.g 9890011001" maxlength="10"/>
+                            <span class="help-block">Enter the customers mobile number here</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="submit_form"></label>
 
-                </fieldset>
-            </form>
+                            <div class="col-md-4">
+                                <button type="button" id="submit_form" name="submit_form" class="btn btn-primary">Submit
+                                </button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-3">
+                <h3>Error</h3>
+                <h5>There was an error getting the information requested. Please scan the QR Code again</h5>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 

@@ -499,13 +499,10 @@ def redeem_coupon_for_user(request, user_id, ):
 
 
 def redeem_coupon_for_user_retail(request, user_id, retailer_id):
-    print "here..."
     if retailer_id:
         user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
-        print user_obj
         if user_obj is not None:
             store = get_object_or_None(Store, auth_key=retailer_id)
-            print store
             if store is not None:
                 device_id = 121
                 user_obj.redeemed_coupon_at(store)
@@ -515,8 +512,8 @@ def redeem_coupon_for_user_retail(request, user_id, retailer_id):
                 qr_log(request, user_id, retailer_id, "Offer redeemed")
                 context_instance = RequestContext(request, {"valid": True, "user_id": user_id, "store": store.id})
                 return render_to_response("point_scan_result.html", context_instance)
-        qr_log(request, user_id, retailer_id, "Offer redeemed")
-        context_instance = RequestContext(request, {"valid": False, "user": user_id, "store": None})
+        # qr_log(request, user_id, retailer_id, "Offer redeemed")
+        context_instance = RequestContext(request, {"valid": False})
         return render_to_response("point_scan_result.html", context_instance)
 
     else:
