@@ -608,12 +608,17 @@ def create_user(mac_address=None, user_unique_id=None, device_id=None):
         return HttpResponse(json.dumps({"valid": True, 'user_obj': user.pk}), content_type="application/json")
 
 
-
 def display_qr(request):
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.COOKIES.get('user_unique_id', '')
+    device_id = request.device_id
     if mac_address is not '':
-        bcu = BrandClubUser.objects.get(mac_id=mac_address)
+        bcu = get_object_or_None(BrandClubUser, mac_address=mac_address)
+        # bcu = BrandClubUser.objects.get(mac_id=mac_address)
+        if bcu is None:
+            bcu = create_user(mac_address=mac_address, user_unique_id=user_unique_id, device_id=device_id)
+            bcu.save()
+
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
         return HttpResponse(json.dumps(
             {
@@ -622,7 +627,11 @@ def display_qr(request):
                 "desc": "Get a chance to win amazing prizes",
             }), content_type="application/json")
     else:
-        bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
+        bcu = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id)
+        # bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
+        if bcu is None:
+            bcu = create_user(mac_address=None, user_unique_id=user_unique_id, device_id=device_id)
+            bcu.save()
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
         return HttpResponse(json.dumps(
             {

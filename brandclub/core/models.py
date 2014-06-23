@@ -746,7 +746,7 @@ class BrandClubAppUser(TimeStampedModel):
 class BrandClubUser(TimeStampedModel):
     user_id = models.CharField(max_length=100, unique=True, primary_key=True)
     mac_id = models.CharField(max_length=100, null=True, blank=True)
-    user_unique_id = models.CharField(max_length=100, unique=True)
+    user_unique_id = models.CharField(max_length=100)
     coupon_current_value = models.IntegerField(default=0)
     loyalty_points = models.IntegerField(default=0)
     qr_code = models.CharField(max_length=250, null=True, blank=True)
