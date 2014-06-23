@@ -1,12 +1,11 @@
 """Development settings and globals."""
 
-
 from os.path import join, normpath
 
 from base import *
 
 
-########## DEBUG CONFIGURATION
+# ######### DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 
@@ -26,9 +25,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'brandclub',
-        'USER': 'brandclub',
-        'PASSWORD': 'brandclub',
+        'NAME': 'bclubdb',
+        'USER': 'bclub',
+        'PASSWORD': 'bclub',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -53,7 +52,7 @@ INSTALLED_APPS += (
 )
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
-INTERNAL_IPS = ('127.0.0.1','localhost','0.0.0.0','10.0.2.15')
+INTERNAL_IPS = ('127.0.0.1', 'localhost', '0.0.0.0', '10.0.2.15')
 
 # See: https://github.com/django-debug-toolbar/django-debug-toolbar#installation
 MIDDLEWARE_CLASSES += (
@@ -71,12 +70,14 @@ DEFAULT_CLUSTER_ID = '1'
 DEFAULT_DEVICE_ID = '5678'
 CREATE_STORE_MAPS = False
 
+
 def show_toolbar(request):
     return True
+
+
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }
-
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 

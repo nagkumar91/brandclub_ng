@@ -283,7 +283,7 @@ def offer(request, offer_id):
                 to = "store"
         context_instance = RequestContext(request,
                                           {'content': offer_obj, "redirect": redirect,
-                                           "to": to, "brand": brand}
+                                           "to": to, "brand": brand, "stores": device.store.cluster.stores.all}
         )
         return render_to_response("offer_fullscreen.html", context_instance)
     return "Offer not found"
@@ -500,16 +500,11 @@ def redeem_coupon_for_user(request, user_id, ):
 
 def redeem_coupon_for_user_retail(request, user_id, retailer_id):
     if retailer_id:
-        #request from retailer
         user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
         if user_obj is not None:
             store = get_object_or_None(Store, auth_key=retailer_id)
             if store is not None:
                 device_id = 121
-                # if user_obj.coupon_generated_at == store:
-                #     qr_log(request, user_id, retailer_id, "Offer redemption failed")
-                #     context_instance = RequestContext(request, {"valid": False})
-                #     return render_to_response("point_scan_result.html", context_instance)
                 user_obj.redeemed_coupon_at(store)
                 user_obj.save()
                 bcr_log = BrandClubRedemptionLog(bc_user=user_obj, store=store, cluster=store.cluster)
@@ -517,9 +512,6 @@ def redeem_coupon_for_user_retail(request, user_id, retailer_id):
                 qr_log(request, user_id, retailer_id, "Offer redeemed")
                 context_instance = RequestContext(request, {"valid": True, "user": user_id, "store": retailer_id})
                 return render_to_response("point_scan_result.html", context_instance)
-            # qr_log(request, user_id, retailer_id, "Offer redemption failed")
-            # context_instance = RequestContext(request, {"valid": False})
-            # return render_to_response("point_scan_result.html", context_instance)
         qr_log(request, user_id, retailer_id, "Offer redeemed")
         context_instance = RequestContext(request, {"valid": False, "user": user_id, "store": retailer_id})
         return render_to_response("point_scan_result.html", context_instance)
@@ -534,7 +526,6 @@ def retailer_form_sumbit(request, user_pk, store_pk):
     print request.POST
     amount = ""
     phone_number = ""
-
     b = BrandClubRetailerLog(user=user_pk, store_id=store_pk, amount=amount, phone_number=phone_number)
 
 
