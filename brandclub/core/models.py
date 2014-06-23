@@ -756,12 +756,13 @@ class BrandClubUser(TimeStampedModel):
     def _create_qr_for_user(self):
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
+        link = "http://brandclub.mobi/rd_qr/%s/" % self.user_id
         data = {
             "a": 1,
             "c": self.user_id
         }
         data = json.dumps(data)
-        qr.add_data(data)
+        qr.add_data(link)
         qr.make(fit=True)
         img = qr.make_image()
         img_name = "%s.png" % self.user_id
@@ -802,3 +803,13 @@ class BrandClubRedemptionLog(TimeStampedModel):
 
     def __unicode__(self):
         return "%s-%s-%s" % (self.bc_user, self.store, self.cluster)
+
+
+class BrandClubRetailerLog(models.Model):
+    user = models.CharField(max_length=250, null=True, blank=True)
+    store_id = models.CharField(max_length=250, null=True, blank=True)
+    amount = models.CharField(max_length=250, null=True, blank=True)
+    phone_number = models.CharField(max_length=250, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.user

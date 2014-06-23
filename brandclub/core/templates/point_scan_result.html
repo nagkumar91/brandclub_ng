@@ -6,19 +6,70 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui" id="viewport"/>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui"
+          id="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 </head>
 <body>
-        {% if valid %}
-            <img src="http://brandclub.mobi/static/img/point_valid.jpg" alt="" style="max-width: 100%; height: auto;display: block"/>
-            <h4>QR code is valid</h4>
-        {% else %}
-            <img src="http://brandclub.mobi/static/img/point_invalid.jpg" alt="" style="max-width: 100%; height: auto;display: block"/>
-            <h4>QR code is invalid</h4>
-        {% endif %}
+<form class="form-horizontal" action="http://brandclub.mobi/retailer_form_sumbit/{{ user.pk }}/{{ store.pk }}/" method="post">
+    <fieldset>
+
+        <!-- Form Name -->
+        <legend>Enter User Details</legend>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="shop_amt">Amount</label>
+
+            <div class="col-md-5">
+                <input id="shop_amt" name="shop_amt" type="number" placeholder="" class="form-control input-md"
+                       required="">
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="user_mobile">Mobile Number</label>
+
+            <div class="col-md-5">
+                <input id="user_mobile" name="user_mobile" type="number" placeholder="" class="form-control input-md"
+                       required="">
+
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="submit_form"></label>
+
+            <div class="col-md-4">
+                <button type="submit" id="submit_form" name="submit_form" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script>
+{#    $("#submit_form").click(function(){#}
+{#        var amt = $("#shop_amt").val();#}
+{#        var mobile = $("#user_mobile").val();#}
+{#        if (mobile.length != 10)  {#}
+{#            alert("Invalid mobile number");#}
+{#        }#}
+{#        else    {#}
+{##}
+{#        }#}
+{#    });#}
+</script>
 </body>
 </html>
