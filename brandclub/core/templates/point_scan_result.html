@@ -84,6 +84,7 @@
 <script>
     $(function () {
         $("#submit_form").click(function () {
+
             var storeId = {{ store }};
             var userId = '{{ user_id }}';
 
@@ -91,12 +92,14 @@
             var error = false;
             var amount = $("#amount").val();
             if (!amount || parseFloat(amount) == NaN) {
-                $(".amount-group").addClass("has-error");
+                $(".amount-group").addClass("has-error").focus();
+                $("#amount").focus();
                 error = true;
             }
             var phone = $("#phoneNumber").val();
             if (!phone || parseInt(phone) == NaN) {
                 $(".phone-group").addClass("has-error");
+                $("#phoneNumber").focus();
                 error = true;
             }
             if (!error) {
