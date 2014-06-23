@@ -573,7 +573,6 @@ def create_brandclub_user(request):
 
 
 def create_user(mac_address=None, user_unique_id=None, device_id=None):
-    user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
     store = device.store
 
@@ -596,14 +595,14 @@ def create_user(mac_address=None, user_unique_id=None, device_id=None):
            user.user_unique_id = user_unique_id
 
         user.save()
-        return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
+        return HttpResponse(json.dumps({"valid": True, 'user_obj': user.pk}), content_type="application/json")
 
     if user is None:
         if user_unique_id is None:
             user_unique_id = "bc_%s" % id_generator()
-        user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
-        user_obj.save()
-        return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
+        user = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
+        user.save()
+        return HttpResponse(json.dumps({"valid": True, 'user_obj': user.pk}), content_type="application/json")
 
 
 
