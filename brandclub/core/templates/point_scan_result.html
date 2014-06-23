@@ -13,63 +13,91 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        .logo {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-<form class="form-horizontal" action="http://brandclub.mobi/retailer_form_sumbit/{{ user }}/{{ store }}/" method="post">
-    <fieldset>
 
-        <!-- Form Name -->
-        <legend>Enter User Details</legend>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="shop_amt">Amount</label>
-
-            <div class="col-md-5">
-                <input id="shop_amt" name="shop_amt" type="number" placeholder="" class="form-control input-md"
-                       required="">
-
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <img class="img-responsive logo" src="{% static 'img/logo.png' %}" alt="Brand Club"/>
         </div>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="user_mobile">Mobile Number</label>
-
-            <div class="col-md-5">
-                <input id="user_mobile" name="user_mobile" type="number" placeholder="" class="form-control input-md"
-                       required="">
-
-            </div>
+    </div>
+    <div class="row bc-success hidden">
+        <div class="col-lg-offset-4 col-lg-3">
+            <h3>Thank You.</h3>
+            <h5>The details were successfully submitted</h5>
         </div>
+    </div>
+    <div class="row bc-form">
+        <div class="col-lg-offset-4 col-lg-3">
+            <form class="form-horizontal" action="" role="form">
+                <fieldset>
+                    <div class="form-group amount-group">
+                        <label for="amount" class="control-label">Bill Amount</label>
+                        <input name="amount" type="text" class="form-control" id="amount" placeholder="E.g 3000"/>
+                        <span class="help-block">Enter the bill amount of the customer here.</span>
+                    </div>
+                    <div class="form-group phone-group">
+                        <label for="phoneNumber" class="control-label">Customer's Mobile Phone Number</label>
+                        <input name="number" type="text" class="form-control" id="phoneNumber"
+                               placeholder="E.g 9890011001" maxlength="10"/>
+                        <span class="help-block">Enter the customers mobile number here</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="submit_form"></label>
 
-        <!-- Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="submit_form"></label>
+                        <div class="col-md-4">
+                            <button type="button" id="submit_form" name="submit_form" class="btn btn-primary">Submit
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="col-md-4">
-                <button type="submit" id="submit_form" name="submit_form" class="btn btn-primary">Submit</button>
-            </div>
+                </fieldset>
+            </form>
         </div>
+    </div>
+</div>
 
-    </fieldset>
-</form>
 
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script>
-{#    $("#submit_form").click(function(){#}
-{#        var amt = $("#shop_amt").val();#}
-{#        var mobile = $("#user_mobile").val();#}
-{#        if (mobile.length != 10)  {#}
-{#            alert("Invalid mobile number");#}
-{#        }#}
-{#        else    {#}
-{##}
-{#        }#}
-{#    });#}
+    $(function () {
+        $("#submit_form").click(function () {
+            var storeId = {{ store }};
+            var userId = '{{ user_id }}';
+
+            $(".form-group").removeClass("has-error");
+            var error = false;
+            var amount = $("#amount").val();
+            if (!amount || parseFloat(amount) == NaN) {
+                $(".amount-group").addClass("has-error");
+                error = true;
+            }
+            var phone = $("#phoneNumber").val();
+            if (!phone || parseInt(phone) == NaN) {
+                $(".phone-group").addClass("has-error");
+                error = true;
+            }
+            if (!error) {
+                var url = "/retailer_form_sumbit/" + userId + "/" + storeId + "/" + amount + "/" + phone + "/";
+                $.get(url).success(function (data) {
+                    console.log(data);
+                    $(".bc-form").addClass("hidden")
+                    $(".bc-success").removeClass("hidden")
+
+                })
+            }
+        });
+
+    }());
 </script>
 </body>
 </html>
