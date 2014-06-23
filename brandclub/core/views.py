@@ -582,18 +582,18 @@ def create_user(mac_address=None, user_unique_id=None, device_id=None):
             if user_obj is not None:
                 user_obj.user_unique_id = user_unique_id
                 user_obj.save()
-                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
+                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
         else:
             user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
             if user_obj is not None:
-                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
+                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
     except ObjectDoesNotExist:
         try:
             if user_unique_id is "":
                 user_unique_id = id_generator()
             user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
             user_obj.save()
-            return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
+            return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj.pk}), content_type="application/json")
         except IntegrityError:
             pass
 
