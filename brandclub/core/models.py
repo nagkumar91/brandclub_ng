@@ -810,6 +810,7 @@ class BrandClubRetailerLog(models.Model):
     store_id = models.CharField(max_length=250, null=True, blank=True)
     amount = models.CharField(max_length=250, null=True, blank=True)
     phone_number = models.CharField(max_length=250, null=True, blank=True)
+    log_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.user
