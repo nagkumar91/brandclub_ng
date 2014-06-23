@@ -1,1 +1,74 @@
-<!-- create html from mock given by raghu -->
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui"
+          id="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body, .main-container {
+            height: 100%;
+        }
+
+        .logo {
+            margin: 0 auto;
+        }
+
+        .main-page {
+            background-color: #b00;
+            min-height: 100%;
+        }
+
+        .main-page .text {
+            color: #fff;
+        }
+
+        a {
+            color: #fff;
+        }
+
+        a:visited {
+            color: #fff;
+        }
+
+        a:hover {
+            color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid main-container">
+    <div class="row">
+        <div class="col-md-12">
+            <img class="img-responsive logo" src="{% static 'img/logo.png' %}" alt="Brand Club"/>
+        </div>
+    </div>
+    <div class="row main-page">
+        <div class="col-md-offset-3 col-md-6">
+            <h3 class="text">Visit participating retail outlet to get cash voucher to shop</h3>
+            <br/>
+            <h4 class="pull-right text"><i><a href="#">Know More</a></i></h4>
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
