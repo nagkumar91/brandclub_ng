@@ -493,7 +493,12 @@ def coupon_redemption(request, user_id, auth_key):
     return render_to_response("point_scan_result.html", context_instance)
 
 
-def redeem_coupon_for_user(request, user_id, retailer_id):
+def redeem_coupon_for_user(request, user_id, ):
+    context_instance = RequestContext(request)
+    return render_to_response("point_scan_others.html", context_instance)
+
+
+def redeem_coupon_for_user_retail(request, user_id, retailer_id):
     if retailer_id:
         #request from retailer
         user_obj = get_object_or_None(BrandClubUser, user_id=user_id)
