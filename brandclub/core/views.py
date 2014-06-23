@@ -232,7 +232,7 @@ def create_user_id(request):
     user_id += id_generator()
     data = {"user_id": user_id}
     data = json.dumps(data)
-    create_bc_user(request)
+    # create_bc_user(request)
     return HttpResponse(data, mimetype='application/json')
 
 
