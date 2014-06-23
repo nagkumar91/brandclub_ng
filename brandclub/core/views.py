@@ -574,9 +574,12 @@ def create_brandclub_user(request):
 
 def create_user(mac_address=None, user_unique_id=None, device_id=None):
     device = get_object_or_None(Device, device_id=device_id)
-    store = device.store
-
+    store = None
     user = None
+    if device is not None:
+        store = device.store
+
+
 
     if mac_address and user_unique_id:
         user = get_object_or_None(BrandClubUser, user_unique_id=user_unique_id, mac_id=mac_address)
