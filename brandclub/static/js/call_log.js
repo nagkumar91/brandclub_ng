@@ -1,3 +1,9 @@
+function create_user() {
+    $.get("/create_user/").success(function(data){
+        console.log("User created");
+    });
+}
+
 function call_log(content_id, device_id, user_unique_id, page_title, user_action, redirect_url) {
     var data_to_be_sent = {
         content_id: content_id,

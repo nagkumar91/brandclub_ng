@@ -48,6 +48,7 @@ urlpatterns = patterns('',
                        url(r'web/(?P<wid>\d+)/$', 'core.views.web_fullscreen'),
                        url(r'ci/$', 'core.views.cluster_info'),
                        url(r'call_log/$', 'core.views.call_log'),
+                       url(r'create_user/$', 'core.views.create_brandclub_user'),
                        url(r'si/(?P<storeid>\d+)/$', 'core.views.store_info'),
                        url(r'ch/(?P<hid>\d+)/$', 'core.views.home_cluster_hid'),
                        url(r'sh/(?P<hid>\d+)/$', 'core.views.store_home_hid'),
@@ -63,6 +64,7 @@ urlpatterns = patterns('',
                        url(r'^forms/', include(forms_builder.forms.urls)),
                        url(r'^$', 'core.views.home_cluster_view'),
                        url(r'^(?P<slug>[\-\w]+)/$', 'core.views.home_cluster_view'),
+
 )
 
 

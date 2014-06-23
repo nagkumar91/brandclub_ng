@@ -320,17 +320,13 @@ def navmenu(request, navmenu_id):
 
 @csrf_exempt
 def call_log(request):
-    create_bc_user(request)
-    # log_bc_data.delay(post_params=request.POST,
-    # date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-    # mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-    # user_agent=request.META['HTTP_USER_AGENT'],
-    # user_ip_address=request.META['REMOTE_ADDR'])
-    log_bc_data(post_params=request.POST,
-                date_time=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
-                mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
-                user_agent=request.META['HTTP_USER_AGENT'],
-                user_ip_address=request.META['REMOTE_ADDR'])
+    log_bc_data.delay(post_params=request.POST,
+                      date_time_custom=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()),
+                      mac_address=request.META.get('HTTP_X_MAC_ADDRESS', ''),
+                      user_unique_id=request.COOKIES.get('user_unique_id', ''),
+                      device_id=request.device_id,
+                      user_agent=request.META['HTTP_USER_AGENT'],
+                      user_ip_address=request.META['REMOTE_ADDR'])
     data = json.dumps({})
     return HttpResponse(data, mimetype='application/json')
 
@@ -569,6 +565,14 @@ def create_bc_user(request):
     mac_address = request.META.get('HTTP_X_MAC_ADDRESS', '')
     user_unique_id = request.COOKIES.get('user_unique_id', '')
     device_id = request.device_id
+    return create_user(mac_address, user_unique_id, device_id)
+
+
+def create_brandclub_user(request):
+    return create_bc_user(request)
+
+
+def create_user(mac_address=None, user_unique_id=None, device_id=None):
     user_obj = None
     device = get_object_or_None(Device, device_id=device_id)
     store = device.store
@@ -578,17 +582,18 @@ def create_bc_user(request):
             if user_obj is not None:
                 user_obj.user_unique_id = user_unique_id
                 user_obj.save()
-                return
+                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
         else:
             user_obj = BrandClubUser.objects.get(user_unique_id=user_unique_id)
             if user_obj is not None:
-                return
+                return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
     except ObjectDoesNotExist:
         try:
             if user_unique_id is "":
                 user_unique_id = id_generator()
             user_obj = BrandClubUser(mac_id=mac_address, user_unique_id=user_unique_id, coupon_generated_at=store)
             user_obj.save()
+            return HttpResponse(json.dumps({"valid": True, 'user_obj': user_obj}), content_type="application/json")
         except IntegrityError:
             pass
 
