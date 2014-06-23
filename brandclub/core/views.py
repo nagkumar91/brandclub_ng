@@ -617,7 +617,6 @@ def display_qr(request):
         # bcu = BrandClubUser.objects.get(mac_id=mac_address)
         if bcu is None:
             bcu = create_user(mac_address=mac_address, user_unique_id=user_unique_id, device_id=device_id)
-            bcu.save()
 
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
         return HttpResponse(json.dumps(
@@ -631,7 +630,7 @@ def display_qr(request):
         # bcu = BrandClubUser.objects.get(user_unique_id=user_unique_id)
         if bcu is None:
             bcu = create_user(mac_address=None, user_unique_id=user_unique_id, device_id=device_id)
-            bcu.save()
+
         context_instance = RequestContext(request, {"qr_link": bcu.qr_code})
         return HttpResponse(json.dumps(
             {
