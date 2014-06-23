@@ -18,6 +18,10 @@
         .logo {
             margin: 0 auto;
         }
+        .bc-form    {
+            margin: 0 auto;
+            width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -30,13 +34,13 @@
     </div>
     {% if valid %}
         <div class="row bc-success hidden">
-            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-10 col-xs-10">
+            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <h3>Thank You.</h3>
                 <h5>The details were successfully submitted</h5>
             </div>
         </div>
         <div class="row bc-form">
-            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-10 col-xs-10">
+            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <form class="form-horizontal" action="" role="form">
                     <fieldset>
                         <div class="form-group amount-group">
@@ -65,7 +69,7 @@
         </div>
     {% else %}
         <div class="row">
-            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-10 col-xs-10">
+            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-1 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <h3>Error</h3>
                 <h5>There was an error getting the information requested. Please scan the QR Code again</h5>
             </div>
