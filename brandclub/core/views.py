@@ -283,7 +283,7 @@ def offer(request, offer_id):
                 to = "store"
         context_instance = RequestContext(request,
                                           {'content': offer_obj, "redirect": redirect,
-                                           "to": to, "brand": brand, "stores": device.store.cluster.stores.all}
+                                           "to": to, "brand": brand, "stores": store.cluster.stores.all}
         )
         return render_to_response("offer_fullscreen.html", context_instance)
     return "Offer not found"
@@ -517,7 +517,7 @@ def redeem_coupon_for_user_retail(request, user_id, retailer_id):
         return render_to_response("point_scan_result.html", context_instance)
 
     else:
-        #request from xyz
+        # request from xyz
         context_instance = RequestContext(request, {"valid": False})
         return render_to_response("point_scan_others.html", context_instance)
 
