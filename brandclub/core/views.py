@@ -613,7 +613,7 @@ def display_qr(request):
     user_unique_id = request.COOKIES.get('user_unique_id', '')
     device_id = request.device_id
     if mac_address is not '':
-        bcu = get_object_or_None(BrandClubUser, mac_address=mac_address)
+        bcu = get_object_or_None(BrandClubUser, mac_id=mac_address)
         # bcu = BrandClubUser.objects.get(mac_id=mac_address)
         if bcu is None:
             bcu = create_user(mac_address=mac_address, user_unique_id=user_unique_id, device_id=device_id)
