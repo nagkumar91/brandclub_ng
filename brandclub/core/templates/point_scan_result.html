@@ -6,19 +6,98 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui" id="viewport"/>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui"
+          id="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        .logo {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-        {% if valid %}
-            <img src="http://brandclub.mobi/static/img/point_valid.jpg" alt="" style="max-width: 100%; height: auto;display: block"/>
-            <h4>QR code is valid</h4>
-        {% else %}
-            <img src="http://brandclub.mobi/static/img/point_invalid.jpg" alt="" style="max-width: 100%; height: auto;display: block"/>
-            <h4>QR code is invalid</h4>
-        {% endif %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <img class="img-responsive logo" src="{% static 'img/logo.png' %}" alt="Brand Club"/>
+        </div>
+    </div>
+    <div class="row bc-success hidden">
+        <div class="col-lg-offset-4 col-lg-3">
+            <h3>Thank You.</h3>
+            <h5>The details were successfully submitted</h5>
+        </div>
+    </div>
+    <div class="row bc-form">
+        <div class="col-lg-offset-4 col-lg-3">
+            <form class="form-horizontal" action="" role="form">
+                <fieldset>
+                    <div class="form-group amount-group">
+                        <label for="amount" class="control-label">Bill Amount</label>
+                        <input name="amount" type="text" class="form-control" id="amount" placeholder="E.g 3000"/>
+                        <span class="help-block">Enter the bill amount of the customer here.</span>
+                    </div>
+                    <div class="form-group phone-group">
+                        <label for="phoneNumber" class="control-label">Customer's Mobile Phone Number</label>
+                        <input name="number" type="text" class="form-control" id="phoneNumber"
+                               placeholder="E.g 9890011001" maxlength="10"/>
+                        <span class="help-block">Enter the customers mobile number here</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="submit_form"></label>
+
+                        <div class="col-md-4">
+                            <button type="button" id="submit_form" name="submit_form" class="btn btn-primary">Submit
+                            </button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script>
+    $(function () {
+        $("#submit_form").click(function () {
+            var storeId = {{ store }};
+            var userId = '{{ user_id }}';
+
+            $(".form-group").removeClass("has-error");
+            var error = false;
+            var amount = $("#amount").val();
+            if (!amount || parseFloat(amount) == NaN) {
+                $(".amount-group").addClass("has-error");
+                error = true;
+            }
+            var phone = $("#phoneNumber").val();
+            if (!phone || parseInt(phone) == NaN) {
+                $(".phone-group").addClass("has-error");
+                error = true;
+            }
+            if (!error) {
+                var url = "/retailer_form_sumbit/" + userId + "/" + storeId + "/" + amount + "/" + phone + "/";
+                $.get(url).success(function (data) {
+                    console.log(data);
+                    $(".bc-form").addClass("hidden")
+                    $(".bc-success").removeClass("hidden")
+
+                })
+            }
+        });
+
+    }());
+</script>
 </body>
 </html>
