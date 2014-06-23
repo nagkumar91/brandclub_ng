@@ -751,7 +751,7 @@ class BrandClubUser(TimeStampedModel):
     loyalty_points = models.IntegerField(default=0)
     qr_code = models.CharField(max_length=250, null=True, blank=True)
     last_updated_time = models.DateTimeField(null=True, blank=True)
-    coupon_generated_at = models.ForeignKey(Store, related_name='coupon_user')
+    coupon_generated_at = models.ForeignKey(Store, related_name='coupon_user', default=None, blank=True, null=True)
 
     def _create_qr_for_user(self):
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
