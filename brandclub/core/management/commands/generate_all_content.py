@@ -46,7 +46,7 @@ class Command(BaseCommand):
         for content in contents:
             files.append(content.thumbnail)
             if content.content_type.name == "Wallpaper":
-                files.append(content.file)
+                files.append(content.file.name.replace("/media/"))
             if content.content_type.name == "Video":
                 files.append(content.file)
             if content.content_type.name == "Offer":
