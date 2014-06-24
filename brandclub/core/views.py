@@ -128,7 +128,7 @@ def slideshow(request, ssid):
     if osc is None or len(osc) == 0:
         nav_content = OrderedNavMenuContent.objects.filter(content=slides)[:1]
         if len(nav_content) > 0:
-            osc = get_object_or_None(OrderedStoreContent, content__id=nav_content[0].pk)
+            osc = get_object_or_None(OrderedStoreContent, content__id=nav_content[0].nav_menu_id)
             brand = osc.store.brand.name
     else:
         brand = osc[0].store.brand.name
