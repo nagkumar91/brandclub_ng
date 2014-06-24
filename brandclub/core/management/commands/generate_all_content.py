@@ -72,6 +72,7 @@ class Command(BaseCommand):
             if not os.path.exists(mdir):
                 os.makedirs(mdir)
             if not os.path.exists(new_path):
+                print "%s - %s" % (file_loc, new_path)
                 os.symlink(file_loc, new_path)
 
     def handle(self, *args, **options):
@@ -82,7 +83,8 @@ class Command(BaseCommand):
             self._get_all_cluster_file_names(cluster, files)
             self._create_sym_links(cluster_id, files)
             static_dir = os.path.join(settings.CONTENT_CACHE_DIRECTORY, cluster_id, "static")
-            os.makedirs(static_dir)
+            if not os.path.exists(static_dir):
+                os.makedirs(static_dir)
             dirs = ["css", "img", "js", "fonts", "updates"]
             for dir_name in dirs:
                 path = os.path.join(settings.STATIC_ROOT, dir_name)
