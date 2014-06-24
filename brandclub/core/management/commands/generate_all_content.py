@@ -57,11 +57,6 @@ class Command(BaseCommand):
                 images = content.image.all()
                 for image in images:
                     files.append(image.image)
-        stores = cluster.stores.all()
-        for store in stores:
-            files.append(store.brand.logo)
-            if store.map_name is not None:
-                files.append(os.path.join(settings.STORE_MAPS_DIRECTORY, store.map_name))
         return files
 
     @staticmethod
