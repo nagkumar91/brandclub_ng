@@ -23,6 +23,8 @@ class Command(BaseCommand):
                 files.append(content.file)
             if content.content_type.name == "Video":
                 files.append(content.file)
+            if content.content_type.name == "Offer":
+                files.append(content.file)
             if content.content_type.name == 'Slide Show':
                 if content.image.all() is None:
                     continue
