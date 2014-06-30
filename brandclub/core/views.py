@@ -124,8 +124,16 @@ def redirect_to_outside(request):
 def slideshow(request, ssid):
     slides = get_object_or_None(SlideShow, id=ssid)
     osc = OrderedStoreContent.objects.filter(content=slides)[:1]
-    osc = osc[0]
-    context_instance = RequestContext(request, {'content': slides, 'owner_brand': osc.store.brand.name})
+    brand = None
+    if osc is None or len(osc) == 0:
+        nav_content = OrderedNavMenuContent.objects.filter(content=slides)[:1]
+        if len(nav_content) > 0:
+            osc = get_object_or_None(OrderedStoreContent, content__id=nav_content[0].nav_menu_id)
+            brand = osc.store.brand.name
+    else:
+        brand = osc[0].store.brand.name
+
+    context_instance = RequestContext(request, {'content': slides, 'owner_brand': brand})
     return render_to_response('slide_show.html', context_instance)
 
 
