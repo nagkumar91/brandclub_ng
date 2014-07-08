@@ -305,7 +305,8 @@ class Store(CachingMixin, TimeStampedModel):
     demo = models.BooleanField(default=False)
     paid = models.BooleanField(default=True)
     address_first_line = models.CharField(max_length=200)
-    address_second_line = models.CharField(max_length=200, null=True, blank=True)
+    address_second_line = models.CharField(max_length=200, null=True, blank=True,
+                                           help_text="Address to display on offer page")
     map_name = models.CharField(max_length=200, null=True, blank=True, editable=False)
     city = models.ForeignKey(City, related_name="stores")
     state = models.ForeignKey(State, related_name="stores")
