@@ -67,8 +67,8 @@ class Command(BaseCommand):
         os.makedirs(media_path)
         for file_name in files:
             file_loc = "%s/%s" % (settings.MEDIA_ROOT, file_name)
-            # new_path = '%s/media/%s' % (media_path, file_name)
-            new_path = '%s/%s' % (media_path, file_name)
+            new_path = '%s/media/%s' % (media_path, file_name)
+            # new_path = '%s/%s' % (media_path, file_name)
             mdir = os.path.dirname(new_path)
             if not os.path.exists(mdir):
                 os.makedirs(mdir)
