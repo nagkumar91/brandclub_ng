@@ -836,6 +836,7 @@ class BrandClubAppWidgetImage(models.Model):
 
 class BrandClubAppWidget(models.Model):
     name = models.CharField(max_length=250)
+    url = models.CharField(max_length=1000, null=True, blank=True)
     images = models.ManyToManyField(AppWidgetBackground, null=True, blank=True, through=BrandClubAppWidgetImage)
     order = models.IntegerField()
 
