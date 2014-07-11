@@ -815,3 +815,32 @@ class BrandClubRetailerLog(models.Model):
 
     def __unicode__(self):
         return self.user
+
+
+class AppWidgetBackground(models.Model):
+    name = models.CharField(max_length=50, default='App Widget Image')
+    image = models.ImageField(upload_to=upload_and_rename_images)
+
+    def __unicode__(self):
+        return self.name
+
+
+class BrandClubAppWidgetImage(models.Model):
+    image = models.ForeignKey('AppWidgetBackground')
+    widget = models.ForeignKey('BrandClubAppWidget')
+    order = models.IntegerField()
+
+    class Meta:
+        ordering = ['order']
+
+
+class BrandClubAppWidget(models.Model):
+    name = models.CharField(max_length=250)
+    images = models.ManyToManyField(AppWidgetBackground, null=True, blank=True, through=BrandClubAppWidgetImage)
+    order = models.IntegerField()
+
+    class Meta:
+        ordering = ['order']
+
+    def __unicode__(self):
+        return self.name

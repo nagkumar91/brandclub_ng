@@ -9,10 +9,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from .helpers import id_generator
-from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType,\
+from .models import Brand, Store, Cluster, Device, Audio, Video, Wallpaper, Web, SlideShow, Image, ContentType, \
     State, City, WebContent, StoreFeedback, Content, Offer, OrderedStoreContent, OrderedNavMenuContent, NavMenu, \
     FreeInternet, FreeInternetLog, BrandClubUser, AppUserPreferenceCategory, AppPreference, BrandClubAppUser, \
-    BrandClubRetailerLog
+    BrandClubRetailerLog, BrandClubAppWidget, AppWidgetBackground
 
 
 class BrandClubAdmin(admin.ModelAdmin):
@@ -232,7 +232,7 @@ class ContentAdmin(admin.ModelAdmin):
                 initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
             )
         context = {'contents': queryset, 'brand_form': form}
-        return render_to_response('add_tag.html', RequestContext(request,context))
+        return render_to_response('add_tag.html', RequestContext(request, context))
 
     def increase_validity_by_1_month(self, request, queryset):
 
@@ -292,7 +292,7 @@ class ContentNonEditableAdmin(admin.ModelAdmin):
                 initial={'_selected_action': request.POST.getlist(admin.ACTION_CHECKBOX_NAME)}
             )
         context = {'contents': queryset, 'brand_form': form}
-        return render_to_response('add_tag.html', RequestContext(request,context))
+        return render_to_response('add_tag.html', RequestContext(request, context))
 
     def increase_validity_by_1_month(self, request, queryset):
 
@@ -396,6 +396,17 @@ class FreeInternetAdmin(ContentAdmin):
                         i -= 1
         self.message_user(request, "Codes created for selected content(s)")
 
+
+class AppWidgetBackgroundInlineAdmin(admin.TabularInline):
+    model = BrandClubAppWidget.images.through
+
+
+class BrandClubAppWidgetAdmin(admin.ModelAdmin):
+    inlines = [
+        AppWidgetBackgroundInlineAdmin
+    ]
+
+
 admin.site.register(City)
 admin.site.register(State)
 admin.site.register(Brand, BrandAdmin)
@@ -420,3 +431,5 @@ admin.site.register(AppUserPreferenceCategory)
 admin.site.register(AppPreference)
 admin.site.register(BrandClubAppUser)
 admin.site.register(BrandClubRetailerLog)
+admin.site.register(AppWidgetBackground)
+admin.site.register(BrandClubAppWidget, BrandClubAppWidgetAdmin)

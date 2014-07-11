@@ -337,3 +337,18 @@ class AppUserPreferenceCategoryCustomResource(ModelResource):
     class Meta:
         resource_name = 'custom_app_user_preferences'
         queryset = AppUserPreferenceCategory.objects.all()
+
+
+class AppWidgetBackgroundResource(ModelResource):
+
+    class Meta:
+        resource_name = 'bc_app_widget_backgrounds'
+        queryset = AppWidgetBackground.objects.all()
+
+
+class BrandClubAppWidget(ModelResource):
+    images = fields.ToManyField(AppWidgetBackgroundResource, 'images', null=True, full=True)
+
+    class Meta:
+        resource_name = 'bc_app_widgets'
+        queryset = BrandClubAppWidget.objects.all()

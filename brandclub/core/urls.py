@@ -21,6 +21,8 @@ v1_api.register(AppUserPreferenceCategoryResource())
 v1_api.register(BrandClubAppUserResource())
 v1_api.register(CustomAppPreferenceResource())
 v1_api.register(AppUserPreferenceCategoryCustomResource())
+v1_api.register(AppWidgetBackgroundResource())
+v1_api.register(BrandClubAppWidget())
 
 
 
