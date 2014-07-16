@@ -757,7 +757,7 @@ class BrandClubUser(TimeStampedModel):
     def _create_qr_for_user(self):
         qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
         link = "%sverify_user/%s" % (settings.API_URL_DOMAIN, self.user_id)
-        link = "http://brandclub.mobi/rd_qr/%s/" % self.user_id
+        link = "http://%s/rd_qr/%s/" % (settings.SERVER_NAME_FOR_QR, self.user_id)
         data = {
             "a": 1,
             "c": self.user_id

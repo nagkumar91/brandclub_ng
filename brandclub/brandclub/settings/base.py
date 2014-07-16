@@ -355,3 +355,4 @@ API_URL_DOMAIN='http://brandclub.mobi/'
 DEFAULT_COUPON_VALUE = 50
 DEFAULT_LOYALTY_INCREMENT = 10
 SITE_HOST_NAME = "http://brandclub.mobi"
+SERVER_NAME_FOR_QR = "brandclub.mobi"

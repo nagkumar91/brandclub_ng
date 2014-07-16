@@ -112,5 +112,5 @@ AWS_BUCKET_NAME = 'tib.bcng.content'
 
 TIME_ZONE = 'Asia/Calcutta'
 API_URL_DOMAIN='http://beta.brandclub.mobi/'
-
+SERVER_NAME_FOR_QR = "beta.brandclub.mobi"
 DEBUG = False
